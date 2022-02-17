@@ -1,0 +1,244 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Office.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Player.tscn" type="PackedScene" id=2]
+[ext_resource path="res://textures/Face1.png" type="Texture" id=3]
+[ext_resource path="res://Main.gd" type="Script" id=4]
+[ext_resource path="res://Party.gd" type="Script" id=5]
+
+[node name="Main" type="Node"]
+pause_mode = 2
+script = ExtResource( 4 )
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="Label" type="Label" parent="HUD"]
+margin_right = 329.0
+margin_bottom = 108.0
+text = "Testing"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Player" parent="." instance=ExtResource( 2 )]
+transform = Transform( 0.347, 0, 0, 0, 0.977, 0, 0, 0, 0.252, -3.26832, 3.84119, 1.0098 )
+
+[node name="OfficeGrid" parent="." instance=ExtResource( 1 )]
+data = {
+"cells": PoolIntArray( 0, 0, 1, 1, 0, 1, 65533, 0, 1, 65534, 0, 1, 65535, 0, 1, 65537, 0, 1, 131069, 0, 1, 131071, 0, 1, 131072, 0, 1, 131073, 0, 1, 196605, 0, 1, 196606, 0, 1, 196607, 0, 1, 0, 1, 1, 1, 1, 1, 65533, 1, 1, 65534, 1, 1, 65535, 1, 1, 65537, 1, 1, 131069, 1, 1, 131071, 1, 1, 131072, 1, 1, 131073, 1, 1, 196605, 1, 1, 196606, 1, 1, 196607, 1, 1, 65536, 2, 1, 65537, 2, 1, 131069, 2, 1, 131070, 2, 1, 131071, 2, 1, 131072, 2, 1, 131073, 2, 1, 196605, 2, 1, 196606, 2, 1, 196607, 2, 1, 0, 65531, 1, 1, 65531, 1, 65533, 65531, 1, 65534, 65531, 1, 65535, 65531, 1, 65536, 65531, 1, 65537, 65531, 1, 131069, 65531, 1, 131070, 65531, 1, 131071, 65531, 1, 131072, 65531, 1, 131073, 65531, 1, 196605, 65531, 1, 196606, 65531, 1, 196607, 65531, 1, 0, 65532, 1, 1, 65532, 1, 65533, 65532, 1, 65534, 65532, 1, 65535, 65532, 1, 65537, 65532, 1, 131069, 65532, 1, 131072, 65532, 1, 131073, 65532, 1, 196605, 65532, 1, 196606, 65532, 1, 196607, 65532, 1, 0, 65533, 1, 1, 65533, 1, 65533, 65533, 1, 65534, 65533, 1, 65535, 65533, 1, 65537, 65533, 1, 131069, 65533, 1, 131072, 65533, 1, 131073, 65533, 1, 196605, 65533, 1, 196606, 65533, 1, 196607, 65533, 1, 0, 65534, 1, 1, 65534, 1, 65533, 65534, 1, 65534, 65534, 1, 65535, 65534, 1, 65537, 65534, 1, 131069, 65534, 1, 131071, 65534, 1, 131072, 65534, 1, 131073, 65534, 1, 196605, 65534, 1, 196606, 65534, 1, 196607, 65534, 1, 0, 65535, 1, 1, 65535, 1, 65533, 65535, 1, 65534, 65535, 1, 65535, 65535, 1, 65537, 65535, 1, 131069, 65535, 1, 131071, 65535, 1, 131072, 65535, 1, 131073, 65535, 1, 196605, 65535, 1, 196606, 65535, 1, 196607, 65535, 1 )
+}
+
+[node name="PauseMenu" type="Popup" parent="."]
+mouse_filter = 1
+
+[node name="Label" type="Label" parent="PauseMenu"]
+margin_left = 217.0
+margin_top = 152.0
+margin_right = 379.0
+margin_bottom = 179.0
+text = "The game is paused"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Unpause" type="Button" parent="PauseMenu"]
+margin_left = 212.837
+margin_top = 218.921
+margin_right = 373.837
+margin_bottom = 272.921
+focus_mode = 1
+enabled_focus_mode = 1
+text = "Unpause"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Battle" type="Popup" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+mouse_filter = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="Battle"]
+margin_right = 1024.0
+margin_bottom = 600.0
+mouse_filter = 2
+color = Color( 0.113725, 0.113725, 0.113725, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Control" type="Control" parent="Battle"]
+margin_left = -1.18921
+margin_top = 1.18921
+margin_right = 1022.81
+margin_bottom = 601.189
+mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Char1" type="ColorRect" parent="Battle/Control"]
+margin_left = 100.0
+margin_top = 450.0
+margin_right = 360.0
+margin_bottom = 550.0
+color = Color( 0.321569, 0.321569, 0.321569, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Sprite" type="Sprite" parent="Battle/Control/Char1"]
+texture = ExtResource( 3 )
+offset = Vector2( 50, 50 )
+
+[node name="Info" type="ReferenceRect" parent="Battle/Control/Char1"]
+margin_right = 261.0
+margin_bottom = 100.0
+border_color = Color( 0.596078, 0.596078, 0.596078, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Name" type="Label" parent="Battle/Control/Char1/Info"]
+margin_left = 126.0
+margin_top = 15.0
+margin_right = 166.0
+margin_bottom = 29.0
+text = "foop"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Health" type="Label" parent="Battle/Control/Char1/Info"]
+margin_left = 126.0
+margin_top = 32.0
+margin_right = 166.0
+margin_bottom = 46.0
+text = "HP"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Magic" type="Label" parent="Battle/Control/Char1/Info"]
+margin_left = 126.0
+margin_top = 48.0
+margin_right = 166.0
+margin_bottom = 62.0
+text = "MP"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Char2" type="ColorRect" parent="Battle/Control"]
+margin_left = 400.0
+margin_top = 450.0
+margin_right = 660.0
+margin_bottom = 550.0
+color = Color( 0.321569, 0.321569, 0.321569, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Sprite" type="Sprite" parent="Battle/Control/Char2"]
+texture = ExtResource( 3 )
+offset = Vector2( 50, 50 )
+
+[node name="Info" type="ReferenceRect" parent="Battle/Control/Char2"]
+margin_right = 261.0
+margin_bottom = 100.0
+border_color = Color( 0.596078, 0.596078, 0.596078, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Name" type="Label" parent="Battle/Control/Char2/Info"]
+margin_left = 126.0
+margin_top = 15.0
+margin_right = 166.0
+margin_bottom = 29.0
+text = "shoop"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Health" type="Label" parent="Battle/Control/Char2/Info"]
+margin_left = 126.0
+margin_top = 32.0
+margin_right = 166.0
+margin_bottom = 46.0
+text = "HP"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Magic" type="Label" parent="Battle/Control/Char2/Info"]
+margin_left = 126.0
+margin_top = 48.0
+margin_right = 166.0
+margin_bottom = 62.0
+text = "MP"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Char3" type="ColorRect" parent="Battle/Control"]
+margin_left = 700.0
+margin_top = 450.0
+margin_right = 960.0
+margin_bottom = 550.0
+color = Color( 0.321569, 0.321569, 0.321569, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Sprite" type="Sprite" parent="Battle/Control/Char3"]
+texture = ExtResource( 3 )
+offset = Vector2( 50, 50 )
+
+[node name="Info" type="ReferenceRect" parent="Battle/Control/Char3"]
+margin_right = 261.0
+margin_bottom = 100.0
+border_color = Color( 0.596078, 0.596078, 0.596078, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Name" type="Label" parent="Battle/Control/Char3/Info"]
+margin_left = 126.0
+margin_top = 15.0
+margin_right = 166.0
+margin_bottom = 29.0
+text = "woop"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Health" type="Label" parent="Battle/Control/Char3/Info"]
+margin_left = 126.0
+margin_top = 32.0
+margin_right = 166.0
+margin_bottom = 46.0
+text = "HP"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Magic" type="Label" parent="Battle/Control/Char3/Info"]
+margin_left = 126.0
+margin_top = 48.0
+margin_right = 166.0
+margin_bottom = 62.0
+text = "MP"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Party" type="Node" parent="."]
+script = ExtResource( 5 )
+
+[connection signal="pickup" from="OfficeGrid" to="." method="_on_OfficeGrid_pickup"]
+[connection signal="button_down" from="PauseMenu/Unpause" to="." method="_on_Unpause_button_down"]
+[connection signal="end_battle" from="Party" to="." method="_on_Party_end_battle"]

@@ -1,0 +1,71 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://BattleManager.gd" type="Script" id=1]
+
+[node name="BattleManager" type="Node"]
+script = ExtResource( 1 )
+
+[node name="BattleMenu" type="ScrollContainer" parent="."]
+margin_right = 272.0
+margin_bottom = 100.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Control" type="Control" parent="BattleMenu"]
+margin_right = 260.0
+margin_bottom = 200.0
+rect_min_size = Vector2( 260, 200 )
+rect_pivot_offset = Vector2( 696.591, 14.3975 )
+
+[node name="StrikeButton" type="Button" parent="BattleMenu/Control"]
+margin_right = 260.0
+margin_bottom = 50.0
+focus_mode = 0
+mouse_default_cursor_shape = 2
+enabled_focus_mode = 0
+text = "Strike"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SkillButton" type="Button" parent="BattleMenu/Control"]
+margin_top = 50.0
+margin_right = 260.0
+margin_bottom = 100.0
+focus_mode = 0
+mouse_default_cursor_shape = 2
+enabled_focus_mode = 0
+text = "Skill"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GuardButton" type="Button" parent="BattleMenu/Control"]
+margin_top = 100.0
+margin_right = 260.0
+margin_bottom = 150.0
+focus_mode = 0
+mouse_default_cursor_shape = 2
+enabled_focus_mode = 0
+text = "Guard"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="FleeButton" type="Button" parent="BattleMenu/Control"]
+margin_top = 150.0
+margin_right = 260.0
+margin_bottom = 200.0
+focus_mode = 0
+mouse_default_cursor_shape = 2
+enabled_focus_mode = 0
+text = "Flee"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="pressed" from="BattleMenu/Control/StrikeButton" to="." method="_on_StrikeButton_pressed"]
+[connection signal="pressed" from="BattleMenu/Control/SkillButton" to="." method="_on_SkillButton_pressed"]
+[connection signal="pressed" from="BattleMenu/Control/GuardButton" to="." method="_on_GuardButton_pressed"]
+[connection signal="pressed" from="BattleMenu/Control/FleeButton" to="." method="_on_FleeButton_pressed"]
