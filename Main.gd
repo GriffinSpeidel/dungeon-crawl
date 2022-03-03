@@ -8,17 +8,19 @@ var box_res = load("res://EnemyBox.tscn")
 var enemy_res = [preload("res://EnemyHead.tscn")]
 var battle = false
 var encounter = []
+var party = []
 
 func _ready():
+	Global.rand.randomize()
 	var character_resource = load("res://Character.tscn")
 	char1 = character_resource.instance()
-	$Party.add_child(char1)
+	party.append(char1)
 	char1._initialize("foop", "res://textures/Face1.png")
 	char2 = character_resource.instance()
-	$Party.add_child(char2)
+	party.append(char2)
 	char2._initialize("shoop", "res://textures/Face1.png")
 	char3 = character_resource.instance()
-	$Party.add_child(char3)
+	party.append(char3)
 	char3._initialize("woop", "res://textures/Face1.png")
 
 func _process(delta):
@@ -48,13 +50,10 @@ func start_encounter():
 		encounter[i]._initialize(1)
 		var box = box_res.instance()
 		encounter[i].add_child(box)
-		var box_i = encounter[i].get_child(0)
-		box_i.get_child(1).text = encounter[i].type
-		box_i.get_child(2).text = "HP: " + str(encounter[i].hp / encounter[i].hp_max * 100) + "%"
-		box_i.rect_position = Vector2(412 - 110 * (len(encounter_res) - 1) + i * 220, 100)
+		$Battle.update_enemy_health(encounter, i)
+		encounter[i].get_child(0).rect_position = Vector2(412 - 110 * (len(encounter_res) - 1) + i * 220, 100)
 	
 	# prepare party
-	var party = $Party.get_children()
 	var party_boxes = $Battle/Control.get_children()
 	for i in range(3):
 		party_boxes[i].get_child(1).get_child(1).text = "HP: " + str(party[i].hp) + "/" + str(party[i].hp_max)
@@ -63,7 +62,7 @@ func start_encounter():
 	# begin battle
 	battle = true
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-	$Party.take_turn(0, 1)
+	$Battle.take_turn(0, 1)
 	$Battle.show()
 
 func _on_Office2_pickup():
@@ -84,12 +83,11 @@ func _on_Unpause_button_down():
 	$HUD/Label.text = "pressed unpause"
 	unpause()
 
-
-func _on_Party_end_battle():
+func _on_Battle_end_battle():
 	$HUD/Label.text = "fled"
 	for e in encounter:
 		e.queue_free()
 	battle = false
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	$Battle.hide()
-	$Party/BattleManager.queue_free()
+	$Battle/TurnManager.queue_free()

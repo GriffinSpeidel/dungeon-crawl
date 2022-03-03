@@ -1,13 +1,6 @@
 extends "res://Creature.gd"
 
 var c_name
-var hp
-var hp_max
-var mp
-var mp_max
-var level
-var stats = []
-var texture
 var guarding
 
 func _initialize(c_name, image):
@@ -19,7 +12,7 @@ func _initialize(c_name, image):
 	set_hp_mp()
 
 func set_hp_mp():
-	hp_max = (4 * stats[1] + 2 * level) * Global.damage_scale
-	mp_max = 1 + 2 * stats[3] + level
-	hp = hp_max
-	mp = mp_max
+	self.hp_max = (4 * self.stats[1] + 2 * self.level) * Global.damage_scale
+	self.mp_max = 1 + 2 * self.stats[3] + self.level
+	self.hp = self.hp_max
+	self.mp = self.mp_max

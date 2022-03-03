@@ -4,7 +4,7 @@
 [ext_resource path="res://Player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://textures/Face1.png" type="Texture" id=3]
 [ext_resource path="res://Main.gd" type="Script" id=4]
-[ext_resource path="res://Party.gd" type="Script" id=5]
+[ext_resource path="res://Battle.gd" type="Script" id=6]
 
 [node name="Main" type="Node"]
 pause_mode = 2
@@ -57,6 +57,7 @@ __meta__ = {
 margin_right = 40.0
 margin_bottom = 40.0
 mouse_filter = 1
+script = ExtResource( 6 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -236,9 +237,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Party" type="Node" parent="."]
-script = ExtResource( 5 )
-
 [connection signal="pickup" from="OfficeGrid" to="." method="_on_OfficeGrid_pickup"]
 [connection signal="button_down" from="PauseMenu/Unpause" to="." method="_on_Unpause_button_down"]
-[connection signal="end_battle" from="Party" to="." method="_on_Party_end_battle"]
+[connection signal="end_battle" from="Battle" to="." method="_on_Battle_end_battle"]
