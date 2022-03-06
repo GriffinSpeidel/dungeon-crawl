@@ -8,7 +8,7 @@ var SkillMenu
 signal end_battle
 
 func _ready():
-	encounter = get_parent().get_parent().encounter
+	encounter = get_parent().get_node("EncounterNode").get_children()
 	party = get_parent().get_parent().party
 	active = party[get_parent().current]
 
@@ -28,7 +28,7 @@ func get_target(might, s_name, type, hit, crit, h_cost, m_cost):
 		enemy_buttons[i].rect_size = (Vector2(200, 50))
 		enemy_buttons[i].mouse_default_cursor_shape = 2
 		enemy_buttons[i].enabled_focus_mode = 0
-		enemy_buttons[i].text = "Select " + encounter[i].type
+		enemy_buttons[i].text = "Select " + encounter[i].c_name
 		enemy_buttons[i].connect("pressed", self, "_on_EButton_pressed", [i, s_name, might, type, hit, crit, h_cost, m_cost])
 		#                                                enemy selected, might, type, hit, crit
 		EButtons.add_child(enemy_buttons[i])
@@ -90,14 +90,19 @@ func _on_FleeButton_pressed():
 
 func _on_EButton_pressed(i, s_name, might, element, hit, crit, h_cost, m_cost):
 	if active.mp >= m_cost and active.hp >= int(active.hp_max * h_cost):
-		active.attack(encounter[i], s_name, might, element, hit, crit, Vector2(450 - 110 * (len(encounter) - 1) + i * 220, 150))
+		var message = active.attack(encounter[i], s_name, might, element, hit, crit, Vector2(450 - 110 * (len(encounter) - 1) + i * 220, 150))
 		active.hp -= int(active.hp_max * h_cost)
 		active.mp -= m_cost
-		get_parent().update_enemy_health(encounter, i)
+		#for i in range(len(encounter)):
+		#	if encounter[i].hp <= 0:
+		#		encounter[i].queue_free()
+		#		encounter.remove(i)
+		#		i -= 1
+		get_parent().update_enemy_health_box(i)
 		get_parent().update_player_health()
-		get_parent().turn_end()
+		get_parent().turn_end(message)
 	else:
-		print('insufficient hp/mp')
+		get_parent().add_message("Insufficient MP/HP")
 		EButtons.queue_free()
 		$BattleMenu.show()
 	#EButtons.queue_free()

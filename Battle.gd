@@ -6,12 +6,16 @@ var next
 var TurnManager
 var party
 var encounter
+var encounter_res
 var order = []
 var order_i
 
-func _initialize(party, encounter):
+var enemy_res = [preload("res://EnemyHead.tscn")]
+var box_res = load("res://EnemyBox.tscn")
+
+func _initialize(party):
 	self.party = party
-	self.encounter = encounter
+	encounter = $EncounterNode.get_children()
 	update_player_health()
 	choose_order()
 	order_i = 0
@@ -33,7 +37,7 @@ func choose_order():
 		if typeof(x[0]) == TYPE_INT:
 			order_label += '(' + str(i) + ') ' + party[x[0]].c_name + '   '
 		else:
-			order_label += '(' + str(i) + ') ' + x[0].type + '   '
+			order_label += '(' + str(i) + ') ' + x[0].c_name + '   '
 		i += 1
 		$OrderLabel.text = order_label
 
@@ -56,7 +60,7 @@ func take_turn():
 		for c in party:
 			if c.hp > 0:
 				live_party_members.append(c)
-		order[order_i][0].act(live_party_members)
+		add_message(order[order_i][0].act(live_party_members))
 		update_player_health()
 		advance_turn()
 
@@ -71,7 +75,8 @@ func advance_turn():
 		take_turn()
 	
 
-func turn_end():
+func turn_end(message):
+	add_message(message)
 	TurnManager.queue_free()
 	advance_turn()
 
@@ -85,9 +90,24 @@ func update_player_health():
 		party_boxes[i].get_child(1).get_child(1).text = "HP: " + str(party[i].hp) + "/" + str(party[i].hp_max)
 		party_boxes[i].get_child(1).get_child(2).text = "MP: " + str(party[i].mp) + "/" + str(party[i].mp_max)
 
-func update_enemy_health(encounter, i):
-	var box_i = encounter[i].get_child(0)
-	box_i.get_child(1).text = encounter[i].type
-	box_i.get_child(2).rect_size.x = float(encounter[i].hp) / encounter[i].hp_max * 172
-	#box_i.get_child(2).text = "HP: " + str(int(float(encounter[i].hp) / encounter[i].hp_max * 100)) + "%"
-	#box_i.get_child(2).text = "HP: " + str(encounter[i].hp) + "/" + str(encounter[i].hp_max)
+func fill_and_draw(res):
+	encounter_res = res
+	for i in range(len(encounter_res)):
+		$EncounterNode.add_child(enemy_res[encounter_res[i]].instance())
+		$EncounterNode.get_child(i)._initialize(1) # level
+		var box = box_res.instance()
+		$EncounterNode.get_child(i).add_child(box)
+		update_enemy_health_box(i)
+		$EncounterNode.get_child(i).get_child(0).rect_position = Vector2(412 - 110 * (len(encounter_res) - 1) + i * 220, 100)
+		print_tree_pretty()
+
+func position_boxes():
+	pass
+
+func update_enemy_health_box(i):
+	var box_i = $EncounterNode.get_child(i).get_child(0)
+	box_i.get_child(1).text = $EncounterNode.get_child(i).c_name
+	box_i.get_child(2).rect_size.x = float($EncounterNode.get_child(i).hp) / $EncounterNode.get_child(i).hp_max * 172
+
+func add_message(message):
+	$BattleMessage.add_message(message)

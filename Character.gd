@@ -1,6 +1,5 @@
 extends "res://Creature.gd"
 
-var c_name
 var guarding
 
 func _initialize(c_name, image):

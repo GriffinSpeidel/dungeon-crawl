@@ -4,10 +4,7 @@ var paused = false
 var char1
 var char2
 var char3
-var box_res = load("res://EnemyBox.tscn")
-var enemy_res = [preload("res://EnemyHead.tscn")]
 var battle = false
-var encounter = []
 var party = []
 
 func _ready():
@@ -52,21 +49,11 @@ func _on_OfficeGrid_pickup():
 	start_encounter()
 
 func start_encounter():
-	# fill encounter
-	var encounter_res = [0, 0] # 0 Head, 
-	encounter = []
-	for i in range(len(encounter_res)):
-		encounter.append(enemy_res[encounter_res[i]].instance())
-		$Battle.add_child(encounter[i])
-		encounter[i]._initialize(1)
-		var box = box_res.instance()
-		encounter[i].add_child(box)
-		$Battle.update_enemy_health(encounter, i)
-		encounter[i].get_child(0).rect_position = Vector2(412 - 110 * (len(encounter_res) - 1) + i * 220, 100)
+	$Battle.fill_and_draw([0, 0])
 	
 	# begin battle
 	battle = true
-	$Battle._initialize(party, encounter)
+	$Battle._initialize(party)
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	$Battle.show()
 
@@ -90,7 +77,7 @@ func _on_Unpause_button_down():
 
 func _on_Battle_end_battle(manager_index):
 	$HUD/Label.text = "fled"
-	for e in encounter:
+	for e in $Battle/EncounterNode.get_children():
 		e.queue_free()
 	battle = false
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
