@@ -16,12 +16,18 @@ func _ready():
 	char1 = character_resource.instance()
 	party.append(char1)
 	char1._initialize("foop", "res://textures/Face1.png")
+	char1.learn_skill(Global.lunge)
+	char1.learn_skill(Global.feuer)
+	char1.learn_skill(Global.sturm)
+	char1.learn_skill(Global.blitz)
 	char2 = character_resource.instance()
 	party.append(char2)
 	char2._initialize("shoop", "res://textures/Face1.png")
+	char2.learn_skill(Global.feuer)
 	char3 = character_resource.instance()
 	party.append(char3)
 	char3._initialize("woop", "res://textures/Face1.png")
+	char3.learn_skill(Global.eis)
 
 func _process(delta):
 	if Input.is_action_just_pressed("ui_cancel") and not battle:
@@ -42,7 +48,7 @@ func _on_OfficeGrid_pickup():
 
 func start_encounter():
 	# fill encounter
-	var encounter_res = [0, 0] # 0 Head, 
+	var encounter_res = [0, 0, 0, 0] # 0 Head, 
 	encounter = []
 	for i in range(len(encounter_res)):
 		encounter.append(enemy_res[encounter_res[i]].instance())
@@ -53,16 +59,10 @@ func start_encounter():
 		$Battle.update_enemy_health(encounter, i)
 		encounter[i].get_child(0).rect_position = Vector2(412 - 110 * (len(encounter_res) - 1) + i * 220, 100)
 	
-	# prepare party
-	var party_boxes = $Battle/Control.get_children()
-	for i in range(3):
-		party_boxes[i].get_child(1).get_child(1).text = "HP: " + str(party[i].hp) + "/" + str(party[i].hp_max)
-		party_boxes[i].get_child(1).get_child(2).text = "MP: " + str(party[i].mp) + "/" + str(party[i].mp_max)
-	
 	# begin battle
 	battle = true
+	$Battle._initialize(party, encounter)
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-	$Battle.take_turn(0, 1)
 	$Battle.show()
 
 func _on_Office2_pickup():
@@ -83,11 +83,11 @@ func _on_Unpause_button_down():
 	$HUD/Label.text = "pressed unpause"
 	unpause()
 
-func _on_Battle_end_battle():
+func _on_Battle_end_battle(manager_index):
 	$HUD/Label.text = "fled"
 	for e in encounter:
 		e.queue_free()
 	battle = false
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	$Battle.hide()
-	$Battle/TurnManager.queue_free()
+	$Battle.get_child(manager_index).queue_free()

@@ -8,6 +8,16 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "Node",
+"class": "Skill",
+"language": "GDScript",
+"path": "res://Skill.gd"
+} ]
+_global_script_class_icons={
+"Skill": ""
+}
+
 [application]
 
 config/name="dungeon_crawl_test"
