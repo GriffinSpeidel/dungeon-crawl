@@ -15,17 +15,22 @@ func _ready():
 	var character_resource = load("res://Character.tscn")
 	char1 = character_resource.instance()
 	party.append(char1)
+	$PartyNode.add_child(char1)
 	char1._initialize("foop", "res://textures/Face1.png")
 	char1.learn_skill(Global.lunge)
 	char1.learn_skill(Global.feuer)
 	char1.learn_skill(Global.sturm)
 	char1.learn_skill(Global.blitz)
+	
 	char2 = character_resource.instance()
 	party.append(char2)
+	$PartyNode.add_child(char2)
 	char2._initialize("shoop", "res://textures/Face1.png")
 	char2.learn_skill(Global.feuer)
+	
 	char3 = character_resource.instance()
 	party.append(char3)
+	$PartyNode.add_child(char3)
 	char3._initialize("woop", "res://textures/Face1.png")
 	char3.learn_skill(Global.eis)
 
@@ -48,7 +53,7 @@ func _on_OfficeGrid_pickup():
 
 func start_encounter():
 	# fill encounter
-	var encounter_res = [0, 0, 0, 0] # 0 Head, 
+	var encounter_res = [0, 0] # 0 Head, 
 	encounter = []
 	for i in range(len(encounter_res)):
 		encounter.append(enemy_res[encounter_res[i]].instance())

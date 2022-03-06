@@ -54,6 +54,8 @@ __meta__ = {
 
 [node name="Battle" parent="." instance=ExtResource( 3 )]
 
+[node name="PartyNode" type="Node" parent="."]
+
 [connection signal="pickup" from="OfficeGrid" to="." method="_on_OfficeGrid_pickup"]
 [connection signal="button_down" from="PauseMenu/Unpause" to="." method="_on_Unpause_button_down"]
 [connection signal="end_battle" from="Battle" to="." method="_on_Battle_end_battle"]

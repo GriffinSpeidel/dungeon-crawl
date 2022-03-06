@@ -16,7 +16,7 @@ enum {NONE, POISON, PARALYSIS}
 enum {SINGLE, RANDOM, ALL}
 
 func get_stats():
-	return [might, element, hit, crit, h_cost, m_cost]
+	return [might, s_name, element, hit, crit, h_cost, m_cost]
 
 func _init(n, m, e, s, h, c, t, m_c, h_c):
 	s_name = n

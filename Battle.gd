@@ -23,7 +23,8 @@ func choose_order():
 	for e in encounter:
 		order.append([e, e.stats[1] * Global.rand.randf_range(0.7, 1.3)])
 	for c in party:
-		order.append([i, c.stats[1] * Global.rand.randf_range(0.7, 1.3)])
+		if c.hp > 0:
+			order.append([i, c.stats[1] * Global.rand.randf_range(0.7, 1.3)])
 		i += 1
 	order.sort_custom(self, "sort_creatures")
 	var order_label = "Round Order: "

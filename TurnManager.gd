@@ -13,9 +13,9 @@ func _ready():
 	active = party[get_parent().current]
 
 func _on_StrikeButton_pressed():
-	get_target(1, Global.PHYS, 0.9, 0.05, 0, 0)
+	get_target(1, "Strike", Global.PHYS, 0.9, 0.05, 0, 0)
 
-func get_target(might, type, hit, crit, h_cost, m_cost):
+func get_target(might, s_name, type, hit, crit, h_cost, m_cost):
 	var enemy_buttons = []
 	$BattleMenu.hide()
 	if has_node("SkillMenu"):
@@ -29,7 +29,7 @@ func get_target(might, type, hit, crit, h_cost, m_cost):
 		enemy_buttons[i].mouse_default_cursor_shape = 2
 		enemy_buttons[i].enabled_focus_mode = 0
 		enemy_buttons[i].text = "Select " + encounter[i].type
-		enemy_buttons[i].connect("pressed", self, "_on_EButton_pressed", [i, might, type, hit, crit, h_cost, m_cost])
+		enemy_buttons[i].connect("pressed", self, "_on_EButton_pressed", [i, s_name, might, type, hit, crit, h_cost, m_cost])
 		#                                                enemy selected, might, type, hit, crit
 		EButtons.add_child(enemy_buttons[i])
 	var Cancel = Button.new()
@@ -88,9 +88,9 @@ func _on_GuardButton_pressed():
 func _on_FleeButton_pressed():
 	emit_signal("end_battle")
 
-func _on_EButton_pressed(i, scale, element, hit, crit, h_cost, m_cost):
+func _on_EButton_pressed(i, s_name, might, element, hit, crit, h_cost, m_cost):
 	if active.mp >= m_cost and active.hp >= int(active.hp_max * h_cost):
-		active.attack(encounter[i], scale, element, hit, crit)
+		active.attack(encounter[i], s_name, might, element, hit, crit, Vector2(450 - 110 * (len(encounter) - 1) + i * 220, 150))
 		active.hp -= int(active.hp_max * h_cost)
 		active.mp -= m_cost
 		get_parent().update_enemy_health(encounter, i)
