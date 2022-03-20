@@ -12,7 +12,7 @@ var texture
 var c_name
 
 func set_hp_mp():
-	self.hp_max = (4 * self.stats[1] + 2 * self.level) * Global.damage_scale
+	self.hp_max = (4 * self.stats[1] + 2 * self.level) * Global.damage_scale # should be 4 *
 	self.mp_max = 1 + 2 * self.stats[3] + self.level
 	self.hp = self.hp_max
 	self.mp = self.mp_max

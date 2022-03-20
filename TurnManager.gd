@@ -6,6 +6,8 @@ var active
 var EButtons
 var SkillMenu
 signal end_battle
+signal update_boxes
+signal win
 
 func _ready():
 	encounter = get_parent().get_node("EncounterNode").get_children()
@@ -16,6 +18,7 @@ func _on_StrikeButton_pressed():
 	get_target(1, "Strike", Global.PHYS, 0.9, 0.05, 0, 0)
 
 func get_target(might, s_name, type, hit, crit, h_cost, m_cost):
+	print(encounter)
 	var enemy_buttons = []
 	$BattleMenu.hide()
 	if has_node("SkillMenu"):
@@ -23,6 +26,7 @@ func get_target(might, s_name, type, hit, crit, h_cost, m_cost):
 	EButtons = Control.new()
 	add_child(EButtons)
 	for i in range(len(encounter)):
+		print(i)
 		enemy_buttons.append(Button.new())
 		enemy_buttons[i].rect_position = (Vector2(412 - 110 * (len(encounter) - 1) + i * 220, 350))
 		enemy_buttons[i].rect_size = (Vector2(200, 50))
@@ -93,17 +97,33 @@ func _on_EButton_pressed(i, s_name, might, element, hit, crit, h_cost, m_cost):
 		var message = active.attack(encounter[i], s_name, might, element, hit, crit, Vector2(450 - 110 * (len(encounter) - 1) + i * 220, 150))
 		active.hp -= int(active.hp_max * h_cost)
 		active.mp -= m_cost
-		#for i in range(len(encounter)):
-		#	if encounter[i].hp <= 0:
-		#		encounter[i].queue_free()
-		#		encounter.remove(i)
-		#		i -= 1
-		get_parent().update_enemy_health_box(i)
-		get_parent().update_player_health()
-		get_parent().turn_end(message)
+		if check_enemy_hp(): # returns true if enemies are still alive
+			get_parent().update_enemy_health_box(i)
+			get_parent().update_player_health()
+			get_parent().turn_end(message)
 	else:
 		get_parent().add_message("Insufficient MP/HP")
 		EButtons.queue_free()
 		$BattleMenu.show()
-	#EButtons.queue_free()
-	#$BattleMenu.show()
+
+func check_enemy_hp():
+	var i = 0
+	for e in encounter:
+		if e.hp <= 0:
+			e.queue_free()
+			encounter.remove(i)
+		i += 1
+	#var remove = []
+	#for i in range(len(encounter)):
+	#	if encounter[i].hp <= 0:
+	#		remove.append(i)
+	#for x in remove:
+	#	encounter[x].queue_free()
+	#	encounter.remove(x)
+	#	print('removed enemy')
+	if len(encounter) == 0:
+		emit_signal("win")
+		return false
+	else:
+		return true
+		emit_signal("update_boxes")

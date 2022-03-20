@@ -2,7 +2,8 @@ extends ReferenceRect
 
 var lines = ["", "", "", ""]
 
-func _ready():
+func clear_messages():
+	lines = ["", "", "", ""]
 	add_message("Battle start!")
 
 func add_message(message):

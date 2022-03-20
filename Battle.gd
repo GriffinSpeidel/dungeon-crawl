@@ -1,6 +1,8 @@
 extends Popup
 
 signal end_battle
+signal game_over
+signal win
 var current
 var next
 var TurnManager
@@ -9,6 +11,7 @@ var encounter
 var encounter_res
 var order = []
 var order_i
+var MessageTimer
 
 var enemy_res = [preload("res://EnemyHead.tscn")]
 var box_res = load("res://EnemyBox.tscn")
@@ -22,6 +25,7 @@ func _initialize(party):
 	take_turn()
 
 func choose_order():
+	encounter = $EncounterNode.get_children()
 	order = []
 	var i = 0
 	for e in encounter:
@@ -47,22 +51,36 @@ func sort_creatures(a, b):
 func take_turn():
 	if typeof(order[order_i][0]) == TYPE_INT:
 		current = order[order_i][0]
-		if party[current].hp > 0:
-			var manager_res = 	load("res://TurnManager.tscn")
-			TurnManager = manager_res.instance()
-			add_child(TurnManager)
-			TurnManager.get_node("BattleMenu").rect_position = Vector2(100 + 300 * current, 350)
-			TurnManager.connect("end_battle", self, "_on_end_battle")
-		else:
-			advance_turn()
+		var manager_res = 	load("res://TurnManager.tscn")
+		TurnManager = manager_res.instance()
+		add_child(TurnManager)
+		TurnManager.get_node("BattleMenu").rect_position = Vector2(100 + 300 * current, 350)
+		TurnManager.connect("end_battle", self, "_on_end_battle")
+		TurnManager.connect("update_boxes", self, "_on_TurnManager_update_boxes")
+		TurnManager.connect("win", self, "_on_TurnManager_win")
+		
 	else:
 		var live_party_members = []
 		for c in party:
 			if c.hp > 0:
 				live_party_members.append(c)
-		add_message(order[order_i][0].act(live_party_members))
-		update_player_health()
-		advance_turn()
+		if len(live_party_members) == 0:
+			game_over()
+		elif is_instance_valid(order[order_i][0]):
+			add_message(order[order_i][0].act(live_party_members))
+			update_player_health()
+			MessageTimer = Timer.new()
+			MessageTimer.autostart = true
+			add_child(MessageTimer)
+			MessageTimer.wait_time = 0.75
+			MessageTimer.connect("timeout", self, "_on_MessageTimer_timeout")
+
+func game_over():
+	emit_signal("game_over")
+
+func _on_MessageTimer_timeout():
+	MessageTimer.queue_free()
+	advance_turn()
 
 func advance_turn():
 	if order_i < len(order) - 1:
@@ -73,7 +91,6 @@ func advance_turn():
 		choose_order()
 		order_i = 0
 		take_turn()
-	
 
 func turn_end(message):
 	add_message(message)
@@ -99,15 +116,20 @@ func fill_and_draw(res):
 		$EncounterNode.get_child(i).add_child(box)
 		update_enemy_health_box(i)
 		$EncounterNode.get_child(i).get_child(0).rect_position = Vector2(412 - 110 * (len(encounter_res) - 1) + i * 220, 100)
-		print_tree_pretty()
 
-func position_boxes():
-	pass
+func _on_TurnManager_update_boxes():
+	encounter = $EncounterNode.get_children()
+	var l = len(encounter)
+	for i in range(l):
+		$EncounterNode.get_child(i).get_child(0).rect_position = Vector2(412 - 110 * (l - 1) + i * 220, 100)
 
 func update_enemy_health_box(i):
 	var box_i = $EncounterNode.get_child(i).get_child(0)
 	box_i.get_child(1).text = $EncounterNode.get_child(i).c_name
 	box_i.get_child(2).rect_size.x = float($EncounterNode.get_child(i).hp) / $EncounterNode.get_child(i).hp_max * 172
+
+func _on_TurnManager_win():
+	emit_signal("win", TurnManager.get_index())
 
 func add_message(message):
 	$BattleMessage.add_message(message)

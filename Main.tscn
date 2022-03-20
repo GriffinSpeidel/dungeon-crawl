@@ -59,3 +59,5 @@ __meta__ = {
 [connection signal="pickup" from="OfficeGrid" to="." method="_on_OfficeGrid_pickup"]
 [connection signal="button_down" from="PauseMenu/Unpause" to="." method="_on_Unpause_button_down"]
 [connection signal="end_battle" from="Battle" to="." method="_on_Battle_end_battle"]
+[connection signal="game_over" from="Battle" to="." method="_on_Battle_game_over"]
+[connection signal="win" from="Battle" to="." method="_on_Battle_win"]

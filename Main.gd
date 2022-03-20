@@ -50,7 +50,7 @@ func _on_OfficeGrid_pickup():
 
 func start_encounter():
 	$Battle.fill_and_draw([0, 0])
-	
+	$Battle/BattleMessage.clear_messages()
 	# begin battle
 	battle = true
 	$Battle._initialize(party)
@@ -77,6 +77,26 @@ func _on_Unpause_button_down():
 
 func _on_Battle_end_battle(manager_index):
 	$HUD/Label.text = "fled"
+	for e in $Battle/EncounterNode.get_children():
+		e.queue_free()
+	battle = false
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	$Battle.hide()
+	$Battle.get_child(manager_index).queue_free()
+
+
+func _on_Battle_game_over():
+	$HUD/Label.text = "game over"
+	for e in $Battle/EncounterNode.get_children():
+		e.queue_free()
+	battle = false
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	$Battle.hide()
+
+func _on_Battle_win(manager_index):
+	print(manager_index)
+	$Battle.print_tree_pretty()
+	$HUD/Label.text = "win"
 	for e in $Battle/EncounterNode.get_children():
 		e.queue_free()
 	battle = false
