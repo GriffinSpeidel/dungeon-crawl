@@ -18,7 +18,7 @@ func _on_StrikeButton_pressed():
 	get_target(1, "Strike", Global.PHYS, 0.9, 0.05, 0, 0)
 
 func get_target(might, s_name, type, hit, crit, h_cost, m_cost):
-	print(encounter)
+	encounter = get_parent().get_node("EncounterNode").get_children()
 	var enemy_buttons = []
 	$BattleMenu.hide()
 	if has_node("SkillMenu"):

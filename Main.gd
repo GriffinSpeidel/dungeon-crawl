@@ -29,6 +29,7 @@ func _ready():
 	party.append(char3)
 	$PartyNode.add_child(char3)
 	char3._initialize("woop", "res://textures/Face1.png")
+	char3.learn_skill(Global.feuer)
 	char3.learn_skill(Global.eis)
 
 func _process(delta):
