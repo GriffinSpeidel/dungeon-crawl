@@ -110,17 +110,13 @@ func check_enemy_hp():
 	var i = 0
 	for e in encounter:
 		if e.hp <= 0:
-			e.queue_free()
+			for c in party:
+				if c.hp > 0:
+					c.experience += 30 + (e.level - c.level) * 10
+			get_parent().remove_from_order(e)
 			encounter.remove(i)
+			e.queue_free()
 		i += 1
-	#var remove = []
-	#for i in range(len(encounter)):
-	#	if encounter[i].hp <= 0:
-	#		remove.append(i)
-	#for x in remove:
-	#	encounter[x].queue_free()
-	#	encounter.remove(x)
-	#	print('removed enemy')
 	if len(encounter) == 0:
 		emit_signal("win")
 		return false

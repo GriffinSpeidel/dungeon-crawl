@@ -1,6 +1,7 @@
 extends "res://Enemy.gd"
 
-func _initialize(level):
+func _initialize(level, id):
+	self.id = id
 	self.level = level
 	self.affinities = [1, 2, 1, 1, 1]
 	var base_stats = [1, 1, 1, 1, 1, 1]

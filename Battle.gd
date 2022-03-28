@@ -12,6 +12,7 @@ var encounter_res
 var order = []
 var order_i
 var MessageTimer
+var live_party_members = []
 
 var enemy_res = [preload("res://EnemyHead.tscn")]
 var box_res = load("res://EnemyBox.tscn")
@@ -23,6 +24,9 @@ func _initialize(party):
 	choose_order()
 	order_i = 0
 	take_turn()
+	for c in party:
+		if c.hp > 0:
+			live_party_members.append(c)
 
 func choose_order():
 	encounter = $EncounterNode.get_children()
@@ -35,15 +39,26 @@ func choose_order():
 			order.append([i, c.stats[1] * Global.rand.randf_range(0.7, 1.3)])
 		i += 1
 	order.sort_custom(self, "sort_creatures")
+	display_order()
+
+func display_order():
 	var order_label = "Round Order: "
-	i = 0
+	var i = 0
 	for x in order:
 		if typeof(x[0]) == TYPE_INT:
 			order_label += '(' + str(i) + ') ' + party[x[0]].c_name + '   '
 		else:
-			order_label += '(' + str(i) + ') ' + x[0].c_name + '   '
+			order_label += '(' + str(i) + ') ' + x[0].c_name + ' ' + str(x[0].id) + '   '
 		i += 1
 		$OrderLabel.text = order_label
+
+func remove_from_order(creature):
+	for i in range(len(order)):
+		print(str(order[i][0]) + str(creature))
+		if typeof(order[i][0]) != TYPE_INT and order[i][0] == creature:
+			order.remove(i)
+			display_order()
+			break
 
 func sort_creatures(a, b):
 	return a[1] >= b[1]
@@ -60,7 +75,7 @@ func take_turn():
 		TurnManager.connect("win", self, "_on_TurnManager_win")
 		
 	else:
-		var live_party_members = []
+		live_party_members = []
 		for c in party:
 			if c.hp > 0:
 				live_party_members.append(c)
@@ -104,6 +119,7 @@ func update_player_health():
 	var party_boxes = $Control.get_children()
 	for i in range(3):
 		party[i].hp = 0 if party[i].hp < 0 else party[i].hp
+		
 		party_boxes[i].get_child(1).get_child(1).text = "HP: " + str(party[i].hp) + "/" + str(party[i].hp_max)
 		party_boxes[i].get_child(1).get_child(2).text = "MP: " + str(party[i].mp) + "/" + str(party[i].mp_max)
 
@@ -111,7 +127,7 @@ func fill_and_draw(res):
 	encounter_res = res
 	for i in range(len(encounter_res)):
 		$EncounterNode.add_child(enemy_res[encounter_res[i]].instance())
-		$EncounterNode.get_child(i)._initialize(1) # level
+		$EncounterNode.get_child(i)._initialize(1, i + 1) # level
 		var box = box_res.instance()
 		$EncounterNode.get_child(i).add_child(box)
 		update_enemy_health_box(i)
@@ -125,7 +141,7 @@ func _on_TurnManager_update_boxes():
 
 func update_enemy_health_box(i):
 	var box_i = $EncounterNode.get_child(i).get_child(0)
-	box_i.get_child(1).text = $EncounterNode.get_child(i).c_name
+	box_i.get_child(1).text = $EncounterNode.get_child(i).c_name + ' ' + str($EncounterNode.get_child(i).id) + ' lvl.' + str($EncounterNode.get_child(i).level)
 	box_i.get_child(2).rect_size.x = float($EncounterNode.get_child(i).hp) / $EncounterNode.get_child(i).hp_max * 172
 
 func _on_TurnManager_win():

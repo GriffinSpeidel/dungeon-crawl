@@ -1,0 +1,81 @@
+[gd_scene format=2]
+
+[node name="LevelMenu" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_right = 950.0
+margin_bottom = 75.0
+color = Color( 0.501961, 0.501961, 0.501961, 1 )
+
+[node name="Label" type="Label" parent="."]
+margin_left = 392.0
+margin_top = 12.0
+margin_right = 557.0
+margin_bottom = 26.0
+text = "Choose a stat to increase:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Buttons" type="Control" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="StrButton" type="Button" parent="Buttons"]
+margin_left = 50.0
+margin_top = 37.0
+margin_right = 150.0
+margin_bottom = 57.0
+text = "Strength"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AgiButton" type="Button" parent="Buttons"]
+margin_left = 200.0
+margin_top = 37.0
+margin_right = 300.0
+margin_bottom = 57.0
+text = "Agility"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VitButton" type="Button" parent="Buttons"]
+margin_left = 350.0
+margin_top = 37.0
+margin_right = 450.0
+margin_bottom = 57.0
+text = "Vitality"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="IntButton" type="Button" parent="Buttons"]
+margin_left = 500.0
+margin_top = 37.0
+margin_right = 600.0
+margin_bottom = 57.0
+text = "Intelligence"
+
+[node name="WisButton" type="Button" parent="Buttons"]
+margin_left = 650.0
+margin_top = 37.0
+margin_right = 750.0
+margin_bottom = 57.0
+text = "Wisdom"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LukButton" type="Button" parent="Buttons"]
+margin_left = 800.0
+margin_top = 37.0
+margin_right = 900.0
+margin_bottom = 57.0
+text = "Luck"

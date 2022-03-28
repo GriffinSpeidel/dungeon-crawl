@@ -10,6 +10,7 @@ var affinities = [] # phys, fire, ice, lighting, wind (damage taken)
 var skills = []
 var texture
 var c_name
+var id
 
 func set_hp_mp():
 	self.hp_max = (4 * self.stats[1] + 2 * self.level) * Global.damage_scale # should be 4 *
@@ -22,7 +23,13 @@ func attack(target, s_name, might, element, hit, crit, damage_pos):
 	var defense_stat = 2 if element == Global.PHYS else 4
 	var crit_success = false
 	if Global.rand.randf() < hit * self.stats[1] / target.stats[1]:
-		var message = c_name + " attacks " + target.c_name + " with " + s_name + "."
+		var message = c_name
+		if typeof(self.id) != TYPE_NIL:
+			message += ' ' + str(self.id)
+		message += " attacks " + target.c_name
+		if typeof(target.id) != TYPE_NIL:
+			message += ' ' + str(target.id)
+		message += " with " + s_name + "."
 		var damage = max(((self.stats[attack_stat] * might) - (target.stats[defense_stat] / 2)), 0) * Global.rand.randf_range(0.85, 1.15) + Global.rand.randi_range(0, 1)
 		damage *= target.affinities[element]
 		if Global.rand.randf() < crit * self.stats[5] / target.stats[5]:

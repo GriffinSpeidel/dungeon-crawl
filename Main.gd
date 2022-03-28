@@ -104,3 +104,16 @@ func _on_Battle_win(manager_index):
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	$Battle.hide()
 	$Battle.get_child(manager_index).queue_free()
+	check_level_up()
+
+func check_level_up():
+	var retry = false
+	for c in party:
+		if c.experience > 100:
+			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+			paused = true
+			c.level_up()
+			retry = true
+			break
+	if retry:
+		check_level_up()

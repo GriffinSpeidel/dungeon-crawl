@@ -2,6 +2,9 @@ extends "res://Creature.gd"
 
 enum {HEAD, SUIT, PLANT}
 
+func is_equal(target):
+	return self.id == target.id
+
 func act(live_party_members):
 	var choice = Global.rand.randi_range(0, len(self.skills))
 	var target_pos = Global.rand.randi_range(0, len(live_party_members) - 1)
