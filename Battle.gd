@@ -135,6 +135,7 @@ func fill_and_draw(res):
 
 func _on_TurnManager_update_boxes():
 	encounter = $EncounterNode.get_children()
+	print('Encounter: ' + str(encounter))
 	var l = len(encounter)
 	for i in range(l):
 		$EncounterNode.get_child(i).get_child(0).rect_position = Vector2(412 - 110 * (l - 1) + i * 220, 100)

@@ -32,7 +32,7 @@ func get_target(might, s_name, type, hit, crit, h_cost, m_cost):
 		enemy_buttons[i].rect_size = (Vector2(200, 50))
 		enemy_buttons[i].mouse_default_cursor_shape = 2
 		enemy_buttons[i].enabled_focus_mode = 0
-		enemy_buttons[i].text = "Select " + encounter[i].c_name
+		enemy_buttons[i].text = "Select " + encounter[i].c_name + ' ' + str(encounter[i].id)
 		enemy_buttons[i].connect("pressed", self, "_on_EButton_pressed", [i, s_name, might, type, hit, crit, h_cost, m_cost])
 		#                                                enemy selected, might, type, hit, crit
 		EButtons.add_child(enemy_buttons[i])
@@ -105,6 +105,7 @@ func _on_EButton_pressed(i, s_name, might, element, hit, crit, h_cost, m_cost):
 		get_parent().add_message("Insufficient MP/HP")
 		EButtons.queue_free()
 		$BattleMenu.show()
+	emit_signal("update_boxes")
 
 func check_enemy_hp():
 	var i = 0
@@ -122,4 +123,3 @@ func check_enemy_hp():
 		return false
 	else:
 		return true
-		emit_signal("update_boxes")
