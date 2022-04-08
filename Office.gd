@@ -1,21 +1,14 @@
 extends GridMap
 
-
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
-
 signal pickup
 
-# Called when the node enters the scene tree for the first time.
+var encounter_table
+var encounter_levels
+
 func _ready():
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
-
+	# var encounter_table = [0, 0, 0, 0, 0, 2, 2, 3, 3, 3,]
+	encounter_table = [0]
+	encounter_levels = [1, 1, 2, 2, 3]
 
 func _on_PickupTest_body_entered(body):
 	emit_signal("pickup")

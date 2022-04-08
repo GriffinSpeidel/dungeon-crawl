@@ -8,18 +8,19 @@ const ACCEL = 2
 const DECEL = 2
 
 var dir = Vector3()
-
 var camera
 var rotation_helper
-
 var mouse_sensitivity = 0.2
-
 var y_vel = 0
+var steps_since_update
+
+signal check_for_encounter
+signal update_danger_level
 
 func _ready():
 	camera = $Rotation_Helper/Camera
 	rotation_helper = $Rotation_Helper
-	
+	steps_since_update = 0
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 func _physics_process(delta):
@@ -44,6 +45,11 @@ func process_input():
 	move_vec = move_vec.normalized() * MOVE_SPEED
 	move_vec.y = y_vel
 	move_and_slide(move_vec, Vector3(0, 1, 0), true, 4, deg2rad(MAX_SLOPE_ANGLE), false)
+	steps_since_update += Vector2(move_vec[0], move_vec[2]).length_squared()
+	
+	if steps_since_update >= 500:
+		steps_since_update = 0
+		emit_signal("update_danger_level")
 	
 	var grounded = is_on_floor()
 	y_vel += GRAVITY

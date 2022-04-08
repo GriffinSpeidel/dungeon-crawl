@@ -87,7 +87,8 @@ func _on_Cancel_pressed():
 	$BattleMenu.show()
 
 func _on_GuardButton_pressed():
-	pass # Replace with function body.
+	active.guarding = true
+	get_parent().turn_end(active.c_name + " puts up their guard.")
 
 func _on_FleeButton_pressed():
 	emit_signal("end_battle")
@@ -113,7 +114,7 @@ func check_enemy_hp():
 		if e.hp <= 0:
 			for c in party:
 				if c.hp > 0:
-					c.experience += 30 + (e.level - c.level) * 10
+					c.experience += 20 + (e.level - c.level) * 10
 			get_parent().remove_from_order(e)
 			encounter.remove(i)
 			e.queue_free()

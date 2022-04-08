@@ -33,7 +33,8 @@ func choose_order():
 	order = []
 	var i = 0
 	for e in encounter:
-		order.append([e, e.stats[1] * Global.rand.randf_range(0.7, 1.3)])
+		if is_instance_valid(e) and e.hp > 0:
+			order.append([e, e.stats[1] * Global.rand.randf_range(0.7, 1.3)])
 	for c in party:
 		if c.hp > 0:
 			order.append([i, c.stats[1] * Global.rand.randf_range(0.7, 1.3)])
@@ -54,8 +55,7 @@ func display_order():
 
 func remove_from_order(creature):
 	for i in range(len(order)):
-		print(str(order[i][0]) + str(creature))
-		if typeof(order[i][0]) != TYPE_INT and order[i][0] == creature:
+		if typeof(order[i][0]) == typeof(creature) and order[i][0] == creature:
 			order.remove(i)
 			display_order()
 			break
@@ -64,8 +64,10 @@ func sort_creatures(a, b):
 	return a[1] >= b[1]
 
 func take_turn():
+	# turnmanager setup
 	if typeof(order[order_i][0]) == TYPE_INT:
 		current = order[order_i][0]
+		party[current].guarding = false
 		var manager_res = 	load("res://TurnManager.tscn")
 		TurnManager = manager_res.instance()
 		add_child(TurnManager)
@@ -89,6 +91,8 @@ func take_turn():
 			add_child(MessageTimer)
 			MessageTimer.wait_time = 0.75
 			MessageTimer.connect("timeout", self, "_on_MessageTimer_timeout")
+		else:
+			advance_turn()
 
 func game_over():
 	emit_signal("game_over")
@@ -119,15 +123,16 @@ func update_player_health():
 	var party_boxes = $Control.get_children()
 	for i in range(3):
 		party[i].hp = 0 if party[i].hp < 0 else party[i].hp
-		
+		if party[i].hp == 0:
+			remove_from_order(i)
 		party_boxes[i].get_child(1).get_child(1).text = "HP: " + str(party[i].hp) + "/" + str(party[i].hp_max)
 		party_boxes[i].get_child(1).get_child(2).text = "MP: " + str(party[i].mp) + "/" + str(party[i].mp_max)
 
-func fill_and_draw(res):
+func fill_and_draw(res, level): # 0: Head 1: Suit 2: Plant 3: Ooze
 	encounter_res = res
 	for i in range(len(encounter_res)):
 		$EncounterNode.add_child(enemy_res[encounter_res[i]].instance())
-		$EncounterNode.get_child(i)._initialize(1, i + 1) # level
+		$EncounterNode.get_child(i)._initialize(level, i + 1) # level, index
 		var box = box_res.instance()
 		$EncounterNode.get_child(i).add_child(box)
 		update_enemy_health_box(i)

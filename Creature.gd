@@ -11,10 +11,11 @@ var skills = []
 var texture
 var c_name
 var id
+var guarding
 
 func set_hp_mp():
-	self.hp_max = (4 * self.stats[1] + 2 * self.level) * Global.damage_scale # should be 4 *
-	self.mp_max = 1 + 2 * self.stats[3] + self.level
+	self.hp_max = (4 * self.stats[2] + 2 * self.level) * Global.damage_scale # should be 4 *
+	self.mp_max = 1 + 2 * self.stats[4] + self.level
 	self.hp = self.hp_max
 	self.mp = self.mp_max
 
@@ -42,6 +43,9 @@ func attack(target, s_name, might, element, hit, crit, damage_pos):
 			message += " It's super effective!"
 		elif target.affinities[element] < 1:
 			message += " It's not very effective..."
+		if target.guarding:
+			message += " Blocked half the damage!"
+			damage /= 2
 		message += " " + str(int(damage * Global.damage_scale)) + " damage!"
 		return message
 	else:

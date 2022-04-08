@@ -16,4 +16,4 @@ func act(live_party_members):
 	else:
 		var skill = self.skills[choice]
 		print('used ' + skills[choice].s_name)
-		return attack(target, skill.s_name.to_upper(), skill.might, skill.element, skill.hit, skill.crit, Vector2(100 + target_pos * 300, 550))
+		return attack(target, skill.s_name, skill.might, skill.element, skill.hit, skill.crit, Vector2(100 + target_pos * 300, 550))
