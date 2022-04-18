@@ -128,7 +128,7 @@ func level_up_character(c):
 
 func _on_Player_update_danger_level(): 
 	encounter_rate += 0.05 * Global.encounter_rate_scale
-	$HUD/Control/Label.text = "Danger Level: " + str(min(encounter_rate * 200, 99)) + "%"
+	$HUD/Control/Label.text = "Danger Level: " + str(min(encounter_rate * 200, 100) / Global.encounter_rate_scale) + "%"
 	if Global.rand.randf() < encounter_rate:
 		encounter_rate = 0
 		var encounter = []

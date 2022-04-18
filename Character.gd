@@ -11,7 +11,7 @@ func _initialize(c_name, image):
 	self.texture = load(image)
 	self.guarding = false
 	self.affinities = [1, 1, 1, 1, 1]
-	self.experience = 99
+	self.experience = 0
 	set_hp_mp()
 
 func learn_skill(skill):
