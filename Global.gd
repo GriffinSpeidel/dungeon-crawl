@@ -2,8 +2,9 @@ extends Node
 
 var damage_scale = 3
 var rand = RandomNumberGenerator.new()
-enum {PHYS, FIRE, ICE, LIT, WIND, HEAL}
+enum {PHYS, FIRE, ICE, LIT, WIND}
 var stat_names = ["Strength", "Dexterity", "Vitality", "Intelligence", "Wisdom", "Luck"]
+var element_names = ["Physical", "Fire", "Ice", "Lightning", "Wind"]
 var encounter_rate_scale = 0.5
 
 var lunge = Skill.new("Lunge", 1.3, PHYS, Skill.NONE, .75, .5, Skill.SINGLE, 0, 0.25)

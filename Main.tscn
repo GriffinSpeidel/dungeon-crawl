@@ -34,7 +34,6 @@ data = {
 }
 
 [node name="PauseMenu" parent="." instance=ExtResource( 5 )]
-visible = true
 
 [node name="Battle" parent="." instance=ExtResource( 3 )]
 

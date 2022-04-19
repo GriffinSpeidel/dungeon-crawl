@@ -44,13 +44,16 @@ func increase_stat(stat):
 
 func equip(item):
 	if item is Weapon:
-		if weapon != null:
-			for i in len(stats):
-				stats[i] -= weapon.stats[i]
-			get_parent().get_parent().inventory.append(weapon)
+		unequip_weapon()
 		weapon = item
 		for i in len(stats):
 			stats[i] += weapon.stats[i]
+	elif item is Armor:
+		unequip_armor()
+		armor = item
+		for i in len(stats):
+			stats[i] += armor.stats[i]
+		affinities = armor.affinities
 	self.set_max_hp_mp()
 
 func unequip_weapon():
@@ -65,4 +68,5 @@ func unequip_armor():
 		for i in len(stats):
 			stats[i] -= armor.stats[i]
 			get_parent().get_parent().inventory.append(armor)
+		affinities = [1,1,1,1,1]
 	self.set_max_hp_mp()

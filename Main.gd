@@ -32,6 +32,8 @@ func _ready():
 	char2._initialize("shoop", "res://textures/Face1.png")
 	char2.learn_skill(Global.feuer)
 	
+	char2.equip(Armor.new([0,0,1,0,0,0], "Suit and Tie", [0,2,1,0.5,1]))
+	
 	char3 = character_resource.instance()
 	party.append(char3)
 	$PartyNode.add_child(char3)
@@ -76,6 +78,7 @@ func pause():
 	paused = true
 	$HUD.visible = false
 	$PauseMenu.update_portraits()
+	$PauseMenu.update_equipment()
 	$PauseMenu.show()
 
 func unpause():
@@ -108,6 +111,7 @@ func _on_Battle_win(manager_index):
 	battle = false
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	$Battle.hide()
+	$HUD.visible = true
 	$Battle.get_child(manager_index).queue_free()
 	check_level_up()
 
@@ -125,7 +129,7 @@ func level_up_character(c):
 
 func _on_Player_update_danger_level(): 
 	encounter_rate += 0.05 * Global.encounter_rate_scale
-	$HUD/Label.text = "Danger Level: " + str(min(encounter_rate * 200, 100) / Global.encounter_rate_scale) + "%"
+	$HUD/Label.text = "Danger Level: " + str(min(encounter_rate * 200 / Global.encounter_rate_scale, 100)) + "%"
 	if Global.rand.randf() < encounter_rate:
 		encounter_rate = 0
 		var encounter = []
