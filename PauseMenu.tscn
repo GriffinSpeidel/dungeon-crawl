@@ -1,0 +1,195 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://textures/Face1.png" type="Texture" id=1]
+[ext_resource path="res://PauseMenu.gd" type="Script" id=2]
+
+[node name="PauseMenu" type="Popup"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 2 )
+
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_right = 1024.0
+margin_bottom = 600.0
+color = Color( 0.113725, 0.113725, 0.113725, 1 )
+
+[node name="Portraits" type="Control" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="Char1Rect" type="ReferenceRect" parent="Portraits"]
+margin_left = 62.0
+margin_top = 32.0
+margin_right = 362.0
+margin_bottom = 133.0
+border_color = Color( 0.596078, 0.596078, 0.596078, 1 )
+editor_only = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Sprite" type="Sprite" parent="Portraits/Char1Rect"]
+position = Vector2( 0, 1 )
+texture = ExtResource( 1 )
+centered = false
+
+[node name="NameLabel" type="Label" parent="Portraits/Char1Rect"]
+margin_left = 126.0
+margin_top = 16.0
+margin_right = 166.0
+margin_bottom = 30.0
+text = "Name"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HealthLabel" type="Label" parent="Portraits/Char1Rect"]
+margin_left = 126.0
+margin_top = 32.0
+margin_right = 166.0
+margin_bottom = 46.0
+text = "HP"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MagicLabel" type="Label" parent="Portraits/Char1Rect"]
+margin_left = 126.0
+margin_top = 48.0
+margin_right = 166.0
+margin_bottom = 62.0
+text = "MP"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ExperienceLabel" type="Label" parent="Portraits/Char1Rect"]
+margin_left = 126.0
+margin_top = 64.0
+margin_right = 166.0
+margin_bottom = 78.0
+text = "XP"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Char2Rect" type="ReferenceRect" parent="Portraits"]
+margin_left = 362.0
+margin_top = 32.0
+margin_right = 662.0
+margin_bottom = 133.0
+border_color = Color( 0.596078, 0.596078, 0.596078, 1 )
+editor_only = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Sprite" type="Sprite" parent="Portraits/Char2Rect"]
+position = Vector2( 0, 1 )
+texture = ExtResource( 1 )
+centered = false
+
+[node name="NameLabel" type="Label" parent="Portraits/Char2Rect"]
+margin_left = 126.0
+margin_top = 16.0
+margin_right = 166.0
+margin_bottom = 30.0
+text = "Name"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HealthLabel" type="Label" parent="Portraits/Char2Rect"]
+margin_left = 126.0
+margin_top = 32.0
+margin_right = 166.0
+margin_bottom = 46.0
+text = "HP"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MagicLabel" type="Label" parent="Portraits/Char2Rect"]
+margin_left = 126.0
+margin_top = 48.0
+margin_right = 166.0
+margin_bottom = 62.0
+text = "MP"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ExperienceLabel" type="Label" parent="Portraits/Char2Rect"]
+margin_left = 126.0
+margin_top = 64.0
+margin_right = 166.0
+margin_bottom = 78.0
+text = "XP"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Char3Rect" type="ReferenceRect" parent="Portraits"]
+margin_left = 662.0
+margin_top = 32.0
+margin_right = 962.0
+margin_bottom = 133.0
+border_color = Color( 0.596078, 0.596078, 0.596078, 1 )
+editor_only = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Sprite" type="Sprite" parent="Portraits/Char3Rect"]
+position = Vector2( 0, 1 )
+texture = ExtResource( 1 )
+centered = false
+
+[node name="NameLabel" type="Label" parent="Portraits/Char3Rect"]
+margin_left = 126.0
+margin_top = 16.0
+margin_right = 166.0
+margin_bottom = 30.0
+text = "Name"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HealthLabel" type="Label" parent="Portraits/Char3Rect"]
+margin_left = 126.0
+margin_top = 32.0
+margin_right = 166.0
+margin_bottom = 46.0
+text = "HP"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MagicLabel" type="Label" parent="Portraits/Char3Rect"]
+margin_left = 126.0
+margin_top = 48.0
+margin_right = 166.0
+margin_bottom = 62.0
+text = "MP"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ExperienceLabel" type="Label" parent="Portraits/Char3Rect"]
+margin_left = 126.0
+margin_top = 64.0
+margin_right = 166.0
+margin_bottom = 78.0
+text = "XP"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Unpause" type="Button" parent="."]
+margin_left = 64.0
+margin_top = 532.0
+margin_right = 184.0
+margin_bottom = 572.0
+text = "Unpause"
+
+[connection signal="pressed" from="Unpause" to="." method="_on_Unpause_pressed"]

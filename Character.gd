@@ -51,15 +51,18 @@ func equip(item):
 		weapon = item
 		for i in len(stats):
 			stats[i] += weapon.stats[i]
+	self.set_max_hp_mp()
 
 func unequip_weapon():
 	if weapon != null:
 		for i in len(stats):
 			stats[i] -= weapon.stats[i]
 			get_parent().get_parent().inventory.append(weapon)
+	self.set_max_hp_mp()
 
 func unequip_armor():
 	if armor != null:
 		for i in len(stats):
 			stats[i] -= armor.stats[i]
 			get_parent().get_parent().inventory.append(armor)
+	self.set_max_hp_mp()

@@ -19,6 +19,13 @@ func set_hp_mp():
 	self.hp = self.hp_max
 	self.mp = self.mp_max
 
+func set_max_hp_mp():
+	self.hp_max = (4 * self.stats[2] + 2 * self.level) * Global.damage_scale # should be 4 *
+	self.hp = self.hp_max if self.hp > self.hp_max else self.hp
+	self.mp_max = 1 + 2 * self.stats[4] + self.level
+	self.mp = self.mp_max if self.mp > self.mp_max else self.mp
+	
+
 func attack(target, s_name, might, element, hit, crit, damage_pos):
 	var attack_stat = 0 if element == Global.PHYS else 3
 	var defense_stat = 2 if element == Global.PHYS else 4

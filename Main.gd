@@ -50,7 +50,6 @@ func _process(delta):
 			pause()
 
 func _on_OfficeGrid_pickup():
-	#$HUD/Label.text = "picked up"
 	#var level = get_node("OfficeGrid")
 	#$OfficeGrid.queue_free()
 	#var next_level_resource = load("res://Office2.tscn")
@@ -67,39 +66,35 @@ func start_encounter(e_res, e_level):
 	$Battle._initialize(party)
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	$Battle.show()
-	$HUD/Control.hide()
+	$HUD.hide()
 
 func _on_Office2_pickup():
-	$HUD/Control/Label.text = char1.get_name()
+	pass
 
 func pause():
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	paused = true
-	$Battle.hide()
+	$HUD.visible = false
+	$PauseMenu.update_portraits()
 	$PauseMenu.show()
 
 func unpause():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	paused = false
+	$HUD.visible = true
 	$PauseMenu.hide()
 
-func _on_Unpause_button_down():
-	$HUD/Control/Label.text = "pressed unpause"
-	unpause()
-
 func _on_Battle_end_battle(manager_index):
-	$HUD/Control/Label.text = "fled"
 	for e in $Battle/EncounterNode.get_children():
 		e.queue_free()
 	battle = false
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	$Battle.hide()
-	$HUD/Control.show()
+	$HUD.visible = true
 	$Battle.get_child(manager_index).queue_free()
 
 
 func _on_Battle_game_over():
-	$HUD/Control/Label.text = "game over"
 	for e in $Battle/EncounterNode.get_children():
 		e.queue_free()
 	battle = false
@@ -108,7 +103,6 @@ func _on_Battle_game_over():
 
 func _on_Battle_win(manager_index):
 	# $Battle.print_tree_pretty()
-	$HUD/Control/Label.text = "win"
 	for e in $Battle/EncounterNode.get_children():
 		e.queue_free()
 	battle = false
@@ -131,7 +125,7 @@ func level_up_character(c):
 
 func _on_Player_update_danger_level(): 
 	encounter_rate += 0.05 * Global.encounter_rate_scale
-	$HUD/Control/Label.text = "Danger Level: " + str(min(encounter_rate * 200, 100) / Global.encounter_rate_scale) + "%"
+	$HUD/Label.text = "Danger Level: " + str(min(encounter_rate * 200, 100) / Global.encounter_rate_scale) + "%"
 	if Global.rand.randf() < encounter_rate:
 		encounter_rate = 0
 		var encounter = []
