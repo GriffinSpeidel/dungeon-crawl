@@ -10,6 +10,7 @@ var level_up_queue
 var encounter_rate
 var location
 var encounter_size_distribution = [1, 1, 2, 2, 2, 3, 4]
+var inventory = []
 
 func _ready():
 	Global.rand.randomize()
@@ -22,6 +23,8 @@ func _ready():
 	char1.learn_skill(Global.feuer)
 	char1.learn_skill(Global.sturm)
 	char1.learn_skill(Global.blitz)
+	
+	char1.equip(Weapon.new([2,0,0,0,0,0], "Baseball Bat", [Global.lunge], [20]))
 	
 	char2 = character_resource.instance()
 	party.append(char2)

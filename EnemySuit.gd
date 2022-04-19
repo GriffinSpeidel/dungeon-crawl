@@ -10,4 +10,5 @@ func _initialize(level, id):
 		stats.append(base_stats[i] * (3 + (level - 1) / 3))
 	.set_hp_mp()
 	self.skills.append(Global.eis)
+	self.skills.append(Global.feuer)
 	self.texture = load("res://textures/EnemyHead.png")
