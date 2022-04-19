@@ -26,10 +26,9 @@ func get_target(might, s_name, type, hit, crit, h_cost, m_cost):
 	EButtons = Control.new()
 	add_child(EButtons)
 	for i in range(len(encounter)):
-		print(i)
 		enemy_buttons.append(Button.new())
-		enemy_buttons[i].rect_position = (Vector2(412 - 110 * (len(encounter) - 1) + i * 220, 350))
-		enemy_buttons[i].rect_size = (Vector2(200, 50))
+		enemy_buttons[i].rect_position = Vector2(412 - 110 * (len(encounter) - 1) + i * 220, 350)
+		enemy_buttons[i].rect_size = Vector2(200, 50)
 		enemy_buttons[i].mouse_default_cursor_shape = 2
 		enemy_buttons[i].enabled_focus_mode = 0
 		enemy_buttons[i].text = "Select " + encounter[i].c_name + ' ' + str(encounter[i].id)

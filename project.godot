@@ -14,10 +14,20 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Armor.gd"
 }, {
-"base": "Node",
+"base": "Item",
+"class": "Consumeable",
+"language": "GDScript",
+"path": "res://Consumeable.gd"
+}, {
+"base": "Item",
 "class": "Equipment",
 "language": "GDScript",
 "path": "res://Equipment.gd"
+}, {
+"base": "Node",
+"class": "Item",
+"language": "GDScript",
+"path": "res://Item.gd"
 }, {
 "base": "Node",
 "class": "Skill",
@@ -31,7 +41,9 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "Armor": "",
+"Consumeable": "",
 "Equipment": "",
+"Item": "",
 "Skill": "",
 "Weapon": ""
 }

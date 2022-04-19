@@ -14,6 +14,23 @@ var inventory = []
 
 func _ready():
 	Global.rand.randomize()
+	
+	inventory.append(Consumeable.new("Healing Grape", 4))
+	inventory.append(Consumeable.new("Healing Grape", 4))
+	inventory.append(Consumeable.new("Healing Grape", 4))
+	inventory.append(Consumeable.new("Healing Grape", 4))
+	inventory.append(Consumeable.new("Healing Grape", 4))
+	inventory.append(Consumeable.new("Healing Grape", 4))
+	inventory.append(Consumeable.new("Healing Grape", 4))
+	inventory.append(Consumeable.new("Healing Grape", 4))
+	inventory.append(Consumeable.new("Healing Grape", 4))
+	inventory.append(Consumeable.new("Healing Grape", 4))
+	inventory.append(Consumeable.new("Healing Grape", 4))
+	inventory.append(Consumeable.new("Healing Grape", 4))
+	inventory.append(Consumeable.new("Healing Grape", 4))
+	inventory.append(Consumeable.new("Healing Grape", 4))
+	inventory.append(Consumeable.new("Healing Grape", 4))
+	
 	var character_resource = load("res://Character.tscn")
 	char1 = character_resource.instance()
 	party.append(char1)
@@ -32,7 +49,7 @@ func _ready():
 	char2._initialize("shoop", "res://textures/Face1.png")
 	char2.learn_skill(Global.feuer)
 	
-	char2.equip(Armor.new([0,0,1,0,0,0], "Suit and Tie", [0,2,1,0.5,1]))
+	char2.equip(Armor.new([0,0,1,0,0,0], "Winter Coat", [1,2,0.5,1,1]))
 	
 	char3 = character_resource.instance()
 	party.append(char3)
@@ -79,6 +96,7 @@ func pause():
 	$HUD.visible = false
 	$PauseMenu.update_portraits()
 	$PauseMenu.update_equipment()
+	$PauseMenu.update_inventory()
 	$PauseMenu.show()
 
 func unpause():

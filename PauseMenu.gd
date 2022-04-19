@@ -1,6 +1,7 @@
 extends Popup
 
 var party
+var item_buttons
 signal unpause
 
 func _ready():
@@ -29,7 +30,7 @@ func update_equipment():
 		$Equipment.get_children()[i].get_node("WeaponLabel").text = "Weapon: " + ("None" if party[i].weapon == null else party[i].weapon.g_name)
 		$Equipment.get_children()[i].get_node("SkillLabel").text = "Learning skill: " + ("None " if (party[i].weapon == null or len(party[i].weapon.skills) == 0) else (party[i].weapon.skills[0].s_name + "  " + str(party[i].weapon.ap) + "/" + str(party[i].weapon.thresholds[0]) + "AP"))
 		$Equipment.get_children()[i].get_node("ArmorLabel").text = "Armor: " + ("None" if party[i].armor == null else party[i].armor.g_name)
-		$Equipment.get_children()[i].get_node("AffinityLabel").text = ""
+		var temp = ""
 		var weak = []
 		var nullify = []
 		var resist = []
@@ -41,16 +42,43 @@ func update_equipment():
 			elif party[i].affinities[j] < 1:
 				resist.append(Global.element_names[j])
 		if len(nullify) > 0:
-			$Equipment.get_children()[i].get_node("AffinityLabel").text += "Null:"
+			temp += "Null:"
 			for e in nullify:
-				$Equipment.get_children()[i].get_node("AffinityLabel").text += " " + e
-			$Equipment.get_children()[i].get_node("AffinityLabel").text += "; " if (len(resist) > 0 or len(weak) > 0) else ""
+				temp += " " + e
+			temp += "; " if (len(resist) > 0 or len(weak) > 0) else ""
 		if len(resist) > 0:
-			$Equipment.get_children()[i].get_node("AffinityLabel").text += "Res:"
+			temp += "Res:"
 			for e in resist:
-				$Equipment.get_children()[i].get_node("AffinityLabel").text += " " + e
-			$Equipment.get_children()[i].get_node("AffinityLabel").text += "; " if len(weak) > 0 else ""
+				temp += " " + e
+			temp += "; " if len(weak) > 0 else ""
 		if len(weak) > 0:
-			$Equipment.get_children()[i].get_node("AffinityLabel").text += "Weak:"
+			temp += "Weak:"
 			for e in weak:
-				$Equipment.get_children()[i].get_node("AffinityLabel").text += " " + e
+				temp += " " + e
+		$Equipment.get_children()[i].get_node("AffinityLabel").text = "No elemental affinities" if temp == "" else temp
+
+func update_inventory():
+	item_buttons = [[],[],[]]
+	for i in range(3):
+		for child in $Inventory/ReferenceRect.get_children()[i].get_children():
+			child.queue_free()
+	var inventory = get_parent().inventory
+	var cols = [[],[],[]]
+	for item in inventory:
+		for col in cols:
+			if len(col) < 8:
+				col.append(item)
+				break
+	for i in range(3):
+		for j in range(len(cols[i])):
+			item_buttons[i].append(Button.new())
+			item_buttons[i][j].text = cols[i][j].g_name
+			item_buttons[i][j].rect_position = Vector2(0, 21 * j)
+			item_buttons[i][j].rect_size = Vector2(26, 16)
+			item_buttons[i][j].mouse_default_cursor_shape = 2
+			item_buttons[i][j].enabled_focus_mode = 0
+			$Inventory/ReferenceRect.get_children()[i].add_child(item_buttons[i][j])
+			item_buttons[i][j].connect("pressed", self, "_on_ItemButton_pressed", [cols[i][j]])
+
+func _on_ItemButton_pressed(item):
+	pass

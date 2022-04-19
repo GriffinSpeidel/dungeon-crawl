@@ -1,6 +1,5 @@
-extends Node
+extends Item
 
 class_name Equipment
 
 var stats = []
-var g_name = ""
