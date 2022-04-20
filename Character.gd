@@ -61,6 +61,7 @@ func unequip_weapon():
 		for i in len(stats):
 			stats[i] -= weapon.stats[i]
 		get_parent().get_parent().inventory.append(weapon)
+		weapon = null
 	self.set_max_hp_mp()
 
 func unequip_armor():
@@ -69,4 +70,5 @@ func unequip_armor():
 			stats[i] -= armor.stats[i]
 		get_parent().get_parent().inventory.append(armor)
 		affinities = [1,1,1,1,1]
+		armor = null
 	self.set_max_hp_mp()

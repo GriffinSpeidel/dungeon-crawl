@@ -4,6 +4,7 @@ var party
 var item_buttons
 var Cancel
 var CharButtonContainer
+var unequip_buttons
 signal unpause
 
 func _ready():
@@ -20,7 +21,11 @@ func update_portraits():
 		$Portraits.get_children()[i].get_node("ExperienceLabel").text = "XP: " + str(party[i].experience) + "/100"
 
 func update_equipment():
+	unequip_buttons = [[[],[]],[[],[]],[[],[]]]
+	
 	for i in range(len($Equipment.get_children())):
+		for item in $Equipment.get_children()[i].get_node("UnequipButtons").get_children():
+			item.queue_free()
 		$Equipment.get_children()[i].get_node("Col1").text = ""
 		$Equipment.get_children()[i].get_node("Col1").text += "Str: " + str(party[i].stats[0]) + "\n"
 		$Equipment.get_children()[i].get_node("Col1").text += "Dex: " + str(party[i].stats[1]) + "\n"
@@ -30,8 +35,28 @@ func update_equipment():
 		$Equipment.get_children()[i].get_node("Col2").text += "Wis: " + str(party[i].stats[4]) + "\n"
 		$Equipment.get_children()[i].get_node("Col2").text += "Luk: " + str(party[i].stats[5]) + "\n"
 		$Equipment.get_children()[i].get_node("WeaponLabel").text = "Weapon: " + ("None" if party[i].weapon == null else party[i].weapon.g_name)
+		
+		if party[i].weapon != null:
+			unequip_buttons[i][0] = Button.new()
+			unequip_buttons[i][0].text = "Unequip"
+			unequip_buttons[i][0].rect_position = Vector2(208, 61)
+			unequip_buttons[i][0].mouse_default_cursor_shape = 2
+			unequip_buttons[i][0].enabled_focus_mode = 0
+			$Equipment.get_children()[i].get_node("UnequipButtons").add_child(unequip_buttons[i][0])
+			unequip_buttons[i][0].connect("pressed", self, "unequip", [party[i].weapon, i])
+		
 		$Equipment.get_children()[i].get_node("SkillLabel").text = "Learning skill: " + ("None " if (party[i].weapon == null or len(party[i].weapon.skills) == 0) else (party[i].weapon.skills[0].s_name + "  " + str(party[i].weapon.ap) + "/" + str(party[i].weapon.thresholds[0]) + "AP"))
 		$Equipment.get_children()[i].get_node("ArmorLabel").text = "Armor: " + ("None" if party[i].armor == null else party[i].armor.g_name)
+		
+		if party[i].armor != null:
+			unequip_buttons[i][0] = Button.new()
+			unequip_buttons[i][0].text = "Unequip"
+			unequip_buttons[i][0].rect_position = Vector2(208, 93)
+			unequip_buttons[i][0].mouse_default_cursor_shape = 2
+			unequip_buttons[i][0].enabled_focus_mode = 0
+			$Equipment.get_children()[i].get_node("UnequipButtons").add_child(unequip_buttons[i][0])
+			unequip_buttons[i][0].connect("pressed", self, "unequip", [party[i].armor, i])
+		
 		var temp = ""
 		var weak = []
 		var nullify = []
@@ -86,6 +111,9 @@ func _on_ItemButton_pressed(item, i, j):
 	for col in item_buttons:
 		for button in col:
 			button.disabled = true
+	for k in range(3):
+		for button in $Equipment.get_child(k).get_node("UnequipButtons").get_children():
+			button.disabled = true
 	
 	Cancel = Button.new()
 	Cancel.rect_position = Vector2(item_buttons[i][j].rect_size[0] + 16, 21 * j)
@@ -133,3 +161,17 @@ func enable_item_buttons():
 			button.disabled = false
 	if typeof(CharButtonContainer) != TYPE_NIL:
 		CharButtonContainer.queue_free()
+	for k in range(3):
+		for button in $Equipment.get_child(k).get_node("UnequipButtons").get_children():
+			button.disabled = false
+
+func unequip(item, character):
+	if item is Weapon:
+		print("unequipping " + str(character) + " weapon")
+		party[character].unequip_weapon()
+	elif item is Armor:
+		print("unequipping " + str(character) + " armor")
+		party[character].unequip_armor()
+	update_portraits()
+	update_equipment()
+	update_inventory()
