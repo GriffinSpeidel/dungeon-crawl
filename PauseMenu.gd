@@ -2,6 +2,8 @@ extends Popup
 
 var party
 var item_buttons
+var Cancel
+var CharButtonContainer
 signal unpause
 
 func _ready():
@@ -78,7 +80,56 @@ func update_inventory():
 			item_buttons[i][j].mouse_default_cursor_shape = 2
 			item_buttons[i][j].enabled_focus_mode = 0
 			$Inventory/ReferenceRect.get_children()[i].add_child(item_buttons[i][j])
-			item_buttons[i][j].connect("pressed", self, "_on_ItemButton_pressed", [cols[i][j]])
+			item_buttons[i][j].connect("pressed", self, "_on_ItemButton_pressed", [cols[i][j], i, j])
 
-func _on_ItemButton_pressed(item):
-	pass
+func _on_ItemButton_pressed(item, i, j):
+	for col in item_buttons:
+		for button in col:
+			button.disabled = true
+	
+	Cancel = Button.new()
+	Cancel.rect_position = Vector2(item_buttons[i][j].rect_size[0] + 16, 21 * j)
+	Cancel.rect_size = Vector2(26, 16)
+	Cancel.mouse_default_cursor_shape = 2
+	Cancel.enabled_focus_mode = 0
+	Cancel.text = "Cancel"
+	$Inventory/ReferenceRect.get_children()[i].add_child(Cancel)
+	Cancel.connect("pressed", self, "enable_item_buttons")
+	
+	var char_buttons = []
+	CharButtonContainer = Control.new()
+	CharButtonContainer.rect_position = Vector2(56, 30)
+	add_child(CharButtonContainer)
+	for k in range(3):
+		char_buttons.append(Button.new())
+		char_buttons[k].icon = load("res://textures/Face1.png")
+		char_buttons[k].rect_position = Vector2(300 * k, 0)
+		char_buttons[k].mouse_default_cursor_shape = 2
+		char_buttons[k].enabled_focus_mode = 0
+		CharButtonContainer.add_child(char_buttons[k])
+		char_buttons[k].connect("pressed", self, "_on_CharButton_pressed", [item, k])
+
+func _on_CharButton_pressed(item, i):
+	if item is Equipment:
+		get_parent().party[i].equip(item)
+		update_equipment()
+	elif item is Consumeable:
+		item.use(get_parent().party[i])
+	var inventory = get_parent().inventory
+	for j in range(len(inventory)):
+		if item == inventory[j]:
+			inventory.remove(j) # doesnt work
+			break
+	update_inventory()
+	update_portraits()
+	if typeof(CharButtonContainer) != TYPE_NIL:
+		CharButtonContainer.queue_free()
+
+func enable_item_buttons():
+	if typeof(Cancel) != TYPE_NIL:
+		Cancel.queue_free()
+	for col in item_buttons:
+		for button in col:
+			button.disabled = false
+	if typeof(CharButtonContainer) != TYPE_NIL:
+		CharButtonContainer.queue_free()

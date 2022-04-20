@@ -30,6 +30,8 @@ func _ready():
 	inventory.append(Consumeable.new("Healing Grape", 4))
 	inventory.append(Consumeable.new("Healing Grape", 4))
 	inventory.append(Consumeable.new("Healing Grape", 4))
+	inventory.append(Armor.new([0,0,0,0,1,0], "Asbestos Cloak", [1,0.5,2,1,1]))
+	inventory.append(Weapon.new([1,0,0,1,0,0], "Icebox", [Global.eis], [20]))
 	
 	var character_resource = load("res://Character.tscn")
 	char1 = character_resource.instance()
