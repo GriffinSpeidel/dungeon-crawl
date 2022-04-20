@@ -5,6 +5,7 @@
 [ext_resource path="res://BattleMessage.tscn" type="PackedScene" id=3]
 
 [node name="Battle" type="Popup"]
+visible = true
 margin_right = 40.0
 margin_bottom = 40.0
 script = ExtResource( 2 )
@@ -49,6 +50,7 @@ offset = Vector2( 50, 50 )
 [node name="Info" type="ReferenceRect" parent="Control/Char1"]
 margin_right = 261.0
 margin_bottom = 100.0
+mouse_filter = 2
 border_color = Color( 0.596078, 0.596078, 0.596078, 1 )
 editor_only = false
 __meta__ = {
@@ -103,6 +105,7 @@ offset = Vector2( 50, 50 )
 [node name="Info" type="ReferenceRect" parent="Control/Char2"]
 margin_right = 261.0
 margin_bottom = 100.0
+mouse_filter = 2
 border_color = Color( 0.596078, 0.596078, 0.596078, 1 )
 editor_only = false
 __meta__ = {
@@ -157,6 +160,7 @@ offset = Vector2( 50, 50 )
 [node name="Info" type="ReferenceRect" parent="Control/Char3"]
 margin_right = 261.0
 margin_bottom = 100.0
+mouse_filter = 2
 border_color = Color( 0.596078, 0.596078, 0.596078, 1 )
 editor_only = false
 __meta__ = {
