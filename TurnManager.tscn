@@ -14,13 +14,13 @@ __meta__ = {
 
 [node name="Control" type="Control" parent="BattleMenu"]
 margin_right = 260.0
-margin_bottom = 200.0
-rect_min_size = Vector2( 260, 200 )
+margin_bottom = 125.0
+rect_min_size = Vector2( 260, 125 )
 rect_pivot_offset = Vector2( 696.591, 14.3975 )
 
 [node name="StrikeButton" type="Button" parent="BattleMenu/Control"]
 margin_right = 260.0
-margin_bottom = 50.0
+margin_bottom = 25.0
 focus_mode = 0
 mouse_default_cursor_shape = 2
 enabled_focus_mode = 0
@@ -30,9 +30,9 @@ __meta__ = {
 }
 
 [node name="SkillButton" type="Button" parent="BattleMenu/Control"]
-margin_top = 50.0
+margin_top = 25.0
 margin_right = 260.0
-margin_bottom = 100.0
+margin_bottom = 50.0
 focus_mode = 0
 mouse_default_cursor_shape = 2
 enabled_focus_mode = 0
@@ -41,10 +41,22 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="GuardButton" type="Button" parent="BattleMenu/Control"]
-margin_top = 100.0
+[node name="ItemButton" type="Button" parent="BattleMenu/Control"]
+margin_top = 50.0
 margin_right = 260.0
-margin_bottom = 150.0
+margin_bottom = 75.0
+focus_mode = 0
+mouse_default_cursor_shape = 2
+enabled_focus_mode = 0
+text = "Item"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GuardButton" type="Button" parent="BattleMenu/Control"]
+margin_top = 75.0
+margin_right = 260.0
+margin_bottom = 100.0
 focus_mode = 0
 mouse_default_cursor_shape = 2
 enabled_focus_mode = 0
@@ -54,9 +66,9 @@ __meta__ = {
 }
 
 [node name="FleeButton" type="Button" parent="BattleMenu/Control"]
-margin_top = 150.0
+margin_top = 100.0
 margin_right = 260.0
-margin_bottom = 200.0
+margin_bottom = 125.0
 focus_mode = 0
 mouse_default_cursor_shape = 2
 enabled_focus_mode = 0
@@ -67,5 +79,6 @@ __meta__ = {
 
 [connection signal="pressed" from="BattleMenu/Control/StrikeButton" to="." method="_on_StrikeButton_pressed"]
 [connection signal="pressed" from="BattleMenu/Control/SkillButton" to="." method="_on_SkillButton_pressed"]
+[connection signal="pressed" from="BattleMenu/Control/ItemButton" to="." method="_on_ItemButton_pressed"]
 [connection signal="pressed" from="BattleMenu/Control/GuardButton" to="." method="_on_GuardButton_pressed"]
 [connection signal="pressed" from="BattleMenu/Control/FleeButton" to="." method="_on_FleeButton_pressed"]

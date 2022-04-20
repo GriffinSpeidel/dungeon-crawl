@@ -38,8 +38,8 @@ func update_equipment():
 		
 		if party[i].weapon != null:
 			unequip_buttons[i][0] = Button.new()
-			unequip_buttons[i][0].text = "Unequip"
-			unequip_buttons[i][0].rect_position = Vector2(208, 61)
+			unequip_buttons[i][0].text = "X"
+			unequip_buttons[i][0].rect_position = Vector2(3, 61)
 			unequip_buttons[i][0].mouse_default_cursor_shape = 2
 			unequip_buttons[i][0].enabled_focus_mode = 0
 			$Equipment.get_children()[i].get_node("UnequipButtons").add_child(unequip_buttons[i][0])
@@ -50,8 +50,8 @@ func update_equipment():
 		
 		if party[i].armor != null:
 			unequip_buttons[i][0] = Button.new()
-			unequip_buttons[i][0].text = "Unequip"
-			unequip_buttons[i][0].rect_position = Vector2(208, 93)
+			unequip_buttons[i][0].text = "X"
+			unequip_buttons[i][0].rect_position = Vector2(3, 93)
 			unequip_buttons[i][0].mouse_default_cursor_shape = 2
 			unequip_buttons[i][0].enabled_focus_mode = 0
 			$Equipment.get_children()[i].get_node("UnequipButtons").add_child(unequip_buttons[i][0])
@@ -146,7 +146,7 @@ func _on_CharButton_pressed(item, i):
 	var inventory = get_parent().inventory
 	for j in range(len(inventory)):
 		if item == inventory[j]:
-			inventory.remove(j) # doesnt work
+			inventory.remove(j)
 			break
 	update_inventory()
 	update_portraits()

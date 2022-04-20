@@ -36,6 +36,7 @@ margin_left = 100.0
 margin_top = 450.0
 margin_right = 360.0
 margin_bottom = 550.0
+mouse_filter = 2
 color = Color( 0.321569, 0.321569, 0.321569, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -89,6 +90,7 @@ margin_left = 400.0
 margin_top = 450.0
 margin_right = 660.0
 margin_bottom = 550.0
+mouse_filter = 2
 color = Color( 0.321569, 0.321569, 0.321569, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -142,6 +144,7 @@ margin_left = 700.0
 margin_top = 450.0
 margin_right = 960.0
 margin_bottom = 550.0
+mouse_filter = 2
 color = Color( 0.321569, 0.321569, 0.321569, 1 )
 __meta__ = {
 "_edit_use_anchors_": false

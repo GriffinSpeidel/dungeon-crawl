@@ -4,7 +4,9 @@ var encounter
 var party
 var active
 var EButtons
+var CButtons
 var SkillMenu
+var ItemMenu
 signal end_battle
 signal update_boxes
 signal win
@@ -58,7 +60,7 @@ func _on_SkillButton_pressed():
 	SkillMenu.rect_size = Vector2(272, 100)
 	var SkillControl = Control.new()
 	SkillMenu.add_child(SkillControl)
-	SkillControl.rect_min_size = Vector2(260, (len(active.skills) + 1) * 50)
+	SkillControl.rect_min_size = Vector2(260, (len(active.skills) + 1) * 25)
 	for i in len(active.skills):
 		SkillControl.add_child(Button.new())
 		var button_text = active.skills[i].s_name + " "
@@ -67,22 +69,28 @@ func _on_SkillButton_pressed():
 		else:
 			button_text += str(int(active.skills[i].h_cost * active.hp_max)) + "HP"
 		SkillControl.get_child(i).text = button_text
-		SkillControl.get_child(i).rect_size = Vector2(260, 50)
-		SkillControl.get_child(i).rect_position = Vector2(0, 50 * i)
+		SkillControl.get_child(i).rect_size = Vector2(260, 25)
+		SkillControl.get_child(i).rect_position = Vector2(0, 25 * i)
 		SkillControl.get_child(i).mouse_default_cursor_shape = 2
 		SkillControl.get_child(i).enabled_focus_mode = 0
 		SkillControl.get_child(i).connect("pressed", self, "get_target", active.skills[i].get_stats())
 		# need to put conditional for multitarget
 	SkillControl.add_child(Button.new())
 	SkillControl.get_child(len(active.skills)).text = "Cancel"
-	SkillControl.get_child(len(active.skills)).rect_size = Vector2(260, 50)
-	SkillControl.get_child(len(active.skills)).rect_position = Vector2(0, 50 * len(active.skills) + 1)
+	SkillControl.get_child(len(active.skills)).rect_size = Vector2(260, 25)
+	SkillControl.get_child(len(active.skills)).rect_position = Vector2(0, 25 * len(active.skills))
 	SkillControl.get_child(len(active.skills)).mouse_default_cursor_shape = 2
 	SkillControl.get_child(len(active.skills)).enabled_focus_mode = 0
-	SkillControl.get_child(len(active.skills)).connect("pressed", self, "_on_Cancel_pressed")
+	SkillControl.get_child(len(active.skills)).connect("pressed", self, "clear_SkillMenu")
 
-func _on_Cancel_pressed():
-	SkillMenu.queue_free()
+func clear_SkillMenu():
+	if typeof(SkillMenu) != TYPE_NIL:
+		SkillMenu.queue_free()
+	$BattleMenu.show()
+
+func clear_ItemMenu():
+	if typeof(ItemMenu) != TYPE_NIL:
+		ItemMenu.queue_free()
 	$BattleMenu.show()
 
 func _on_GuardButton_pressed():
@@ -123,3 +131,75 @@ func check_enemy_hp():
 		return false
 	else:
 		return true
+
+
+func _on_ItemButton_pressed():
+	var current = get_parent().current
+	var inventory = get_parent().get_parent().inventory
+	$BattleMenu.hide()
+	ItemMenu = ScrollContainer.new()
+	add_child(ItemMenu)
+	ItemMenu.name = "ItemMenu"
+	ItemMenu.rect_position = Vector2(100 + 300 * current, 350)
+	ItemMenu.rect_size = Vector2(272, 100)
+	var ItemControl = Control.new()
+	ItemMenu.add_child(ItemControl)
+	var consumeables = []
+	for item in inventory:
+		if item is Consumeable:
+			consumeables.append(item)
+	ItemControl.rect_min_size = Vector2(260, (len(consumeables) + 1) * 25)
+	for i in len(consumeables):
+		ItemControl.add_child(Button.new())
+		ItemControl.get_child(i).text = consumeables[i].g_name
+		ItemControl.get_child(i).rect_size = Vector2(260, 25)
+		ItemControl.get_child(i).rect_position = Vector2(0, 25 * i)
+		ItemControl.get_child(i).mouse_default_cursor_shape = 2
+		ItemControl.get_child(i).enabled_focus_mode = 0
+		ItemControl.get_child(i).connect("pressed", self, "get_character", [consumeables[i]])
+	ItemControl.add_child(Button.new())
+	ItemControl.get_child(len(consumeables)).text = "Cancel"
+	ItemControl.get_child(len(consumeables)).rect_size = Vector2(260, 25)
+	ItemControl.get_child(len(consumeables)).rect_position = Vector2(0, 25 * len(consumeables))
+	ItemControl.get_child(len(consumeables)).mouse_default_cursor_shape = 2
+	ItemControl.get_child(len(consumeables)).enabled_focus_mode = 0
+	ItemControl.get_child(len(consumeables)).connect("pressed", self, "clear_ItemMenu")
+
+func get_character(item):
+	var character_buttons = []
+	$BattleMenu.hide()
+	if has_node("ItemMenu"):
+		$ItemMenu.queue_free()
+	CButtons = Control.new()
+	CButtons.rect_position = Vector2(93, 448)
+	add_child(CButtons)
+	for i in range(3):
+		if party[i].hp > 0:
+			character_buttons.append(Button.new())
+			character_buttons[i].rect_position = Vector2(300 * i, 0)
+			character_buttons[i].mouse_default_cursor_shape = 2
+			character_buttons[i].enabled_focus_mode = 0
+			character_buttons[i].icon = load("res://textures/Face1.png")
+			character_buttons[i].connect("pressed", self, "_on_CButton_pressed", [item, i])
+			#                                                                item selected, character selected
+			CButtons.add_child(character_buttons[i])
+	var Cancel = Button.new()
+	Cancel.rect_position = Vector2(100, 450)
+	Cancel.rect_size = Vector2(60, 50)
+	Cancel.text = "Cancel"
+	Cancel.mouse_default_cursor_shape = 2
+	Cancel.connect("pressed", self, "_on_CCancel_pressed")
+	CButtons.add_child(Cancel)
+
+func _on_CButton_pressed(item, i):
+	var message = item.use(party[i])
+	get_parent().update_player_health()
+	var inventory = get_parent().get_parent().inventory
+	for j in range(len(inventory)):
+		if item == inventory[j]:
+			inventory.remove(j)
+			break
+	get_parent().turn_end(message)
+
+func _on_CCancel_pressed():
+	pass

@@ -9,4 +9,6 @@ func _init(n, p):
 	potency = p
 
 func use(target):
-	target.hp = min(int(target.hp + potency * Global.rand.randf_range(0.7,1.1) * Global.damage_scale), target.hp_max)
+	var effect = int(potency * Global.rand.randf_range(0.7,1.1) * Global.damage_scale)
+	target.hp = min(target.hp + effect, target.hp_max)
+	return target.c_name + " heals by " + str(effect) + "HP"
