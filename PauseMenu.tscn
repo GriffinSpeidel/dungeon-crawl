@@ -441,4 +441,18 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Sort" type="Button" parent="."]
+margin_left = 207.0
+margin_top = 532.0
+margin_right = 327.0
+margin_bottom = 572.0
+focus_mode = 0
+mouse_default_cursor_shape = 2
+enabled_focus_mode = 0
+text = "Sort Inventory"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [connection signal="pressed" from="Unpause" to="." method="_on_Unpause_pressed"]
+[connection signal="pressed" from="Sort" to="." method="_on_Sort_pressed"]

@@ -122,6 +122,7 @@ func check_enemy_hp(message):
 			var avg_level = (party[0].level + party[1].level + party[2].level) / 3
 			get_parent().xp_pool += int(20 + (e.level - avg_level) * 10)
 			get_parent().ap_pool += e.level
+			get_parent().item_level += e.level
 			get_parent().remove_from_order(e)
 			encounter.remove(i)
 			e.queue_free()

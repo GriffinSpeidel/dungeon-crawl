@@ -15,8 +15,8 @@ var inventory = []
 func _ready():
 	Global.rand.randomize()
 	
-	inventory.append(Consumeable.new("Healing Grape", 4))
-	inventory.append(Consumeable.new("Healing Grape", 4))
+	inventory.append(Consumeable.new("Grapeseed", 4))
+	inventory.append(Consumeable.new("Grapeseed", 4))
 
 	inventory.append(Armor.new([0,0,0,0,1,0], "Asbestos Cloak", [1,0.5,2,1,1]))
 	inventory.append(Weapon.new([1,0,0,1,0,0], "Icebox", [Global.eis], [20]))
@@ -31,7 +31,7 @@ func _ready():
 	char1.learn_skill(Global.sturm)
 	char1.learn_skill(Global.blitz)
 	
-	char1.equip(Weapon.new([2,0,0,0,0,0], "Baseball Bat", [Global.lunge], [1]))
+	char1.equip(Weapon.new([2,0,0,0,0,0], "Baseball Bat", [Global.lunge], [20]))
 	
 	char2 = character_resource.instance()
 	party.append(char2)
@@ -65,7 +65,7 @@ func _on_OfficeGrid_pickup():
 	#var next_level = next_level_resource.instance()
 	#add_child(next_level)
 	#next_level.connect("pickup2", self, "_on_Office2_pickup")
-	start_encounter([0], 1)
+	start_encounter([0], [1])
 
 func start_encounter(e_res, e_level):
 	$Battle.fill_and_draw(e_res, e_level)
@@ -95,15 +95,13 @@ func unpause():
 	$HUD.visible = true
 	$PauseMenu.hide()
 
-func _on_Battle_end_battle(manager_index):
+func _on_Battle_end_battle():
 	for e in $Battle/EncounterNode.get_children():
 		e.queue_free()
 	battle = false
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	$Battle.hide()
 	$HUD.visible = true
-	$Battle.get_child(manager_index).queue_free()
-
 
 func _on_Battle_game_over():
 	for e in $Battle/EncounterNode.get_children():
@@ -118,7 +116,9 @@ func _on_Player_update_danger_level():
 	if Global.rand.randf() < encounter_rate:
 		encounter_rate = 0
 		var encounter = []
+		var encounter_levels = []
 		var encounter_size = encounter_size_distribution[Global.rand.randi() % len(encounter_size_distribution)]
 		for i in range(encounter_size):
 			encounter.append(location.encounter_table[Global.rand.randi() % len(location.encounter_table)])
-		start_encounter(encounter, location.encounter_levels[Global.rand.randi() % len(location.encounter_levels)])
+			encounter_levels.append(location.encounter_levels[Global.rand.randi() % len(location.encounter_levels)])
+		start_encounter(encounter, encounter_levels)

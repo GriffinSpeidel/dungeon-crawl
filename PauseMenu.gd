@@ -45,8 +45,7 @@ func update_equipment():
 			unequip_buttons[i][0].flat = true
 			$Equipment.get_children()[i].get_node("UnequipButtons").add_child(unequip_buttons[i][0])
 			unequip_buttons[i][0].connect("pressed", self, "unequip", [party[i].weapon, i])
-		
-		$Equipment.get_children()[i].get_node("SkillLabel").text = "Learning skill: " + ("None " if (party[i].weapon == null or len(party[i].weapon.skills) == 0) else (party[i].weapon.skills[0].s_name + "  " + str(party[i].weapon.ap) + "/" + str(party[i].weapon.thresholds[0]) + "AP"))
+		$Equipment.get_children()[i].get_node("SkillLabel").text = "Learning skill: " + ("None " if (party[i].weapon == null or len(party[i].weapon.skills) == 0 or party[i].skills.has(party[i].weapon.skills[0])) else (party[i].weapon.skills[0].s_name + "  " + str(party[i].weapon.ap) + "/" + str(party[i].weapon.thresholds[0]) + "AP"))
 		$Equipment.get_children()[i].get_node("ArmorLabel").text = "Armor: " + ("None" if party[i].armor == null else party[i].armor.g_name)
 		
 		if party[i].armor != null:
@@ -175,3 +174,16 @@ func unequip(item, character):
 	update_portraits()
 	update_equipment()
 	update_inventory()
+
+func _on_Sort_pressed():
+	get_parent().inventory.sort_custom(self, "sort_items")
+	update_inventory()
+
+func sort_items(a, b):
+	if a is Weapon and not b is Weapon:
+		return true
+	if a is Armor and not b is Armor:
+		return true
+	elif a is Consumeable and not b is Consumeable:
+		return true
+	return a.g_name < b.g_name

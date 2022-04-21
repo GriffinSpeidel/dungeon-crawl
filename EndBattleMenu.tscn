@@ -6,12 +6,13 @@
 [node name="EndBattleMenu" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 2
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Button" type="Button" parent="."]
+[node name="Next" type="Button" parent="."]
 margin_left = 740.0
 margin_top = 275.0
 margin_right = 860.0
@@ -25,3 +26,6 @@ __meta__ = {
 }
 
 [node name="EndBattleMessage" parent="." instance=ExtResource( 2 )]
+mouse_filter = 2
+
+[connection signal="pressed" from="Next" to="." method="_on_Next_pressed"]

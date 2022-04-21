@@ -13,8 +13,8 @@ func _init(s, n, s_list, t_list):
 	thresholds = t_list
 	ap = 0
 
-func add_ap(x):
-	if len(skills) > 0:
+func add_ap(x, character):
+	if len(skills) > 0 and not character.skills.has(skills[0]):
 		ap += x
 		if ap >= thresholds[0]:
 			thresholds.remove(0)

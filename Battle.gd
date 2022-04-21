@@ -15,6 +15,8 @@ var MessageTimer
 var live_party_members = []
 var xp_pool
 var ap_pool
+var item_level
+var max_encounter_len
 
 var enemy_res = [preload("res://EnemyHead.tscn")]
 var box_res = load("res://EnemyBox.tscn")
@@ -22,8 +24,10 @@ var box_res = load("res://EnemyBox.tscn")
 func _initialize(party):
 	xp_pool = 0
 	ap_pool = 0
+	item_level = 0
 	self.party = party
 	encounter = $EncounterNode.get_children()
+	max_encounter_len = len(encounter)
 	update_player_health()
 	choose_order()
 	order_i = 0
@@ -120,8 +124,9 @@ func turn_end(message):
 	TurnManager.queue_free()
 	advance_turn()
 
-func _on_end_battle():
-	emit_signal("end_battle", TurnManager.get_index())
+func _on_end_battle(): # once flee code works this shouldnt be necessary anymore
+	TurnManager.queue_free()
+	emit_signal("end_battle")
 
 func update_player_health():
 	var party_boxes = $Control.get_children()
@@ -132,11 +137,11 @@ func update_player_health():
 		party_boxes[i].get_child(1).get_child(1).text = "HP: " + str(party[i].hp) + "/" + str(party[i].hp_max)
 		party_boxes[i].get_child(1).get_child(2).text = "MP: " + str(party[i].mp) + "/" + str(party[i].mp_max)
 
-func fill_and_draw(res, level): # 0: Head 1: Suit 2: Plant 3: Ooze
+func fill_and_draw(res, levels): # 0: Head 1: Suit 2: Plant 3: Ooze
 	encounter_res = res
 	for i in range(len(encounter_res)):
 		$EncounterNode.add_child(enemy_res[encounter_res[i]].instance())
-		$EncounterNode.get_child(i)._initialize(level, i + 1) # level, index
+		$EncounterNode.get_child(i)._initialize(levels[i], i + 1) # level, index
 		var box = box_res.instance()
 		$EncounterNode.get_child(i).add_child(box)
 		update_enemy_health_box(i)
@@ -158,29 +163,54 @@ func _on_TurnManager_win():
 		TurnManager.queue_free()
 	var end_menu_res = load("res://EndBattleMenu.tscn")
 	EndBattleMenu = end_menu_res.instance()
+	EndBattleMenu.connect("close", self, "_on_EndBattleMenu_close")
 	EndBattleMenu.rect_position = Vector2(100, 100)
+	EndBattleMenu.get_node("Next").disabled = true
+	
 	var skill_messages = []
 	for c in party:
 		if c.hp > 0:
 			c.experience += xp_pool
 			if c.weapon != null:
 				print('e')
-				var skill_learned = c.weapon.add_ap(ap_pool)
+				var skill_learned = c.weapon.add_ap(ap_pool, c)
 				if skill_learned != null:
 					skill_messages.append(c.c_name + " learned " + skill_learned.s_name + "!")
 					c.learn_skill(skill_learned)
+	
 	add_child(EndBattleMenu)
 	EndBattleMenu.add_message("Each party member gained " + str(xp_pool) + "XP.")
 	EndBattleMenu.add_message("Each party member gained " + str(ap_pool) + "AP for their weapon.")
 	for string in skill_messages:
 		EndBattleMenu.add_message(string)
+	
+	if true or Global.rand.randf() < 1-(1/(pow(1.3,max_encounter_len))):
+		var item_drop
+		item_level += Global.rand.randi() % 5
+		if item_level > 32:
+			item_drop = Consumeable.new("Grape Bunch", 16)
+		elif item_level > 16:
+			item_drop = Consumeable.new("Healing Grape", 8)
+		else:
+			item_drop = Consumeable.new("Grapeseed", 4)
+		if len(get_parent().inventory) < 24:
+			get_parent().inventory.append(item_drop)
+			EndBattleMenu.add_message("You got a " + item_drop.g_name + "!")
+		else:
+			EndBattleMenu.add_message("The enemy dropped a " + item_drop.g_name + ", but your inventory is full.")
+	
+	check_level_up()
+
+func _on_EndBattleMenu_close():
+	EndBattleMenu.queue_free()
+	emit_signal("end_battle")
 
 func check_level_up():
 	for c in party:
 		if c.experience >= 100:
 			level_up_character(c)
 			return true
-	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	EndBattleMenu.get_node("Next").disabled = false
 	return false
 	
 func level_up_character(c):
