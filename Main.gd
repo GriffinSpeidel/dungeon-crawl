@@ -111,10 +111,18 @@ func _on_Battle_game_over():
 	$Battle.hide()
 
 func _on_Player_update_danger_level(): 
+	var j = 0
+	for item in inventory:
+		if item is Consumeable:
+			item.freshness -= 1
+			if item.freshness == 0:
+				inventory.remove(j)
+		j += 1
 	encounter_rate += 0.05 * Global.encounter_rate_scale
 	$HUD/Label.text = "Danger Level: " + str(min(encounter_rate * 200 / Global.encounter_rate_scale, 100)) + "%"
 	if Global.rand.randf() < encounter_rate:
 		encounter_rate = 0
+		$HUD/Label.text = "Danger Level: " + str(min(encounter_rate * 200 / Global.encounter_rate_scale, 100)) + "%"
 		var encounter = []
 		var encounter_levels = []
 		var encounter_size = encounter_size_distribution[Global.rand.randi() % len(encounter_size_distribution)]

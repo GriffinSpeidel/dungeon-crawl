@@ -101,6 +101,7 @@ func update_inventory():
 		for j in range(len(cols[i])):
 			item_buttons[i].append(Button.new())
 			item_buttons[i][j].text = cols[i][j].g_name
+			item_buttons[i][j].text += " " + str(cols[i][j].freshness) if cols[i][j] is Consumeable else ""
 			item_buttons[i][j].rect_position = Vector2(0, 21 * j)
 			item_buttons[i][j].rect_size = Vector2(26, 16)
 			item_buttons[i][j].mouse_default_cursor_shape = 2
