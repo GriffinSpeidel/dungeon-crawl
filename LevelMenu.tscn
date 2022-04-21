@@ -19,9 +19,16 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="ReferenceRect" type="ReferenceRect" parent="."]
+margin_right = 950.0
+margin_bottom = 75.0
+border_color = Color( 0, 0, 0, 1 )
+
 [node name="Label" type="Label" parent="."]
-margin_right = 165.0
-margin_bottom = 14.0
+margin_left = 392.0
+margin_top = 10.0
+margin_right = 557.0
+margin_bottom = 24.0
 text = "Choose a stat to increase:"
 __meta__ = {
 "_edit_use_anchors_": false

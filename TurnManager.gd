@@ -105,7 +105,7 @@ func _on_EButton_pressed(i, s_name, might, element, hit, crit, h_cost, m_cost):
 		var message = active.attack(encounter[i], s_name, might, element, hit, crit, Vector2(450 - 110 * (len(encounter) - 1) + i * 220, 150))
 		active.hp -= int(active.hp_max * h_cost)
 		active.mp -= m_cost
-		if check_enemy_hp(): # returns true if enemies are still alive
+		if check_enemy_hp(message): # returns true if enemies are still alive
 			get_parent().update_enemy_health_box(i)
 			get_parent().update_player_health()
 			get_parent().turn_end(message)
@@ -115,18 +115,19 @@ func _on_EButton_pressed(i, s_name, might, element, hit, crit, h_cost, m_cost):
 		$BattleMenu.show()
 	emit_signal("update_boxes")
 
-func check_enemy_hp():
+func check_enemy_hp(message):
 	var i = 0
 	for e in encounter:
 		if e.hp <= 0:
-			for c in party:
-				if c.hp > 0:
-					c.experience += 20 + (e.level - c.level) * 10
+			var avg_level = (party[0].level + party[1].level + party[2].level) / 3
+			get_parent().xp_pool += int(20 + (e.level - avg_level) * 10)
+			get_parent().ap_pool += e.level
 			get_parent().remove_from_order(e)
 			encounter.remove(i)
 			e.queue_free()
 		i += 1
 	if len(encounter) == 0:
+		get_parent().add_message(message)
 		emit_signal("win")
 		return false
 	else:

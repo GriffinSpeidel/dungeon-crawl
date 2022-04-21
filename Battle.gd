@@ -2,10 +2,10 @@ extends Popup
 
 signal end_battle
 signal game_over
-signal win
 var current
 var next
 var TurnManager
+var EndBattleMenu
 var party
 var encounter
 var encounter_res
@@ -13,11 +13,15 @@ var order = []
 var order_i
 var MessageTimer
 var live_party_members = []
+var xp_pool
+var ap_pool
 
 var enemy_res = [preload("res://EnemyHead.tscn")]
 var box_res = load("res://EnemyBox.tscn")
 
 func _initialize(party):
+	xp_pool = 0
+	ap_pool = 0
 	self.party = party
 	encounter = $EncounterNode.get_children()
 	update_player_health()
@@ -47,9 +51,9 @@ func display_order():
 	var i = 0
 	for x in order:
 		if typeof(x[0]) == TYPE_INT:
-			order_label += '(' + str(i) + ') ' + party[x[0]].c_name + '   '
+			order_label += '(' + str(i + 1) + ') ' + party[x[0]].c_name + '   '
 		else:
-			order_label += '(' + str(i) + ') ' + x[0].c_name + ' ' + str(x[0].id) + '   '
+			order_label += '(' + str(i + 1) + ') ' + x[0].c_name + ' ' + str(x[0].id) + '   '
 		i += 1
 		$OrderLabel.text = order_label
 
@@ -140,7 +144,6 @@ func fill_and_draw(res, level): # 0: Head 1: Suit 2: Plant 3: Ooze
 
 func _on_TurnManager_update_boxes():
 	encounter = $EncounterNode.get_children()
-	print('Encounter: ' + str(encounter))
 	var l = len(encounter)
 	for i in range(l):
 		$EncounterNode.get_child(i).get_child(0).rect_position = Vector2(412 - 110 * (l - 1) + i * 220, 100)
@@ -151,7 +154,38 @@ func update_enemy_health_box(i):
 	box_i.get_child(2).rect_size.x = float($EncounterNode.get_child(i).hp) / $EncounterNode.get_child(i).hp_max * 172
 
 func _on_TurnManager_win():
-	emit_signal("win", TurnManager.get_index())
+	if TurnManager != null:
+		TurnManager.queue_free()
+	var end_menu_res = load("res://EndBattleMenu.tscn")
+	EndBattleMenu = end_menu_res.instance()
+	EndBattleMenu.rect_position = Vector2(100, 100)
+	var skill_messages = []
+	for c in party:
+		if c.hp > 0:
+			c.experience += xp_pool
+			if c.weapon != null:
+				print('e')
+				var skill_learned = c.weapon.add_ap(ap_pool)
+				if skill_learned != null:
+					skill_messages.append(c.c_name + " learned " + skill_learned.s_name + "!")
+					c.learn_skill(skill_learned)
+	add_child(EndBattleMenu)
+	EndBattleMenu.add_message("Each party member gained " + str(xp_pool) + "XP.")
+	EndBattleMenu.add_message("Each party member gained " + str(ap_pool) + "AP for their weapon.")
+	for string in skill_messages:
+		EndBattleMenu.add_message(string)
 
+func check_level_up():
+	for c in party:
+		if c.experience >= 100:
+			level_up_character(c)
+			return true
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	return false
+	
+func level_up_character(c):
+	c.level_up()
+	c.connect("level_next_character", self, "check_level_up")
+	
 func add_message(message):
 	$BattleMessage.add_message(message)

@@ -46,7 +46,7 @@ func attack(target, s_name, might, element, hit, crit, damage_pos):
 			crit_success = true
 			message += " A critical hit!"
 		target.hp -= int(damage * Global.damage_scale)
-		if target.affinities[element] > 2:
+		if target.affinities[element] > 1:
 			message += " It's super effective!"
 		elif target.affinities[element] < 1:
 			message += " It's not very effective..."

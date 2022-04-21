@@ -1,0 +1,37 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://EndBattleMessage.gd" type="Script" id=1]
+
+[node name="EndBattleMessage" type="ReferenceRect"]
+margin_right = 860.0
+margin_bottom = 260.0
+border_color = Color( 0.568627, 0.568627, 0.568627, 1 )
+editor_only = false
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="."]
+margin_left = 4.0
+margin_top = 4.0
+margin_right = 44.0
+margin_bottom = 18.0
+text = "* 15
+*
+*
+*
+*
+*
+*
+*
+*
+*
+*
+*
+*
+*
+*"
+__meta__ = {
+"_edit_use_anchors_": false
+}

@@ -45,4 +45,3 @@ data = {
 [connection signal="unpause" from="PauseMenu" to="." method="unpause"]
 [connection signal="end_battle" from="Battle" to="." method="_on_Battle_end_battle"]
 [connection signal="game_over" from="Battle" to="." method="_on_Battle_game_over"]
-[connection signal="win" from="Battle" to="." method="_on_Battle_win"]

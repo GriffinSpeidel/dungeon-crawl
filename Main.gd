@@ -31,7 +31,7 @@ func _ready():
 	char1.learn_skill(Global.sturm)
 	char1.learn_skill(Global.blitz)
 	
-	char1.equip(Weapon.new([2,0,0,0,0,0], "Baseball Bat", [Global.lunge], [20]))
+	char1.equip(Weapon.new([2,0,0,0,0,0], "Baseball Bat", [Global.lunge], [1]))
 	
 	char2 = character_resource.instance()
 	party.append(char2)
@@ -111,29 +111,6 @@ func _on_Battle_game_over():
 	battle = false
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	$Battle.hide()
-
-func _on_Battle_win(manager_index):
-	# $Battle.print_tree_pretty()
-	for e in $Battle/EncounterNode.get_children():
-		e.queue_free()
-	battle = false
-	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	$Battle.hide()
-	$HUD.visible = true
-	$Battle.get_child(manager_index).queue_free()
-	check_level_up()
-
-func check_level_up():
-	for c in party:
-		if c.experience >= 100:
-			level_up_character(c)
-			return true
-	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	return false
-	
-func level_up_character(c):
-	c.level_up()
-	c.connect("level_next_character", self, "check_level_up")
 
 func _on_Player_update_danger_level(): 
 	encounter_rate += 0.05 * Global.encounter_rate_scale

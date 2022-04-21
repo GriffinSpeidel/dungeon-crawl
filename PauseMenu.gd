@@ -42,6 +42,7 @@ func update_equipment():
 			unequip_buttons[i][0].rect_position = Vector2(3, 61)
 			unequip_buttons[i][0].mouse_default_cursor_shape = 2
 			unequip_buttons[i][0].enabled_focus_mode = 0
+			unequip_buttons[i][0].flat = true
 			$Equipment.get_children()[i].get_node("UnequipButtons").add_child(unequip_buttons[i][0])
 			unequip_buttons[i][0].connect("pressed", self, "unequip", [party[i].weapon, i])
 		
@@ -54,6 +55,7 @@ func update_equipment():
 			unequip_buttons[i][0].rect_position = Vector2(3, 93)
 			unequip_buttons[i][0].mouse_default_cursor_shape = 2
 			unequip_buttons[i][0].enabled_focus_mode = 0
+			unequip_buttons[i][0].flat = true
 			$Equipment.get_children()[i].get_node("UnequipButtons").add_child(unequip_buttons[i][0])
 			unequip_buttons[i][0].connect("pressed", self, "unequip", [party[i].armor, i])
 		
@@ -167,10 +169,8 @@ func enable_item_buttons():
 
 func unequip(item, character):
 	if item is Weapon:
-		print("unequipping " + str(character) + " weapon")
 		party[character].unequip_weapon()
 	elif item is Armor:
-		print("unequipping " + str(character) + " armor")
 		party[character].unequip_armor()
 	update_portraits()
 	update_equipment()
