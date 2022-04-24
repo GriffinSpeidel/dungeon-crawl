@@ -5,13 +5,25 @@ var item_buttons
 var Cancel
 var CharButtonContainer
 var unequip_buttons
+var showing_skills
+var skill_windows
 signal unpause
 
 func _ready():
 	party = get_parent().party
+	showing_skills = false
+	skill_windows = []
 
 func _on_Unpause_pressed():
+	clear_skill_windows()
 	emit_signal("unpause")
+
+func clear_skill_windows():
+	for window in skill_windows:
+		window.queue_free()
+	skill_windows = []
+	showing_skills = false
+	$Skill.text = "Show Skills"
 
 func update_portraits():
 	for i in range(len($Portraits.get_children())):
@@ -91,8 +103,12 @@ func update_inventory():
 		for child in $Inventory/ReferenceRect.get_children()[i].get_children():
 			child.queue_free()
 	var inventory = get_parent().inventory
-	var cols = [[],[],[]]
+	var useable = []
 	for item in inventory:
+		if not item is CraftMaterial:
+			useable.append(item)
+	var cols = [[],[],[]]
+	for item in useable:
 		for col in cols:
 			if len(col) < 8:
 				col.append(item)
@@ -116,6 +132,11 @@ func _on_ItemButton_pressed(item, i, j):
 	for k in range(3):
 		for button in $Equipment.get_child(k).get_node("UnequipButtons").get_children():
 			button.disabled = true
+	clear_skill_windows()
+	$Unpause.disabled = true
+	$Sort.disabled = true
+	$Skill.disabled = true
+	$Synth.disabled = true
 	
 	Cancel = Button.new()
 	Cancel.rect_position = Vector2(item_buttons[i][j].rect_size[0] + 16, 21 * j)
@@ -138,6 +159,7 @@ func _on_ItemButton_pressed(item, i, j):
 		char_buttons[k].enabled_focus_mode = 0
 		CharButtonContainer.add_child(char_buttons[k])
 		char_buttons[k].connect("pressed", self, "_on_CharButton_pressed", [item, k])
+		char_buttons[k].connect("pressed", self, "enable_item_buttons")
 
 func _on_CharButton_pressed(item, i):
 	if item is Equipment:
@@ -166,6 +188,10 @@ func enable_item_buttons():
 	for k in range(3):
 		for button in $Equipment.get_child(k).get_node("UnequipButtons").get_children():
 			button.disabled = false
+	$Unpause.disabled = false
+	$Sort.disabled = false
+	$Synth.disabled = false
+	$Skill.disabled = false
 
 func unequip(item, character):
 	if item is Weapon:
@@ -177,14 +203,50 @@ func unequip(item, character):
 	update_inventory()
 
 func _on_Sort_pressed():
-	get_parent().inventory.sort_custom(self, "sort_items")
+	get_parent().inventory.sort_custom(CustomSorter, "sort_items")
 	update_inventory()
 
-func sort_items(a, b):
-	if a is Weapon and not b is Weapon:
-		return true
-	if a is Armor and not b is Armor:
-		return true
-	elif a is Consumeable and not b is Consumeable:
-		return true
-	return a.g_name < b.g_name
+class CustomSorter:
+	static func sort_items(a, b):
+		if a.type != b.type:
+			return a.type < b.type
+		if a.type == 2:
+			return a.freshness < b.freshness
+		return a.g_name < b.g_name
+
+func _on_Skill_pressed():
+	if showing_skills:
+		clear_skill_windows()
+	else:
+		for i in range(3):
+			var SkillWindow = ColorRect.new()
+			SkillWindow.rect_position = Vector2(1, 16)
+			SkillWindow.rect_size = Vector2(265, 115)
+			SkillWindow.color = Color(29.0/255, 29.0/255, 29.0/255)
+			skill_windows.append(SkillWindow)
+			$Equipment.get_child(i).add_child(SkillWindow)
+			
+			var SkillScroll = ScrollContainer.new()
+			SkillScroll.rect_position = Vector2(25, 0)
+			SkillScroll.rect_size = Vector2(260, 112)
+			SkillWindow.add_child(SkillScroll)
+			
+			var SkillControl = Control.new()
+			SkillControl.rect_size = Vector2(248, 112)
+			SkillControl.rect_min_size = Vector2(248, 112)
+			SkillScroll.add_child(SkillControl)
+			
+			var j = 0
+			for skill in party[i].skills:
+				var SkillLabel = Label.new()
+				SkillLabel.text = skill.s_name + " "
+				SkillLabel.text += (str(skill.m_cost) + "MP") if skill.m_cost > 0 else (str(int(skill.h_cost * party[i].hp_max)) + "HP")
+				SkillLabel.rect_position = Vector2(0, 17 * j)
+				j += 1
+				SkillControl.add_child(SkillLabel)
+		
+		showing_skills = true
+		$Skill.text = "Hide Skills"
+
+func _on_Synth_pressed():
+	pass # Replace with function body.

@@ -20,6 +20,11 @@ _global_script_classes=[ {
 "path": "res://Consumeable.gd"
 }, {
 "base": "Item",
+"class": "CraftMaterial",
+"language": "GDScript",
+"path": "res://CraftMaterial.gd"
+}, {
+"base": "Item",
 "class": "Equipment",
 "language": "GDScript",
 "path": "res://Equipment.gd"
@@ -42,6 +47,7 @@ _global_script_classes=[ {
 _global_script_class_icons={
 "Armor": "",
 "Consumeable": "",
+"CraftMaterial": "",
 "Equipment": "",
 "Item": "",
 "Skill": "",

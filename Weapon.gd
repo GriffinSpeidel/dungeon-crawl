@@ -12,6 +12,7 @@ func _init(s, n, s_list, t_list):
 	skills = s_list
 	thresholds = t_list
 	ap = 0
+	type = 0
 
 func add_ap(x, character):
 	if len(skills) > 0 and not character.skills.has(skills[0]):

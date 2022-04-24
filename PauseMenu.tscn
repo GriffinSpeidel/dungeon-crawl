@@ -15,6 +15,9 @@ __meta__ = {
 margin_right = 1024.0
 margin_bottom = 600.0
 color = Color( 0.113725, 0.113725, 0.113725, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Portraits" type="Control" parent="."]
 margin_left = 62.0
@@ -260,6 +263,12 @@ text = "Affinities:"
 margin_right = 40.0
 margin_bottom = 40.0
 
+[node name="ScrollContainer" type="ScrollContainer" parent="Equipment/Char1Rect"]
+margin_left = 26.0
+margin_top = 16.0
+margin_right = 286.0
+margin_bottom = 128.0
+
 [node name="Char2Rect" type="ReferenceRect" parent="Equipment"]
 margin_left = 300.0
 margin_right = 600.0
@@ -436,6 +445,9 @@ margin_left = 62.0
 margin_top = 532.0
 margin_right = 182.0
 margin_bottom = 572.0
+focus_mode = 0
+mouse_default_cursor_shape = 2
+enabled_focus_mode = 0
 text = "Unpause"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -454,5 +466,30 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Skill" type="Button" parent="."]
+margin_left = 697.0
+margin_top = 532.0
+margin_right = 817.0
+margin_bottom = 572.0
+focus_mode = 0
+mouse_default_cursor_shape = 2
+enabled_focus_mode = 0
+text = "Show Skills"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Synth" type="Button" parent="."]
+margin_left = 842.0
+margin_top = 532.0
+margin_right = 962.0
+margin_bottom = 572.0
+focus_mode = 0
+mouse_default_cursor_shape = 2
+enabled_focus_mode = 0
+text = "To Synthesis"
+
 [connection signal="pressed" from="Unpause" to="." method="_on_Unpause_pressed"]
 [connection signal="pressed" from="Sort" to="." method="_on_Sort_pressed"]
+[connection signal="pressed" from="Skill" to="." method="_on_Skill_pressed"]
+[connection signal="pressed" from="Synth" to="." method="_on_Synth_pressed"]

@@ -17,9 +17,14 @@ func _ready():
 	
 	inventory.append(Consumeable.new("Grapeseed", 4))
 	inventory.append(Consumeable.new("Grapeseed", 4))
-
+	
+	inventory.append(CraftMaterial.new("Cloth Scrap"))
+	
+	inventory.append(Armor.new([0,0,1,0,0,0], "Fancy Suit", [1,1,1,1,1]))
 	inventory.append(Armor.new([0,0,0,0,1,0], "Asbestos Cloak", [1,0.5,2,1,1]))
+	
 	inventory.append(Weapon.new([1,0,0,1,0,0], "Icebox", [Global.eis], [20]))
+	inventory.append(Weapon.new([0,0,0,1,1,0], "Power Strip", [Global.blitz], [20]))
 	
 	var character_resource = load("res://Character.tscn")
 	char1 = character_resource.instance()
@@ -54,6 +59,7 @@ func _ready():
 func _process(delta):
 	if Input.is_action_just_pressed("ui_cancel") and not battle:
 		if paused:
+			$PauseMenu.clear_skill_windows()
 			unpause()
 		else:
 			pause()

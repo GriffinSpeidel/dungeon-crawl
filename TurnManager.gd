@@ -153,7 +153,7 @@ func _on_ItemButton_pressed():
 	ItemControl.rect_min_size = Vector2(260, (len(consumeables) + 1) * 25)
 	for i in len(consumeables):
 		ItemControl.add_child(Button.new())
-		ItemControl.get_child(i).text = consumeables[i].g_name
+		ItemControl.get_child(i).text = consumeables[i].g_name + " " + str(consumeables[i].freshness)
 		ItemControl.get_child(i).rect_size = Vector2(260, 25)
 		ItemControl.get_child(i).rect_position = Vector2(0, 25 * i)
 		ItemControl.get_child(i).mouse_default_cursor_shape = 2
@@ -190,6 +190,7 @@ func get_character(item):
 	Cancel.rect_size = Vector2(60, 50)
 	Cancel.text = "Cancel"
 	Cancel.mouse_default_cursor_shape = 2
+	Cancel.enabled_focus_mode = 0
 	Cancel.connect("pressed", self, "_on_CCancel_pressed")
 	CButtons.add_child(Cancel)
 

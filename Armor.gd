@@ -8,3 +8,4 @@ func _init(s, n, aff):
 	stats = s
 	g_name = n
 	affinities = aff
+	type = 1

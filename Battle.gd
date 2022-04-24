@@ -184,7 +184,7 @@ func _on_TurnManager_win():
 	for string in skill_messages:
 		EndBattleMenu.add_message(string)
 	
-	if true or Global.rand.randf() < 1-(1/(pow(1.3,max_encounter_len))):
+	if Global.rand.randf() < 1-(1/(pow(1.3,max_encounter_len))):
 		var item_drop
 		item_level += Global.rand.randi() % 5
 		if item_level > 32:
