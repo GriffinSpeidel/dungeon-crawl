@@ -5,8 +5,10 @@ var party
 var active
 var EButtons
 var CButtons
+var CharCancel
 var SkillMenu
 var ItemMenu
+var ReapMenu
 signal end_battle
 signal update_boxes
 signal win
@@ -27,6 +29,7 @@ func get_target(might, s_name, type, hit, crit, h_cost, m_cost):
 		$SkillMenu.queue_free()
 	EButtons = Control.new()
 	add_child(EButtons)
+	enemy_buttons = []
 	for i in range(len(encounter)):
 		enemy_buttons.append(Button.new())
 		enemy_buttons[i].rect_position = Vector2(412 - 110 * (len(encounter) - 1) + i * 220, 350)
@@ -43,6 +46,7 @@ func get_target(might, s_name, type, hit, crit, h_cost, m_cost):
 	Cancel.rect_size = Vector2(60, 50)
 	Cancel.text = "Cancel"
 	Cancel.mouse_default_cursor_shape = 2
+	Cancel.enabled_focus_mode = 0
 	Cancel.connect("pressed", self, "_on_ECancel_pressed")
 
 func _on_ECancel_pressed():
@@ -102,12 +106,25 @@ func _on_FleeButton_pressed():
 
 func _on_EButton_pressed(i, s_name, might, element, hit, crit, h_cost, m_cost):
 	if active.mp >= m_cost and active.hp >= int(active.hp_max * h_cost):
-		var message = active.attack(encounter[i], s_name, might, element, hit, crit, Vector2(450 - 110 * (len(encounter) - 1) + i * 220, 150))
+		var attack_result = active.attack(encounter[i], s_name, might, element, hit, crit, Vector2(450 - 110 * (len(encounter) - 1) + i * 220, 150))
+		var message = attack_result[0]
 		active.hp -= int(active.hp_max * h_cost)
 		active.mp -= m_cost
-		if check_enemy_hp(message): # returns true if enemies are still alive
-			get_parent().update_enemy_health_box(i)
-			get_parent().update_player_health()
+		get_parent().update_enemy_health_box(i)
+		get_parent().update_player_health()
+		if attack_result[1]:
+			var reap_res = load("res://Reap.tscn")
+			ReapMenu = reap_res.instance()
+			ReapMenu.rect_position = Vector2(287, 350)
+			ReapMenu._initialize(active, encounter[i])
+			ReapMenu.connect("reap_health", self, "_on_ReapMenu_reap_health")
+			ReapMenu.connect("reap_magic", self, "_on_ReapMenu_reap_magic")
+			ReapMenu.connect("reap_xp", self, "_on_ReapMenu_reap_xp")
+			$BattleMenu.hide()
+			EButtons.queue_free()
+			get_parent().add_message(message)
+			add_child(ReapMenu)
+		elif check_enemy_hp(message): # returns true if enemies are still alive
 			get_parent().turn_end(message)
 	else:
 		get_parent().add_message("Insufficient MP/HP")
@@ -133,7 +150,6 @@ func check_enemy_hp(message):
 		return false
 	else:
 		return true
-
 
 func _on_ItemButton_pressed():
 	var current = get_parent().current
@@ -175,6 +191,7 @@ func get_character(item):
 	CButtons = Control.new()
 	CButtons.rect_position = Vector2(93, 448)
 	add_child(CButtons)
+	character_buttons = []
 	for i in range(3):
 		if party[i].hp > 0:
 			character_buttons.append(Button.new())
@@ -185,14 +202,15 @@ func get_character(item):
 			character_buttons[i].connect("pressed", self, "_on_CButton_pressed", [item, i])
 			#                                                                item selected, character selected
 			CButtons.add_child(character_buttons[i])
-	var Cancel = Button.new()
-	Cancel.rect_position = Vector2(100, 450)
-	Cancel.rect_size = Vector2(60, 50)
-	Cancel.text = "Cancel"
-	Cancel.mouse_default_cursor_shape = 2
-	Cancel.enabled_focus_mode = 0
-	Cancel.connect("pressed", self, "_on_CCancel_pressed")
-	CButtons.add_child(Cancel)
+	CharCancel = Button.new()
+	add_child(CharCancel)
+	CharCancel.rect_position = Vector2(18, 475)
+	CharCancel.rect_size = Vector2(60, 50)
+	CharCancel.text = "Cancel"
+	CharCancel.name = "CCancel"
+	CharCancel.mouse_default_cursor_shape = 2
+	CharCancel.enabled_focus_mode = 0
+	CharCancel.connect("pressed", self, "_on_CCancel_pressed")
 
 func _on_CButton_pressed(item, i):
 	var message = item.use(party[i])
@@ -205,4 +223,27 @@ func _on_CButton_pressed(item, i):
 	get_parent().turn_end(message)
 
 func _on_CCancel_pressed():
-	pass
+	$BattleMenu.show()
+	CharCancel.queue_free()
+	CButtons.queue_free()
+
+func _on_ReapMenu_reap_health(character, enemy, hp):
+	character.hp += hp
+	character.hp = character.hp_max if character.hp > character.hp_max else character.hp
+	clear_reap(character, enemy, str(hp) + "HP")
+
+func _on_ReapMenu_reap_magic(character, enemy, mp):
+	character.mp += mp
+	character.mp = character.mp_max if character.mp > character.mp_max else character.mp
+	clear_reap(character, enemy, str(mp) + "MP")
+
+func _on_ReapMenu_reap_xp(character, enemy, xp):
+	character.experience += xp
+	clear_reap(character, enemy, str(xp) + "XP")
+
+func clear_reap(character, enemy, bonus):
+	get_parent().update_player_health()
+	ReapMenu.queue_free()
+	var message = character.c_name + " reaps " + enemy.c_name + " for " + bonus + "!"
+	if check_enemy_hp(message):
+		get_parent().turn_end(message)

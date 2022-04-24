@@ -73,7 +73,7 @@ func sort_creatures(a, b):
 
 func take_turn():
 	# turnmanager setup
-	if typeof(order[order_i][0]) == TYPE_INT:
+	if typeof(order[order_i][0]) == TYPE_INT: # character turn
 		current = order[order_i][0]
 		party[current].guarding = false
 		var manager_res = 	load("res://TurnManager.tscn")
@@ -84,7 +84,7 @@ func take_turn():
 		TurnManager.connect("update_boxes", self, "_on_TurnManager_update_boxes")
 		TurnManager.connect("win", self, "_on_TurnManager_win")
 		
-	else:
+	else: # enemy turn
 		live_party_members = []
 		for c in party:
 			if c.hp > 0:
@@ -172,7 +172,6 @@ func _on_TurnManager_win():
 		if c.hp > 0:
 			c.experience += xp_pool
 			if c.weapon != null:
-				print('e')
 				var skill_learned = c.weapon.add_ap(ap_pool, c)
 				if skill_learned != null:
 					skill_messages.append(c.c_name + " learned " + skill_learned.s_name + "!")
