@@ -15,7 +15,7 @@ var materials = []
 
 func _ready():
 	for i in range(11):
-		materials.append(1)
+		materials.append(4)
 	
 	Global.rand.randomize()
 	
@@ -27,7 +27,7 @@ func _ready():
 	materials[2] += 1
 	materials[9] += 1
 	
-	inventory.append(Armor.new([0,0,1,0,0,0], "Fancy Suit", [1,1,1,1,1]))
+	inventory.append(Armor.new([0,0,2,0,0,0], "Bulletproof Vest", [0.5,1,1,1,1]))
 	inventory.append(Armor.new([0,0,0,0,1,0], "Asbestos Cloak", [1,0.5,2,1,1]))
 	
 	inventory.append(Weapon.new([1,0,0,1,0,0], "Icebox", [Global.eis], [20]))
@@ -43,7 +43,7 @@ func _ready():
 	char1.learn_skill(Global.sturm)
 	char1.learn_skill(Global.blitz)
 	
-	char1.equip(Weapon.new([2,0,0,0,0,0], "Baseball Bat", [Global.lunge], [20]))
+	char1.equip(Weapon.new([2,-1,0,0,0,0], "Baseball Bat", [Global.lunge], [20]))
 	
 	char2 = character_resource.instance()
 	party.append(char2)

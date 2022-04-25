@@ -8,7 +8,7 @@ __meta__ = {
 }
 
 [node name="ColorRect" type="ColorRect" parent="."]
-margin_right = 404.0
+margin_right = 403.0
 margin_bottom = 62.0
 color = Color( 0.113725, 0.113725, 0.113725, 1 )
 __meta__ = {
@@ -16,7 +16,7 @@ __meta__ = {
 }
 
 [node name="ReferenceRect" type="ReferenceRect" parent="."]
-margin_right = 404.0
+margin_right = 403.0
 margin_bottom = 62.0
 border_color = Color( 0.568627, 0.568627, 0.568627, 1 )
 editor_only = false

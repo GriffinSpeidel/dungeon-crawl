@@ -267,9 +267,10 @@ func _on_Skill_pressed():
 func _on_Synth_pressed():
 	var synth_menu_res = load("res://SynthMenu.tscn")
 	SynthMenu = synth_menu_res.instance()
-	SynthMenu._initialize(get_parent().materials)
+	SynthMenu._initialize(get_parent().materials, get_parent().inventory)
 	add_child(SynthMenu)
 
 func clear_synthesis():
+	update_inventory()
 	if SynthMenu != null:
 		SynthMenu.queue_free()

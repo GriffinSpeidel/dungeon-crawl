@@ -30,7 +30,8 @@ func attack(target, s_name, might, element, hit, crit, damage_pos):
 	var attack_stat = 0 if element == Global.PHYS else 3
 	var defense_stat = 2 if element == Global.PHYS else 4
 	var crit_success = false
-	if Global.rand.randf() < hit * self.stats[1] / target.stats[1]:
+	var hit_chance = hit * (1 + (((self.stats[1] + 0.0) / target.stats[1]) - 1) / 2)
+	if Global.rand.randf() < hit_chance:
 		var message = c_name
 		if typeof(self.id) != TYPE_NIL:
 			message += ' ' + str(self.id)
