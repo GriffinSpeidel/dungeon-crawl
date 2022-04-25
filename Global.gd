@@ -12,6 +12,7 @@ var feuer = Skill.new("Feuer", 1.3, FIRE, Skill.NONE, .9, 0, Skill.SINGLE, 3, 0)
 var eis = Skill.new("Eis", 1.3, ICE, Skill.NONE, .9, 0, Skill.SINGLE, 3, 0)
 var blitz = Skill.new("Blitz", 1.3, LIT, Skill.NONE, .9, 0, Skill.SINGLE, 3, 0)
 var sturm = Skill.new("Sturm", 1.3, WIND, Skill.NONE, .9, 0, Skill.SINGLE, 3, 0)
+var smite = Skill.new("Divine Smite", 3, PHYS, Skill.NONE, 1, 0.5, Skill.SINGLE, 20, 0.2)
 
 #var bat = Weapon.new([2,0,0,0,0,0], "Baseball Bat", [lunge], [20])
 #var knife = Weapon.new([1,1,0,0,0,0], "Pocket Knife", [feuer], [20])

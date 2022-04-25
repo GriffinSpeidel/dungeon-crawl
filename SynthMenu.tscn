@@ -1,0 +1,69 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://SynthMenu.gd" type="Script" id=1]
+
+[node name="SynthMenu" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_right = 1024.0
+margin_bottom = 600.0
+color = Color( 0.113725, 0.113725, 0.113725, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SynthWindow" type="ReferenceRect" parent="."]
+margin_left = 62.0
+margin_top = 32.0
+margin_right = 962.0
+margin_bottom = 205.0
+border_color = Color( 0.568627, 0.568627, 0.568627, 1 )
+editor_only = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SelectionWindow" type="ReferenceRect" parent="."]
+margin_left = 62.0
+margin_top = 213.0
+margin_right = 962.0
+margin_bottom = 559.0
+border_color = Color( 0.568627, 0.568627, 0.568627, 1 )
+editor_only = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Col1" type="ScrollContainer" parent="SelectionWindow"]
+margin_left = 26.0
+margin_top = 16.0
+margin_right = 442.0
+margin_bottom = 330.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Control" type="Control" parent="SelectionWindow/Col1"]
+margin_right = 404.0
+margin_bottom = 314.0
+rect_min_size = Vector2( 404, 314 )
+
+[node name="Col2" type="ScrollContainer" parent="SelectionWindow"]
+margin_left = 458.0
+margin_top = 16.0
+margin_right = 874.0
+margin_bottom = 330.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Control" type="Control" parent="SelectionWindow/Col2"]
+margin_right = 404.0
+margin_bottom = 314.0
+rect_min_size = Vector2( 404, 314 )

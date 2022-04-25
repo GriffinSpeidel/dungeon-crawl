@@ -11,3 +11,4 @@ func _initialize(level, id):
 	.set_hp_mp()
 	self.skills.append(Global.sturm)
 	self.texture = load("res://textures/EnemyHead.png")
+	self.mat_drops = [3, 4, 9]

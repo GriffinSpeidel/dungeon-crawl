@@ -3,7 +3,9 @@ extends Popup
 var party
 var item_buttons
 var Cancel
+var Trash
 var CharButtonContainer
+var SynthMenu
 var unequip_buttons
 var showing_skills
 var skill_windows
@@ -147,6 +149,15 @@ func _on_ItemButton_pressed(item, i, j):
 	$Inventory/ReferenceRect.get_children()[i].add_child(Cancel)
 	Cancel.connect("pressed", self, "enable_item_buttons")
 	
+	Trash = Button.new()
+	Trash.rect_position = Vector2(Cancel.rect_position[0] + 62, 21 * j)
+	Trash.rect_size = Vector2(26, 16)
+	Trash.mouse_default_cursor_shape = 2
+	Trash.enabled_focus_mode = 0
+	Trash.text = "Trash"
+	$Inventory/ReferenceRect.get_children()[i].add_child(Trash)
+	Trash.connect("pressed", self, "trash_item", [item])
+	
 	var char_buttons = []
 	CharButtonContainer = Control.new()
 	CharButtonContainer.rect_position = Vector2(56, 30)
@@ -160,6 +171,11 @@ func _on_ItemButton_pressed(item, i, j):
 		CharButtonContainer.add_child(char_buttons[k])
 		char_buttons[k].connect("pressed", self, "_on_CharButton_pressed", [item, k])
 		char_buttons[k].connect("pressed", self, "enable_item_buttons")
+
+func trash_item(item):
+	get_parent().inventory.erase(item)
+	update_inventory()
+	enable_item_buttons()
 
 func _on_CharButton_pressed(item, i):
 	if item is Equipment:
@@ -249,4 +265,11 @@ func _on_Skill_pressed():
 		$Skill.text = "Hide Skills"
 
 func _on_Synth_pressed():
-	pass # Replace with function body.
+	var synth_menu_res = load("res://SynthMenu.tscn")
+	SynthMenu = synth_menu_res.instance()
+	SynthMenu._initialize(get_parent().materials)
+	add_child(SynthMenu)
+
+func clear_synthesis():
+	if SynthMenu != null:
+		SynthMenu.queue_free()

@@ -12,3 +12,4 @@ func _initialize(level, id):
 	self.skills.append(Global.eis)
 	self.skills.append(Global.feuer)
 	self.texture = load("res://textures/EnemyHead.png")
+	self.mat_drops = [0, 5, 7]

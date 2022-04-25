@@ -1,0 +1,56 @@
+[gd_scene format=2]
+
+[node name="SynthSelection" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_right = 404.0
+margin_bottom = 62.0
+color = Color( 0.113725, 0.113725, 0.113725, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ReferenceRect" type="ReferenceRect" parent="."]
+margin_right = 404.0
+margin_bottom = 62.0
+border_color = Color( 0.568627, 0.568627, 0.568627, 1 )
+editor_only = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Name" type="Label" parent="ReferenceRect"]
+margin_left = 18.0
+margin_top = 9.0
+margin_right = 112.0
+margin_bottom = 23.0
+text = "Weapon Name"
+
+[node name="Select" type="Button" parent="ReferenceRect"]
+margin_left = 18.0
+margin_top = 29.0
+margin_right = 69.0
+margin_bottom = 49.0
+focus_mode = 0
+mouse_default_cursor_shape = 2
+enabled_focus_mode = 0
+text = "Select"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Materials" type="Label" parent="ReferenceRect"]
+margin_left = 164.0
+margin_top = 9.0
+margin_right = 275.0
+margin_bottom = 40.0
+text = "Floating Fabric x2
+Raw Materials x1"
+__meta__ = {
+"_edit_use_anchors_": false
+}

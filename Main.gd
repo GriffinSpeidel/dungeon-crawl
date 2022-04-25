@@ -11,14 +11,21 @@ var encounter_rate
 var location
 var encounter_size_distribution = [1, 1, 2, 2, 2, 3, 4]
 var inventory = []
+var materials = []
 
 func _ready():
+	for i in range(11):
+		materials.append(1)
+	
 	Global.rand.randomize()
 	
 	inventory.append(Consumeable.new("Grapeseed", 4))
 	inventory.append(Consumeable.new("Grapeseed", 4))
 	
-	inventory.append(CraftMaterial.new("Cloth Scrap"))
+	materials[10] += 3
+	materials[3] += 1
+	materials[2] += 1
+	materials[9] += 1
 	
 	inventory.append(Armor.new([0,0,1,0,0,0], "Fancy Suit", [1,1,1,1,1]))
 	inventory.append(Armor.new([0,0,0,0,1,0], "Asbestos Cloak", [1,0.5,2,1,1]))
@@ -60,6 +67,7 @@ func _process(delta):
 	if Input.is_action_just_pressed("ui_cancel") and not battle:
 		if paused:
 			$PauseMenu.clear_skill_windows()
+			$PauseMenu.clear_synthesis()
 			unpause()
 		else:
 			pause()

@@ -3,6 +3,7 @@ extends "res://Creature.gd"
 enum {HEAD, SUIT, PLANT}
 
 var base_stats
+var mat_drops
 
 func is_equal(target):
 	return self.id == target.id
