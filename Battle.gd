@@ -17,6 +17,7 @@ var xp_pool
 var ap_pool
 var item_level
 var max_encounter_len
+var mat_drops
 
 var enemy_res = [preload("res://EnemyHead.tscn")]
 var box_res = load("res://EnemyBox.tscn")
@@ -25,6 +26,9 @@ func _initialize(party):
 	xp_pool = 0
 	ap_pool = 0
 	item_level = 0
+	mat_drops = []
+	for i in range(11):
+		mat_drops.append(0)
 	self.party = party
 	encounter = $EncounterNode.get_children()
 	max_encounter_len = len(encounter)
@@ -182,6 +186,16 @@ func _on_TurnManager_win():
 	EndBattleMenu.add_message("Each party member gained " + str(ap_pool) + "AP for their weapon.")
 	for string in skill_messages:
 		EndBattleMenu.add_message(string)
+	
+	var mat_message = "Got materials:"
+	var add_comma = false
+	for id in range(len(mat_drops)):
+		if mat_drops[id] > 0:
+			mat_message += ", " if add_comma else " "
+			mat_message += Global.material_names[id] + " x" + str(mat_drops[id])
+			add_comma = true
+			get_parent().materials[id] += mat_drops[id]
+	EndBattleMenu.add_message(mat_message)
 	
 	if Global.rand.randf() < 1-(1/(pow(1.3,max_encounter_len))):
 		var item_drop

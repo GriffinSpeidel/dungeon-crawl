@@ -9,6 +9,8 @@ var CharCancel
 var SkillMenu
 var ItemMenu
 var ReapMenu
+var FleeTimer
+var EndBattleTimer
 signal end_battle
 signal update_boxes
 signal win
@@ -102,6 +104,36 @@ func _on_GuardButton_pressed():
 	get_parent().turn_end(active.c_name + " puts up their guard.")
 
 func _on_FleeButton_pressed():
+	get_parent().add_message("Trying to flee...")
+	FleeTimer = Timer.new()
+	FleeTimer.wait_time = 2
+	FleeTimer.one_shot = true
+	FleeTimer.autostart = true
+	FleeTimer.connect("timeout", self, "_on_FleeTimer_timeout")
+	add_child(FleeTimer)
+	$BattleMenu.hide()
+
+func _on_FleeTimer_timeout():
+	FleeTimer.queue_free()
+	var party_agility = 0
+	for c in party:
+		party_agility += c.stats[1]
+	var enemy_agility = 0
+	for e in encounter:
+		enemy_agility += e.stats[1]
+	if Global.rand.randf() < 0.25 * party_agility / enemy_agility:
+		get_parent().add_message("Got away!")
+		EndBattleTimer = Timer.new()
+		EndBattleTimer.wait_time = 0.75
+		EndBattleTimer.one_shot = true
+		EndBattleTimer.autostart = true
+		EndBattleTimer.connect("timeout", self, "_on_EndBattleTimer_timeout")
+		add_child(EndBattleTimer)
+	else:
+		get_parent().turn_end("Couldn't escape!")
+
+func _on_EndBattleTimer_timeout():
+	EndBattleTimer.queue_free()
 	emit_signal("end_battle")
 
 func _on_EButton_pressed(i, s_name, might, element, hit, crit, h_cost, m_cost):
@@ -140,6 +172,15 @@ func check_enemy_hp(message):
 			get_parent().xp_pool += int(max(20 + (e.level - avg_level) * 10, 5))
 			get_parent().ap_pool += e.level
 			get_parent().item_level += e.level
+			
+			var rand_material = Global.rand.randf()
+			var mat_id
+			if rand_material < 0.4:
+				mat_id = e.mat_drops[Global.rand.randi() % len(e.mat_drops)]
+			elif rand_material < 0.8:
+				mat_id = 10
+			get_parent().mat_drops[mat_id] += 1
+			
 			get_parent().remove_from_order(e)
 			encounter.remove(i)
 			e.queue_free()

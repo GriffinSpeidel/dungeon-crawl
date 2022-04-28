@@ -3,8 +3,8 @@ extends Item
 class_name CraftMaterial
 var id
 
-func _init(n, id): # id is specific to the type of material for the sake of crafting
-	g_name = n
+func _init(id): # id is specific to the type of material for the sake of crafting
+	self.g_name = Global.material_names[id]
 	type = 3
 	self.id = id
 

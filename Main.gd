@@ -15,17 +15,12 @@ var materials = []
 
 func _ready():
 	for i in range(11):
-		materials.append(4)
+		materials.append(0)
 	
 	Global.rand.randomize()
 	
 	inventory.append(Consumeable.new("Grapeseed", 4))
 	inventory.append(Consumeable.new("Grapeseed", 4))
-	
-	materials[10] += 3
-	materials[3] += 1
-	materials[2] += 1
-	materials[9] += 1
 	
 	inventory.append(Armor.new([0,0,2,0,0,0], "Bulletproof Vest", [0.5,1,1,1,1]))
 	inventory.append(Armor.new([0,0,0,0,1,0], "Asbestos Cloak", [1,0.5,2,1,1]))

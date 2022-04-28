@@ -9,7 +9,11 @@ func _initialize(level, id):
 	for i in range(len(base_stats)):
 		stats.append(base_stats[i] * (3 + (level - 1) / 3))
 	.set_hp_mp()
-	self.skills.append(Global.lunge)
-	self.skills.append(Global.blitz)
+	if self.level <= 7:
+		self.skills.append(Global.lunge)
+		self.skills.append(Global.blitz)
+	if self.level >= 5:
+		self.skills.append(Global.eviscerate)
+		self.skills.append(Global.blitz_ex)
 	self.texture = load("res://textures/EnemyHead.png")
 	self.mat_drops = [1, 5, 8]

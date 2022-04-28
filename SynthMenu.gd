@@ -3,12 +3,6 @@ extends Control
 var materials
 var inventory
 
-var names = [
-	"Floating Fabric", "Sharp Tooth", "Rancid Sludge", "Cool Herb",
-	"Food Scraps", "Rough Debris", "Liquid Asbestos", "Scratchy Wool",
-	"Stretchy Skin", "Fig Leaf", "Raw Materials"
-]
-
 var weapon_recipes = [
 	[[Weapon, [2,-1,0,0,0,0], "Baseball Bat", [Global.lunge], [20]],
 	[[4, 2], [5, 2], [10, 2]]], # 2 food scrap, 2 debris, 2 raw materials
@@ -19,7 +13,17 @@ var weapon_recipes = [
 	[[Weapon, [0,0,0,1,1,0], "Power Strip", [Global.blitz], [20]],
 	[[2, 2], [10, 2]]], # 2 sludge, 2 raw materials
 	[[Weapon, [1,0,1,0,0,0], "Vacuum", [Global.sturm], [20]],
-	[[0, 2], [10, 2]]] # 2 floating fabric, 2 raw materials
+	[[0, 2], [10, 2]]], # 2 floating fabric, 2 raw materials
+	[[Weapon, [3,-1,1,-1,0,0], "Spiked Club", [Global.eviscerate], [100]],
+	[[4, 6], [5, 6], [10, 8]]], # 2 food scrap, 2 debris, 2 raw materials
+	[[Weapon, [2,2,0,0,0,0], "Ceramic Sword", [Global.feuer_ex], [100]],
+	[[1, 8], [10, 8]]], # 2 teeth, 2 raw materials
+	[[Weapon, [1,0,1,1,1,0], "Freezer", [Global.eis_ex], [100]],
+	[[3, 8], [10, 8]]], # 2 cool herb, 2 raw materials
+	[[Weapon, [-2,-1,0,3,2,0], "Tesla Coil", [Global.blitz_ex], [100]],
+	[[2, 8], [10, 8]]], # 2 sludge, 2 raw materials
+	[[Weapon, [2,0,2,0,0,0], "Leaf Blower", [Global.sturm_ex], [100]],
+	[[0, 8], [10, 8]]] # 2 floating fabric, 2 raw materials
 ]
 
 var armor_recipes = [
@@ -58,7 +62,7 @@ func check_weapons():
 			SynthBox.get_node("ReferenceRect/Name").text = recipe[0][2]
 			var mat_list_string = ""
 			for mat in recipe[1]:
-				mat_list_string += names[mat[0]] + " x" + str(mat[1]) + "\n"
+				mat_list_string += Global.material_names[mat[0]] + " x" + str(mat[1]) + "\n"
 			SynthBox.get_node("ReferenceRect/Materials").text = mat_list_string
 			
 			SynthBox.rect_position = Vector2(1, 62 * num_craftable + 1)
@@ -88,7 +92,7 @@ func check_armor():
 			SynthBox.get_node("ReferenceRect/Name").text = recipe[0][2]
 			var mat_list_string = ""
 			for mat in recipe[1]:
-				mat_list_string += names[mat[0]] + " x" + str(mat[1]) + "\n"
+				mat_list_string += Global.material_names[mat[0]] + " x" + str(mat[1]) + "\n"
 			SynthBox.get_node("ReferenceRect/Materials").text = mat_list_string
 			
 			SynthBox.rect_position = Vector2(1, 62 * num_craftable + 1)
@@ -162,7 +166,7 @@ func show_detail(item, recipe):
 	var synth_valid = true
 	var mat_string = ""
 	for mat in recipe:
-		mat_string += names[mat[0]] + " " + str(materials[mat[0]]) + "/" + str(mat[1]) + "\n"
+		mat_string += Global.material_names[mat[0]] + " " + str(materials[mat[0]]) + "/" + str(mat[1]) + "\n"
 		if synth_valid and materials[mat[0]] < mat[1]:
 			synth_valid = false
 	SynthDetail.get_node("Materials").text = mat_string
