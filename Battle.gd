@@ -1,7 +1,6 @@
 extends Popup
 
 signal end_battle
-signal game_over
 var current
 var next
 var TurnManager
@@ -19,7 +18,7 @@ var item_level
 var max_encounter_len
 var mat_drops
 
-var enemy_res = [preload("res://EnemyHead.tscn")]
+var enemy_res = [preload("res://EnemyHead.tscn"), preload("res://EnemyOoze.tscn"), preload("res://EnemyPlant.tscn"), preload("res://EnemySuit.tscn")]
 var box_res = load("res://EnemyBox.tscn")
 
 func _initialize(party):
@@ -107,7 +106,12 @@ func take_turn():
 			advance_turn()
 
 func game_over():
-	emit_signal("game_over")
+	var game_over_res = load("res://GameOver.tscn")
+	var GameOver = game_over_res.instance()
+	GameOver.rect_position = Vector2(287, 350)
+	GameOver.name = "GameOver"
+	GameOver.get_node("Return").connect("pressed", get_parent(), "_on_Battle_game_over")
+	add_child(GameOver)
 
 func _on_MessageTimer_timeout():
 	MessageTimer.queue_free()
@@ -128,10 +132,6 @@ func turn_end(message):
 	TurnManager.queue_free()
 	advance_turn()
 
-func _on_end_battle(): # once flee code works this shouldnt be necessary anymore
-	TurnManager.queue_free()
-	emit_signal("end_battle")
-
 func update_player_health():
 	var party_boxes = $Control.get_children()
 	for i in range(3):
@@ -141,7 +141,7 @@ func update_player_health():
 		party_boxes[i].get_child(1).get_child(1).text = "HP: " + str(party[i].hp) + "/" + str(party[i].hp_max)
 		party_boxes[i].get_child(1).get_child(2).text = "MP: " + str(party[i].mp) + "/" + str(party[i].mp_max)
 
-func fill_and_draw(res, levels): # 0: Head 1: Suit 2: Plant 3: Ooze
+func fill_and_draw(res, levels): # 0: Head 1: Ooze 2: Plant 3: Suit
 	encounter_res = res
 	for i in range(len(encounter_res)):
 		$EncounterNode.add_child(enemy_res[encounter_res[i]].instance())
@@ -197,15 +197,32 @@ func _on_TurnManager_win():
 			get_parent().materials[id] += mat_drops[id]
 	EndBattleMenu.add_message(mat_message)
 	
-	if Global.rand.randf() < 1-(1/(pow(1.3,max_encounter_len))):
+	if Global.rand.randf() < 1-(1/(pow(1.45,max_encounter_len))):
 		var item_drop
-		item_level += Global.rand.randi() % 5
-		if item_level > 32:
-			item_drop = Consumeable.new("Grape Bunch", 16)
-		elif item_level > 16:
-			item_drop = Consumeable.new("Healing Grape", 8)
+		item_level += Global.rand.randi() % 7
+		var item_type = Global.rand.randf()
+		if item_type < 0.5:
+			if item_level > 32:
+				item_drop = Consumeable.new("Grape Bunch", 16, 0)
+			elif item_level > 16:
+				item_drop = Consumeable.new("Healing Grape", 8, 0)
+			else:
+				item_drop = Consumeable.new("Grapeseed", 4, 0)
+		elif item_type < 0.75:
+			if item_level > 32:
+				item_drop = Consumeable.new("Orange Grove", 10, 1)
+			elif item_level > 16:
+				item_drop = Consumeable.new("Ripe Orange", 6, 1)
+			else:
+				item_drop = Consumeable.new("Orange Slice", 3, 1)
 		else:
-			item_drop = Consumeable.new("Grapeseed", 4)
+			if item_level > 32:
+				item_drop = Consumeable.new("Beastly Energy", 10, 2)
+			elif item_level > 16:
+				item_drop = Consumeable.new("Instant Coffee", 6, 2)
+			else:
+				item_drop = Consumeable.new("Sparky Cola", 3, 2)
+		
 		if len(get_parent().inventory) < 24:
 			get_parent().inventory.append(item_drop)
 			EndBattleMenu.add_message("You got a " + item_drop.g_name + "!")

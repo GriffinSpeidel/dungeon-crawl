@@ -14,13 +14,19 @@ var inventory = []
 var materials = []
 
 func _ready():
+	location = get_node("Floor1")
+	$Player.translation = location.respawn_point
+	$Player.rotation_degrees = location.respawn_rotation
+	
 	for i in range(11):
 		materials.append(0)
 	
 	Global.rand.randomize()
 	
-	inventory.append(Consumeable.new("Grapeseed", 4))
-	inventory.append(Consumeable.new("Grapeseed", 4))
+	inventory.append(Consumeable.new("Grapeseed", 4, 0))
+	inventory.append(Consumeable.new("Grapeseed", 4, 0))
+	inventory.append(Consumeable.new("Orange Slice", 3, 1))
+	inventory.append(Consumeable.new("Instant Coffee", 4, 2))
 	
 	inventory.append(Armor.new([0,0,2,0,0,0], "Bulletproof Vest", [0.5,1,1,1,1]))
 	inventory.append(Armor.new([0,0,0,0,1,0], "Asbestos Cloak", [1,0.5,2,1,1]))
@@ -55,7 +61,6 @@ func _ready():
 	char3.learn_skill(Global.feuer)
 	char3.learn_skill(Global.eis)
 	
-	location = get_node("OfficeGrid")
 	encounter_rate = 0
 
 func _process(delta):
@@ -107,6 +112,8 @@ func unpause():
 func _on_Battle_end_battle():
 	for e in $Battle/EncounterNode.get_children():
 		e.queue_free()
+	for c in party:
+		c.hp = max(c.hp, 1)
 	battle = false
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	$Battle.hide()
@@ -115,9 +122,16 @@ func _on_Battle_end_battle():
 func _on_Battle_game_over():
 	for e in $Battle/EncounterNode.get_children():
 		e.queue_free()
+	$Battle/GameOver.queue_free()
 	battle = false
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	for c in party:
+		c.hp = c.hp_max
+		c.mp = c.mp_max
+		c.experience = 0
+	$Player.translation = location.respawn_point
 	$Battle.hide()
+	$HUD.visible = true
 
 func _on_Player_update_danger_level(): 
 	var j = 0

@@ -175,11 +175,13 @@ func check_enemy_hp(message):
 			
 			var rand_material = Global.rand.randf()
 			var mat_id
-			if rand_material < 0.4:
+			if rand_material < 0.5:
 				mat_id = e.mat_drops[Global.rand.randi() % len(e.mat_drops)]
-			elif rand_material < 0.8:
+			elif rand_material < 0.85:
 				mat_id = 10
-			get_parent().mat_drops[mat_id] += 1
+			if mat_id != null:
+				var n_dist = [1, 2, 2, 3]
+				get_parent().mat_drops[mat_id] += n_dist[Global.rand.randi() % len(n_dist)]
 			
 			get_parent().remove_from_order(e)
 			encounter.remove(i)
@@ -234,14 +236,16 @@ func get_character(item):
 	add_child(CButtons)
 	character_buttons = []
 	for i in range(3):
-		if party[i].hp > 0:
-			character_buttons.append(Button.new())
-			character_buttons[i].rect_position = Vector2(300 * i, 0)
-			character_buttons[i].mouse_default_cursor_shape = 2
-			character_buttons[i].enabled_focus_mode = 0
-			character_buttons[i].icon = load("res://textures/Face1.png")
-			character_buttons[i].connect("pressed", self, "_on_CButton_pressed", [item, i])
-			#                                                                item selected, character selected
+		character_buttons.append(Button.new())
+		character_buttons[i].rect_position = Vector2(300 * i, 0)
+		character_buttons[i].mouse_default_cursor_shape = 2
+		character_buttons[i].enabled_focus_mode = 0
+		character_buttons[i].icon = load("res://textures/Face1.png")
+		character_buttons[i].connect("pressed", self, "_on_CButton_pressed", [item, i])
+		#                                                                item selected, character selected
+		if item.variety != 2 and party[i].hp > 0:
+			CButtons.add_child(character_buttons[i])
+		elif item.variety == 2 and party[i].hp <= 0:
 			CButtons.add_child(character_buttons[i])
 	CharCancel = Button.new()
 	add_child(CharCancel)

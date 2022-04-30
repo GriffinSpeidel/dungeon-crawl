@@ -168,7 +168,8 @@ func _on_ItemButton_pressed(item, i, j):
 		char_buttons[k].rect_position = Vector2(300 * k, 0)
 		char_buttons[k].mouse_default_cursor_shape = 2
 		char_buttons[k].enabled_focus_mode = 0
-		CharButtonContainer.add_child(char_buttons[k])
+		if item.variety != 2:
+			CharButtonContainer.add_child(char_buttons[k])
 		char_buttons[k].connect("pressed", self, "_on_CharButton_pressed", [item, k])
 		char_buttons[k].connect("pressed", self, "enable_item_buttons")
 
@@ -196,6 +197,8 @@ func _on_CharButton_pressed(item, i):
 func enable_item_buttons():
 	if typeof(Cancel) != TYPE_NIL:
 		Cancel.queue_free()
+	if typeof(Trash) != TYPE_NIL:
+		Trash.queue_free()
 	for col in item_buttons:
 		for button in col:
 			button.disabled = false
@@ -227,6 +230,8 @@ class CustomSorter:
 		if a.type != b.type:
 			return a.type < b.type
 		if a.type == 2:
+			if a.variety != b.variety:
+				return a.variety < b.variety
 			return a.freshness < b.freshness
 		return a.g_name < b.g_name
 
