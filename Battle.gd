@@ -15,10 +15,12 @@ var live_party_members = []
 var xp_pool
 var ap_pool
 var item_level
+var encounter_len
 var max_encounter_len
 var mat_drops
+var is_boss
 
-var enemy_res = [preload("res://EnemyHead.tscn"), preload("res://EnemyOoze.tscn"), preload("res://EnemyPlant.tscn"), preload("res://EnemySuit.tscn")]
+var enemy_res = [preload("res://EnemyHead.tscn"), preload("res://EnemyOoze.tscn"), preload("res://EnemyPlant.tscn"), preload("res://EnemySuit.tscn"), preload("res://EnemyGremlin.tscn"), preload("res://EnemyKing.tscn")]
 var box_res = load("res://EnemyBox.tscn")
 
 func _initialize(party):
@@ -29,8 +31,8 @@ func _initialize(party):
 	for i in range(11):
 		mat_drops.append(0)
 	self.party = party
-	encounter = $EncounterNode.get_children()
 	max_encounter_len = len(encounter)
+	encounter_len = max_encounter_len
 	update_player_health()
 	choose_order()
 	order_i = 0
@@ -40,7 +42,6 @@ func _initialize(party):
 			live_party_members.append(c)
 
 func choose_order():
-	encounter = $EncounterNode.get_children()
 	order = []
 	var i = 0
 	for e in encounter:
@@ -85,6 +86,7 @@ func take_turn():
 		TurnManager.get_node("BattleMenu").rect_position = Vector2(100 + 300 * current, 350)
 		TurnManager.connect("end_battle", self, "_on_TurnManager_end_battle")
 		TurnManager.connect("update_boxes", self, "_on_TurnManager_update_boxes")
+		TurnManager.connect("decrease_encounter", self, "_on_TurnManager_decrease_encounter")
 		TurnManager.connect("win", self, "_on_TurnManager_win")
 		
 	else: # enemy turn
@@ -97,7 +99,7 @@ func take_turn():
 		elif is_instance_valid(order[order_i][0]):
 			add_message(order[order_i][0].act(live_party_members))
 			update_player_health()
-			update_enemy_health_box(order[order_i][0].id - 1)
+			update_enemy_health_box()
 			MessageTimer = Timer.new()
 			MessageTimer.autostart = true
 			add_child(MessageTimer)
@@ -142,27 +144,32 @@ func update_player_health():
 		party_boxes[i].get_child(1).get_child(1).text = "HP: " + str(party[i].hp) + "/" + str(party[i].hp_max)
 		party_boxes[i].get_child(1).get_child(2).text = "MP: " + str(party[i].mp) + "/" + str(party[i].mp_max)
 
-func fill_and_draw(res, levels): # 0: Head 1: Ooze 2: Plant 3: Suit
+func fill_and_draw(res, levels, is_boss): # 0: Head 1: Ooze 2: Plant 3: Suit
+	encounter = []
+	self.is_boss = is_boss
 	encounter_res = res
 	for i in range(len(encounter_res)):
 		$EncounterNode.add_child(enemy_res[encounter_res[i]].instance())
+		encounter.append($EncounterNode.get_child(i))
 		$EncounterNode.get_child(i)._initialize(levels[i], i + 1) # level, index
 		var box = box_res.instance()
 		box.get_node("Sprite").texture = $EncounterNode.get_child(i).texture
 		$EncounterNode.get_child(i).add_child(box)
-		update_enemy_health_box(i)
+		update_enemy_health_box()
 		$EncounterNode.get_child(i).get_child(0).rect_position = Vector2(412 - 110 * (len(encounter_res) - 1) + i * 220, 100)
 
 func _on_TurnManager_update_boxes():
-	encounter = $EncounterNode.get_children()
-	var l = len(encounter)
-	for i in range(l):
-		$EncounterNode.get_child(i).get_child(0).rect_position = Vector2(412 - 110 * (l - 1) + i * 220, 100)
+	for i in range(len(encounter)):
+		encounter[i].get_child(0).rect_position = Vector2(412 - 110 * (encounter_len - 1) + i * 220, 100)
 
-func update_enemy_health_box(i):
-	var box_i = $EncounterNode.get_child(i).get_child(0)
-	box_i.get_child(1).text = $EncounterNode.get_child(i).c_name + ' ' + str($EncounterNode.get_child(i).id) + ' lvl.' + str($EncounterNode.get_child(i).level)
-	box_i.get_child(2).rect_size.x = float($EncounterNode.get_child(i).hp) / $EncounterNode.get_child(i).hp_max * 172
+func _on_TurnManager_decrease_encounter():
+	encounter_len -= 1
+
+func update_enemy_health_box():
+	for i in range(len(encounter)):
+		var box_i = $EncounterNode.get_child(i).get_child(0)
+		box_i.get_child(1).text = $EncounterNode.get_child(i).c_name + ' ' + str($EncounterNode.get_child(i).id) + ' lvl.' + str($EncounterNode.get_child(i).level)
+		box_i.get_child(2).rect_size.x = float($EncounterNode.get_child(i).hp) / $EncounterNode.get_child(i).hp_max * 172
 
 func _on_TurnManager_win():
 	if TurnManager != null:
@@ -204,23 +211,23 @@ func _on_TurnManager_win():
 		item_level += Global.rand.randi() % 7
 		var item_type = Global.rand.randf()
 		if item_type < 0.5:
-			if item_level > 32:
+			if item_level > 24:
 				item_drop = Consumeable.new("Grape Bunch", 16, 0, false)
-			elif item_level > 16:
+			elif item_level > 12:
 				item_drop = Consumeable.new("Healing Grape", 8, 0, false)
 			else:
 				item_drop = Consumeable.new("Grapeseed", 4, 0, false)
 		elif item_type < 0.75:
-			if item_level > 32:
+			if item_level > 24:
 				item_drop = Consumeable.new("Orange Grove", 10, 1, false)
-			elif item_level > 16:
+			elif item_level > 12:
 				item_drop = Consumeable.new("Ripe Orange", 6, 1, false)
 			else:
 				item_drop = Consumeable.new("Orange Slice", 3, 1, false)
 		else:
-			if item_level > 32:
+			if item_level > 24:
 				item_drop = Consumeable.new("Beastly Energy", 10, 2, false)
-			elif item_level > 16:
+			elif item_level > 12:
 				item_drop = Consumeable.new("Instant Coffee", 6, 2, false)
 			else:
 				item_drop = Consumeable.new("Sparky Cola", 3, 2, false)

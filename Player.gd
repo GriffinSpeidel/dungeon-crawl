@@ -59,7 +59,7 @@ func process_input():
 		y_vel = MAX_FALL_SPEED
 
 func _input(event):
-	if event is InputEventMouseMotion and Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
+	if event is InputEventMouseMotion and Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED and not get_parent().game_finished:
 		rotation_helper.rotate_x(deg2rad(event.relative.y * mouse_sensitivity * -1))
 		self.rotate_y(deg2rad(event.relative.x * mouse_sensitivity * -1))
 		get_parent().get_node("HUD/Heading").text = "Heading: " + str(int(rotation_degrees[1]) + 180)

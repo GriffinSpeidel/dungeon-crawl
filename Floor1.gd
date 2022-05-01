@@ -18,3 +18,4 @@ func _ready():
 
 func _on_ToFloor2_body_entered(body):
 	emit_signal("go_to_floor", "res://Floor2.tscn", Vector3(11, 1.01, 11), Vector3(0, 90, 0))
+

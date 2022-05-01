@@ -13,10 +13,11 @@ var FleeTimer
 var EndBattleTimer
 signal end_battle
 signal update_boxes
+signal decrease_encounter
 signal win
 
 func _ready():
-	encounter = get_parent().get_node("EncounterNode").get_children()
+	encounter = get_parent().encounter
 	party = get_parent().get_parent().party
 	active = party[get_parent().current]
 
@@ -24,7 +25,6 @@ func _on_StrikeButton_pressed():
 	get_target(1, "Strike", Global.PHYS, 0.9, 0.05, 0, 0)
 
 func get_target(might, s_name, type, hit, crit, h_cost, m_cost):
-	encounter = get_parent().get_node("EncounterNode").get_children()
 	var enemy_buttons = []
 	$BattleMenu.hide()
 	if has_node("SkillMenu"):
@@ -121,7 +121,9 @@ func _on_FleeTimer_timeout():
 	var enemy_agility = 0
 	for e in encounter:
 		enemy_agility += e.stats[1]
-	if Global.rand.randf() < 0.25 * party_agility / enemy_agility:
+	if get_parent().is_boss:
+		get_parent().turn_end("There's no escaping destiny!")
+	elif Global.rand.randf() < 0.25 * party_agility / enemy_agility:
 		get_parent().add_message("Got away!")
 		EndBattleTimer = Timer.new()
 		EndBattleTimer.wait_time = 0.75
@@ -142,7 +144,7 @@ func _on_EButton_pressed(i, s_name, might, element, hit, crit, h_cost, m_cost):
 		var message = attack_result[0]
 		active.hp -= int(active.hp_max * h_cost)
 		active.mp -= m_cost
-		get_parent().update_enemy_health_box(i)
+		get_parent().update_enemy_health_box()
 		get_parent().update_player_health()
 		if attack_result[1]:
 			var reap_res = load("res://Reap.tscn")
@@ -182,10 +184,11 @@ func check_enemy_hp(message):
 			if mat_id != null:
 				var n_dist = [1, 2, 2, 3]
 				get_parent().mat_drops[mat_id] += n_dist[Global.rand.randi() % len(n_dist)]
-			
 			get_parent().remove_from_order(e)
 			encounter.remove(i)
 			e.queue_free()
+			emit_signal("decrease_encounter")
+			emit_signal("update_boxes")
 		i += 1
 	if len(encounter) == 0:
 		get_parent().add_message(message)

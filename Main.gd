@@ -12,9 +12,11 @@ var location
 var encounter_size_distribution = [1, 1, 2, 2, 2, 3, 4]
 var inventory = []
 var materials = []
+var game_finished
 
 func _ready():
-	location = get_node("Floor1")
+	game_finished = false
+	location = get_node("Floor5")
 	prepare_location()
 	$Player.translation = location.respawn_point
 	$Player.rotation_degrees = location.respawn_rotation
@@ -61,6 +63,7 @@ func _ready():
 
 func prepare_location():
 	location.connect("go_to_floor", self, "on_Pickup_go_to_floor")
+	location.connect("start_boss", self, "start_boss")
 
 func on_Pickup_go_to_floor(new_floor, translation, rotation):
 	location.queue_free()
@@ -74,7 +77,7 @@ func on_Pickup_go_to_floor(new_floor, translation, rotation):
 	prepare_location()
 
 func _process(delta):
-	if Input.is_action_just_pressed("ui_cancel") and not battle:
+	if Input.is_action_just_pressed("ui_cancel") and not battle and not game_finished:
 		if paused:
 			$PauseMenu.clear_skill_windows()
 			$PauseMenu.clear_synthesis()
@@ -82,17 +85,8 @@ func _process(delta):
 		else:
 			pause()
 
-func _on_OfficeGrid_pickup():
-	#var level = get_node("OfficeGrid")
-	#$OfficeGrid.queue_free()
-	#var next_level_resource = load("res://Office2.tscn")
-	#var next_level = next_level_resource.instance()
-	#add_child(next_level)
-	#next_level.connect("pickup2", self, "_on_Office2_pickup")
-	start_encounter([0], [1])
-
-func start_encounter(e_res, e_level):
-	$Battle.fill_and_draw(e_res, e_level)
+func start_encounter(e_res, e_level, is_boss):
+	$Battle.fill_and_draw(e_res, e_level, is_boss)
 	$Battle/BattleMessage.clear_messages()
 	# begin battle
 	battle = true
@@ -101,8 +95,25 @@ func start_encounter(e_res, e_level):
 	$Battle.show()
 	$HUD.hide()
 
-func _on_Office2_pickup():
-	pass
+func start_boss():
+	start_encounter([5], [12], true)
+	$Battle.connect("end_battle", self, "_on_Battle_win_boss")
+
+func _on_Battle_win_boss():
+	var end_screen_res = load("res://EndGameScreen.tscn")
+	var EndScreen = end_screen_res.instance()
+	add_child(EndScreen)
+	$HUD.queue_free()
+	$PauseMenu.queue_free()
+	$Battle.queue_free()
+	$Player.queue_free()
+	game_finished = true
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	$EndGameScreen/ReferenceRect/Button.connect("pressed", self, "close_game")
+	
+
+func close_game():
+	get_tree().quit()
 
 func pause():
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
@@ -125,11 +136,14 @@ func _on_Battle_end_battle():
 	for c in party:
 		c.hp = max(c.hp, 1)
 	battle = false
-	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	if not $Battle.is_boss:
+		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	$Battle.hide()
 	$HUD.visible = true
 
 func _on_Battle_game_over():
+	if $Battle.is_connected("end_battle", self, "_on_Battle_win_boss"):
+		$Battle.disconnect("end_battle", self, "_on_Battle_win_boss")
 	for e in $Battle/EncounterNode.get_children():
 		e.queue_free()
 	$Battle/GameOver.queue_free()
@@ -163,4 +177,4 @@ func _on_Player_update_danger_level():
 		for i in range(encounter_size):
 			encounter.append(location.encounter_table[Global.rand.randi() % len(location.encounter_table)])
 			encounter_levels.append(location.encounter_levels[Global.rand.randi() % len(location.encounter_levels)])
-		start_encounter(encounter, encounter_levels)
+		start_encounter(encounter, encounter_levels, false)
