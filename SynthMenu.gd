@@ -71,6 +71,27 @@ func check_weapons():
 			SynthBox.get_node("ReferenceRect/Select").connect("pressed", self, "show_detail", [recipe[0], recipe[1]])
 			
 			num_craftable += 1
+	
+	var show_excalibur = true
+	for mat in materials.slice(0, 5):
+		if mat < 12:
+			show_excalibur = false
+			break
+	if show_excalibur:
+		var SynthBox = selection_box_res.instance()
+		SynthBox.get_node("ReferenceRect/Name").text = "Excalibur"
+		var mat_list_string = ""
+		for mat in [12, 12, 12, 12, 12, 12]:
+			mat_list_string += Global.material_names[mat[0]] + " x" + str(mat[1]) + "\n"
+		SynthBox.get_node("ReferenceRect/Materials").text = mat_list_string
+		
+		SynthBox.rect_position = Vector2(1, 62 * num_craftable + 1)
+		$SelectionWindow/Col1/Control.add_child(SynthBox)
+		
+		SynthBox.get_node("ReferenceRect/Select").connect("pressed", self, "show_detail", [recipe[0], recipe[1]])
+		
+		num_craftable += 1
+	
 	$SelectionWindow/Col1/Control.rect_min_size = Vector2(404, 62 * num_craftable + 4)
 	if num_craftable == 0:
 		var NoCraftLabel = Label.new()

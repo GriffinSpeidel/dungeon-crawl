@@ -17,6 +17,7 @@ var feuer_ex = Skill.new("Feuer EX", 1.6, FIRE, Skill.NONE, .9, 0, Skill.SINGLE,
 var eis_ex = Skill.new("Eis EX", 1.6, ICE, Skill.NONE, .9, 0, Skill.SINGLE, 8, 0)
 var blitz_ex = Skill.new("Blitz EX", 1.6, LIT, Skill.NONE, .9, 0, Skill.SINGLE, 8, 0)
 var sturm_ex = Skill.new("Sturm EX", 1.6, WIND, Skill.NONE, .9, 0, Skill.SINGLE, 8, 0)
+var smite = Skill.new("Divine Smite", 2.3, PHYS, Skill.NONE, 1, .5, Skill.SINGLE, 16, 0)
 
 var material_names = ["Floating Fabric", "Sharp Tooth", "Rancid Sludge", "Cool Herb", "Food Scraps", "Rough Debris", "Liquid Asbestos", "Scratchy Wool", "Stretchy Skin", "Fig Leaf", "Raw Materials"]
 

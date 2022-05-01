@@ -97,6 +97,7 @@ func take_turn():
 		elif is_instance_valid(order[order_i][0]):
 			add_message(order[order_i][0].act(live_party_members))
 			update_player_health()
+			update_enemy_health_box(order[order_i][0].id - 1)
 			MessageTimer = Timer.new()
 			MessageTimer.autostart = true
 			add_child(MessageTimer)

@@ -101,7 +101,7 @@ func clear_ItemMenu():
 
 func _on_GuardButton_pressed():
 	active.guarding = true
-	get_parent().turn_end(active.c_name + " puts up their guard.")
+	get_parent().turn_end(active.c_name + " puts up " + ("her" if get_parent().current == 0 else "his") + " guard.")
 
 func _on_FleeButton_pressed():
 	get_parent().add_message("Trying to flee...")
