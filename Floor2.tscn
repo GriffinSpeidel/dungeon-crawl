@@ -18,4 +18,8 @@ __meta__ = {
 [node name="ToFloor1" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 1, 11 )
 
+[node name="ToFloor3" parent="." instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 1, -9 )
+
 [connection signal="body_entered" from="ToFloor1" to="." method="_on_ToFloor1_body_entered"]
+[connection signal="body_entered" from="ToFloor3" to="." method="_on_ToFloor3_body_entered"]

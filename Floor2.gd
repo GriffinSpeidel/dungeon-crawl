@@ -18,4 +18,8 @@ func _ready():
 
 
 func _on_ToFloor1_body_entered(body):
-	emit_signal("go_to_floor", "res://Floor1.tscn", Vector3(11, 1.01, 11), Vector3(0, 90, 0))
+	emit_signal("go_to_floor", "res://Floor1.tscn", Vector3(9, 1.01, 11), Vector3(0, 90, 0))
+
+
+func _on_ToFloor3_body_entered(body):
+	emit_signal("go_to_floor", "res://Floor3.tscn", Vector3(-15, 1.01, -15), Vector3(0, -90, 0))

@@ -62,6 +62,7 @@ func _input(event):
 	if event is InputEventMouseMotion and Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
 		rotation_helper.rotate_x(deg2rad(event.relative.y * mouse_sensitivity * -1))
 		self.rotate_y(deg2rad(event.relative.x * mouse_sensitivity * -1))
+		get_parent().get_node("HUD/Heading").text = "Heading: " + str(int(rotation_degrees[1]) + 180)
 		
 		var camera_rot = rotation_helper.rotation_degrees
 		camera_rot.x = clamp(camera_rot.x, -70, 70)

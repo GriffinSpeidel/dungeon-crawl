@@ -39,6 +39,13 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Heading" type="Label" parent="HUD"]
+margin_top = 10.0
+margin_right = 1024.0
+margin_bottom = 24.0
+text = "Heading:"
+align = 1
+
 [node name="Player" parent="." instance=ExtResource( 2 )]
 transform = Transform( 0.347, 0, 0, 0, 0.977, 0, 0, 0, 0.252, -13, 1.01, -9 )
 

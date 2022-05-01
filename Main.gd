@@ -18,6 +18,7 @@ func _ready():
 	prepare_location()
 	$Player.translation = location.respawn_point
 	$Player.rotation_degrees = location.respawn_rotation
+	$HUD/Heading.text = "Heading: " + str(int($Player.rotation_degrees[1]) + 180)
 	
 	for i in range(11):
 		materials.append(0)
@@ -63,12 +64,12 @@ func prepare_location():
 
 func on_Pickup_go_to_floor(new_floor, translation, rotation):
 	location.queue_free()
-	var new_floor_res = load(new_floor)
-	var NewFloor = new_floor_res.instance()
-	add_child(NewFloor)
-	location = NewFloor
 	$Player.translation = translation
 	$Player.rotation_degrees = rotation
+	var new_floor_res = load(new_floor)
+	var NewFloor = new_floor_res.instance()
+	location = NewFloor
+	add_child(NewFloor)
 	$HUD/Floor.text = location.l_name
 	prepare_location()
 
@@ -153,7 +154,7 @@ func _on_Player_update_danger_level():
 		j += 1
 	encounter_rate += 0.05 * Global.encounter_rate_scale
 	$HUD/Danger.text = "Danger Level: " + str(min(encounter_rate * 200 / Global.encounter_rate_scale, 100)) + "%"
-	if Global.rand.randf() < encounter_rate:
+	if false and Global.rand.randf() < encounter_rate:
 		encounter_rate = 0
 		$HUD/Danger.text = "Danger Level: " + str(min(encounter_rate * 200 / Global.encounter_rate_scale, 100)) + "%"
 		var encounter = []

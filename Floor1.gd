@@ -12,7 +12,7 @@ signal go_to_floor
 func _ready():
 	encounter_table = [0, 3]
 	encounter_levels = [1, 1, 1, 2]
-	respawn_point = Vector3(-11, 1.01, -9)
+	respawn_point = Vector3(-13, 1.01, -9)
 	respawn_rotation = Vector3(0, -90, 0)
 	l_name = "Floor 1"
 
