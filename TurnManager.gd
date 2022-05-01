@@ -240,7 +240,7 @@ func get_character(item):
 		character_buttons[i].rect_position = Vector2(300 * i, 0)
 		character_buttons[i].mouse_default_cursor_shape = 2
 		character_buttons[i].enabled_focus_mode = 0
-		character_buttons[i].icon = load("res://textures/Face1.png")
+		character_buttons[i].icon = party[i].texture
 		character_buttons[i].connect("pressed", self, "_on_CButton_pressed", [item, i])
 		#                                                                item selected, character selected
 		if item.variety != 2 and party[i].hp > 0:

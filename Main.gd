@@ -15,6 +15,7 @@ var materials = []
 
 func _ready():
 	location = get_node("Floor1")
+	prepare_location()
 	$Player.translation = location.respawn_point
 	$Player.rotation_degrees = location.respawn_rotation
 	
@@ -23,45 +24,53 @@ func _ready():
 	
 	Global.rand.randomize()
 	
-	inventory.append(Consumeable.new("Grapeseed", 4, 0))
-	inventory.append(Consumeable.new("Grapeseed", 4, 0))
-	inventory.append(Consumeable.new("Orange Slice", 3, 1))
-	inventory.append(Consumeable.new("Instant Coffee", 4, 2))
-	
-	inventory.append(Armor.new([0,0,2,0,0,0], "Bulletproof Vest", [0.5,1,1,1,1]))
-	inventory.append(Armor.new([0,0,0,0,1,0], "Asbestos Cloak", [1,0.5,2,1,1]))
-	
-	inventory.append(Weapon.new([1,0,0,1,0,0], "Icebox", [Global.eis], [20]))
-	inventory.append(Weapon.new([0,0,0,1,1,0], "Power Strip", [Global.blitz], [20]))
+	inventory.append(Consumeable.new("Grapeseed", 4, 0, true))
+	inventory.append(Consumeable.new("Grapeseed", 4, 0, true))
+	inventory.append(Consumeable.new("Orange Slice", 3, 1, true))
+	inventory.append(Consumeable.new("Instant Coffee", 4, 2, true))
 	
 	var character_resource = load("res://Character.tscn")
+	
 	char1 = character_resource.instance()
 	party.append(char1)
 	$PartyNode.add_child(char1)
-	char1._initialize("foop", "res://textures/Face1.png")
-	char1.learn_skill(Global.lunge)
-	char1.learn_skill(Global.feuer)
-	char1.learn_skill(Global.sturm)
+	char1._initialize("Maya", "res://textures/Maya.png")
 	char1.learn_skill(Global.blitz)
-	
-	char1.equip(Weapon.new([2,-1,0,0,0,0], "Baseball Bat", [Global.lunge], [20]))
+	char1.equip(Weapon.new([0,0,0,1,0,0], "Extension Cord", [Global.blitz_ex], [50]))
 	
 	char2 = character_resource.instance()
 	party.append(char2)
 	$PartyNode.add_child(char2)
-	char2._initialize("shoop", "res://textures/Face1.png")
-	char2.learn_skill(Global.feuer)
-	
-	char2.equip(Armor.new([0,0,1,0,0,0], "Winter Coat", [1,2,0.5,1,1]))
+	char2._initialize("Jin", "res://textures/Jin.png")
+	char2.learn_skill(Global.lunge)
+	char2.equip(Weapon.new([1,0,0,0,0,0], "Autographed Bat", [Global.eviscerate], [50]))
 	
 	char3 = character_resource.instance()
 	party.append(char3)
 	$PartyNode.add_child(char3)
-	char3._initialize("woop", "res://textures/Face1.png")
-	char3.learn_skill(Global.feuer)
-	char3.learn_skill(Global.eis)
+	char3._initialize("Carlos", "res://textures/Carlos.png")
+	char3.learn_skill(Global.sturm)
+	char3.equip(Weapon.new([0,0,1,0,0,0], "Industrial Vacuum", [Global.sturm_ex], [50]))
+	
+	for c in party:
+		c.hp = c.hp_max
+		c.mp = c.mp_max
 	
 	encounter_rate = 0
+
+func prepare_location():
+	location.connect("go_to_floor", self, "on_Pickup_go_to_floor")
+
+func on_Pickup_go_to_floor(new_floor, translation, rotation):
+	location.queue_free()
+	var new_floor_res = load(new_floor)
+	var NewFloor = new_floor_res.instance()
+	add_child(NewFloor)
+	location = NewFloor
+	$Player.translation = translation
+	$Player.rotation_degrees = rotation
+	$HUD/Floor.text = location.l_name
+	prepare_location()
 
 func _process(delta):
 	if Input.is_action_just_pressed("ui_cancel") and not battle:
@@ -130,6 +139,7 @@ func _on_Battle_game_over():
 		c.mp = c.mp_max
 		c.experience = 0
 	$Player.translation = location.respawn_point
+	$Player.rotation_degrees = location.respawn_rotation
 	$Battle.hide()
 	$HUD.visible = true
 
@@ -142,10 +152,10 @@ func _on_Player_update_danger_level():
 				inventory.remove(j)
 		j += 1
 	encounter_rate += 0.05 * Global.encounter_rate_scale
-	$HUD/Label.text = "Danger Level: " + str(min(encounter_rate * 200 / Global.encounter_rate_scale, 100)) + "%"
+	$HUD/Danger.text = "Danger Level: " + str(min(encounter_rate * 200 / Global.encounter_rate_scale, 100)) + "%"
 	if Global.rand.randf() < encounter_rate:
 		encounter_rate = 0
-		$HUD/Label.text = "Danger Level: " + str(min(encounter_rate * 200 / Global.encounter_rate_scale, 100)) + "%"
+		$HUD/Danger.text = "Danger Level: " + str(min(encounter_rate * 200 / Global.encounter_rate_scale, 100)) + "%"
 		var encounter = []
 		var encounter_levels = []
 		var encounter_size = encounter_size_distribution[Global.rand.randi() % len(encounter_size_distribution)]

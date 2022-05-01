@@ -7,11 +7,11 @@ func _initialize(level, id):
 	base_stats = [0.77, 0.5, 1, 1.3, 2, 1]
 	self.c_name = "Crawling Plant"
 	for i in range(len(base_stats)):
-		stats.append(base_stats[i] * (3 + (level - 1) / 3))
+		stats.append(base_stats[i] * (3 + (level - 1) / 6))
 	.set_hp_mp()
 	if self.level <= 7:
 		self.skills.append(Global.sturm)
 	if self.level >= 5:
 		self.skills.append(Global.sturm_ex)
-	self.texture = load("res://textures/EnemyHead.png")
+	self.texture = load("res://textures/Plant.png")
 	self.mat_drops = [3, 4, 9]

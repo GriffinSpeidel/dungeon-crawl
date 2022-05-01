@@ -83,7 +83,7 @@ func take_turn():
 		TurnManager = manager_res.instance()
 		add_child(TurnManager)
 		TurnManager.get_node("BattleMenu").rect_position = Vector2(100 + 300 * current, 350)
-		TurnManager.connect("end_battle", self, "_on_end_battle")
+		TurnManager.connect("end_battle", self, "_on_TurnManager_end_battle")
 		TurnManager.connect("update_boxes", self, "_on_TurnManager_update_boxes")
 		TurnManager.connect("win", self, "_on_TurnManager_win")
 		
@@ -147,6 +147,7 @@ func fill_and_draw(res, levels): # 0: Head 1: Ooze 2: Plant 3: Suit
 		$EncounterNode.add_child(enemy_res[encounter_res[i]].instance())
 		$EncounterNode.get_child(i)._initialize(levels[i], i + 1) # level, index
 		var box = box_res.instance()
+		box.get_node("Sprite").texture = $EncounterNode.get_child(i).texture
 		$EncounterNode.get_child(i).add_child(box)
 		update_enemy_health_box(i)
 		$EncounterNode.get_child(i).get_child(0).rect_position = Vector2(412 - 110 * (len(encounter_res) - 1) + i * 220, 100)
@@ -203,25 +204,25 @@ func _on_TurnManager_win():
 		var item_type = Global.rand.randf()
 		if item_type < 0.5:
 			if item_level > 32:
-				item_drop = Consumeable.new("Grape Bunch", 16, 0)
+				item_drop = Consumeable.new("Grape Bunch", 16, 0, false)
 			elif item_level > 16:
-				item_drop = Consumeable.new("Healing Grape", 8, 0)
+				item_drop = Consumeable.new("Healing Grape", 8, 0, false)
 			else:
-				item_drop = Consumeable.new("Grapeseed", 4, 0)
+				item_drop = Consumeable.new("Grapeseed", 4, 0, false)
 		elif item_type < 0.75:
 			if item_level > 32:
-				item_drop = Consumeable.new("Orange Grove", 10, 1)
+				item_drop = Consumeable.new("Orange Grove", 10, 1, false)
 			elif item_level > 16:
-				item_drop = Consumeable.new("Ripe Orange", 6, 1)
+				item_drop = Consumeable.new("Ripe Orange", 6, 1, false)
 			else:
-				item_drop = Consumeable.new("Orange Slice", 3, 1)
+				item_drop = Consumeable.new("Orange Slice", 3, 1, false)
 		else:
 			if item_level > 32:
-				item_drop = Consumeable.new("Beastly Energy", 10, 2)
+				item_drop = Consumeable.new("Beastly Energy", 10, 2, false)
 			elif item_level > 16:
-				item_drop = Consumeable.new("Instant Coffee", 6, 2)
+				item_drop = Consumeable.new("Instant Coffee", 6, 2, false)
 			else:
-				item_drop = Consumeable.new("Sparky Cola", 3, 2)
+				item_drop = Consumeable.new("Sparky Cola", 3, 2, false)
 		
 		if len(get_parent().inventory) < 24:
 			get_parent().inventory.append(item_drop)
@@ -230,6 +231,9 @@ func _on_TurnManager_win():
 			EndBattleMenu.add_message("The enemy dropped a " + item_drop.g_name + ", but your inventory is full.")
 	
 	check_level_up()
+
+func _on_TurnManager_end_battle():
+	emit_signal("end_battle")
 
 func _on_EndBattleMenu_close():
 	EndBattleMenu.queue_free()

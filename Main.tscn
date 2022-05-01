@@ -17,7 +17,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="HUD"]
+[node name="Danger" type="Label" parent="HUD"]
 margin_left = 20.0
 margin_top = 10.0
 margin_right = 349.0
@@ -27,8 +27,20 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Floor" type="Label" parent="HUD"]
+margin_left = 960.0
+margin_top = 10.0
+margin_right = 1004.0
+margin_bottom = 41.0
+grow_horizontal = 0
+text = "Floor 1"
+align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Player" parent="." instance=ExtResource( 2 )]
-transform = Transform( -1.51679e-08, 0, -0.252, 0, 0.977, 0, 0.347, 0, -1.10153e-08, -13, 1.01, -9 )
+transform = Transform( 0.347, 0, 0, 0, 0.977, 0, 0, 0, 0.252, -13, 1.01, -9 )
 
 [node name="Floor1" parent="." instance=ExtResource( 1 )]
 data = {

@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://textures/Face1.png" type="Texture" id=1]
+[ext_resource path="res://textures/Carlos.png" type="Texture" id=1]
 [ext_resource path="res://PauseMenu.gd" type="Script" id=2]
+[ext_resource path="res://textures/Maya.png" type="Texture" id=3]
+[ext_resource path="res://textures/Jin.png" type="Texture" id=4]
 
 [node name="PauseMenu" type="Popup"]
 anchor_right = 1.0
@@ -33,11 +35,6 @@ editor_only = false
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="Sprite" type="Sprite" parent="Portraits/Char1Rect"]
-position = Vector2( 0, 1 )
-texture = ExtResource( 1 )
-centered = false
 
 [node name="NameLabel" type="Label" parent="Portraits/Char1Rect"]
 margin_left = 126.0
@@ -79,6 +76,11 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Sprite" type="Sprite" parent="Portraits/Char1Rect"]
+texture = ExtResource( 3 )
+centered = false
+offset = Vector2( 1, 1 )
+
 [node name="Char2Rect" type="ReferenceRect" parent="Portraits"]
 margin_left = 300.0
 margin_right = 600.0
@@ -88,11 +90,6 @@ editor_only = false
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="Sprite" type="Sprite" parent="Portraits/Char2Rect"]
-position = Vector2( 0, 1 )
-texture = ExtResource( 1 )
-centered = false
 
 [node name="NameLabel" type="Label" parent="Portraits/Char2Rect"]
 margin_left = 126.0
@@ -134,6 +131,11 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Sprite" type="Sprite" parent="Portraits/Char2Rect"]
+texture = ExtResource( 4 )
+centered = false
+offset = Vector2( 1, 1 )
+
 [node name="Char3Rect" type="ReferenceRect" parent="Portraits"]
 margin_left = 600.0
 margin_right = 900.0
@@ -143,11 +145,6 @@ editor_only = false
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="Sprite" type="Sprite" parent="Portraits/Char3Rect"]
-position = Vector2( 0, 1 )
-texture = ExtResource( 1 )
-centered = false
 
 [node name="NameLabel" type="Label" parent="Portraits/Char3Rect"]
 margin_left = 126.0
@@ -188,6 +185,11 @@ text = "XP"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Sprite" type="Sprite" parent="Portraits/Char3Rect"]
+texture = ExtResource( 1 )
+centered = false
+offset = Vector2( 1, 1 )
 
 [node name="Equipment" type="Control" parent="."]
 margin_left = 62.0

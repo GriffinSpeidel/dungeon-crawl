@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://office_mesh_lib.tres" type="MeshLibrary" id=1]
 [ext_resource path="res://Floor1.gd" type="Script" id=2]
+[ext_resource path="res://PickupTest.tscn" type="PackedScene" id=3]
 
 [node name="Floor1" type="GridMap"]
 mesh_library = ExtResource( 1 )
@@ -13,3 +14,8 @@ __meta__ = {
 "_editor_clip_": 0,
 "_editor_floor_": Vector3( 0, 1, 0 )
 }
+
+[node name="ToFloor2" parent="." instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 1, 11 )
+
+[connection signal="body_entered" from="ToFloor2" to="." method="_on_ToFloor2_body_entered"]

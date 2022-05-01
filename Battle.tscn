@@ -1,9 +1,11 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://textures/Face1.png" type="Texture" id=1]
+[ext_resource path="res://textures/Carlos.png" type="Texture" id=1]
 [ext_resource path="res://Battle.gd" type="Script" id=2]
 [ext_resource path="res://BattleMessage.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Reap.tscn" type="PackedScene" id=4]
+[ext_resource path="res://textures/Maya.png" type="Texture" id=5]
+[ext_resource path="res://textures/Jin.png" type="Texture" id=6]
 
 [node name="Battle" type="Popup"]
 margin_right = 40.0
@@ -44,7 +46,7 @@ __meta__ = {
 }
 
 [node name="Sprite" type="Sprite" parent="Control/Char1"]
-texture = ExtResource( 1 )
+texture = ExtResource( 5 )
 offset = Vector2( 50, 50 )
 
 [node name="Info" type="ReferenceRect" parent="Control/Char1"]
@@ -62,7 +64,7 @@ margin_left = 126.0
 margin_top = 15.0
 margin_right = 166.0
 margin_bottom = 29.0
-text = "foop"
+text = "Maya"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -99,7 +101,7 @@ __meta__ = {
 }
 
 [node name="Sprite" type="Sprite" parent="Control/Char2"]
-texture = ExtResource( 1 )
+texture = ExtResource( 6 )
 offset = Vector2( 50, 50 )
 
 [node name="Info" type="ReferenceRect" parent="Control/Char2"]
@@ -117,7 +119,7 @@ margin_left = 126.0
 margin_top = 15.0
 margin_right = 166.0
 margin_bottom = 29.0
-text = "shoop"
+text = "Jin"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -172,7 +174,7 @@ margin_left = 126.0
 margin_top = 15.0
 margin_right = 166.0
 margin_bottom = 29.0
-text = "woop"
+text = "Carlos"
 __meta__ = {
 "_edit_use_anchors_": false
 }

@@ -164,11 +164,11 @@ func _on_ItemButton_pressed(item, i, j):
 	add_child(CharButtonContainer)
 	for k in range(3):
 		char_buttons.append(Button.new())
-		char_buttons[k].icon = load("res://textures/Face1.png")
-		char_buttons[k].rect_position = Vector2(300 * k, 0)
+		char_buttons[k].icon = party[k].texture
+		char_buttons[k].rect_position = Vector2(300 * k + 1, 0)
 		char_buttons[k].mouse_default_cursor_shape = 2
 		char_buttons[k].enabled_focus_mode = 0
-		if item.variety != 2:
+		if item.type != 2 or item.variety != 2:
 			CharButtonContainer.add_child(char_buttons[k])
 		char_buttons[k].connect("pressed", self, "_on_CharButton_pressed", [item, k])
 		char_buttons[k].connect("pressed", self, "enable_item_buttons")

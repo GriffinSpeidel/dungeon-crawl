@@ -6,14 +6,16 @@ var potency
 var freshness
 var variety
 
-func _init(n, p, v):
+func _init(n, p, v, full):
 	g_name = n
 	potency = p
 	variety = v # 0 is hp, 1 is mp, 2 is revival
 	if variety == 0:
-		freshness = Global.rand.randi() % 21 + 10
+		freshness = 30 if full else Global.rand.randi() % 21 + 10
+	elif variety == 1:
+		freshness = 15 if full else Global.rand.randi() % 11 + 5
 	else:
-		freshness = Global.rand.randi() % 11 + 5
+		freshness = 25 if full else Global.rand.randi() % 16 + 10
 	type = 2
 
 func use(target):
