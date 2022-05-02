@@ -13,5 +13,5 @@ func _initialize(level, id):
 		self.skills.append(Global.sturm)
 	if self.level >= 5:
 		self.skills.append(Global.sturm_ex)
-	self.texture = load("res://textures/Plant.png")
+	self.texture = preload("res://textures/plant.png")
 	self.mat_drops = [3, 4, 9]

@@ -80,15 +80,12 @@ func check_weapons():
 	if show_excalibur:
 		var SynthBox = selection_box_res.instance()
 		SynthBox.get_node("ReferenceRect/Name").text = "Excalibur"
-		var mat_list_string = ""
-		for mat in [12, 12, 12, 12, 12, 12]:
-			mat_list_string += Global.material_names[mat[0]] + " x" + str(mat[1]) + "\n"
-		SynthBox.get_node("ReferenceRect/Materials").text = mat_list_string
+		SynthBox.get_node("ReferenceRect/Materials").text = "All weapon materials"
 		
 		SynthBox.rect_position = Vector2(1, 62 * num_craftable + 1)
 		$SelectionWindow/Col1/Control.add_child(SynthBox)
 		
-		SynthBox.get_node("ReferenceRect/Select").connect("pressed", self, "show_detail", [[Weapon, [2,2,2,2,2,10], "Excalibur", [Global.smite], [100]], [[0, 12], [1, 12], [2, 12], [3, 12], [4, 12], [5, 12]]])
+		SynthBox.get_node("ReferenceRect/Select").connect("pressed", self, "show_detail", [[Weapon, [4,4,0,4,0,10], "Excalibur", [Global.smite], [100]], [[0, 12], [1, 12], [2, 12], [3, 12], [4, 12], [5, 12]]])
 		
 		num_craftable += 1
 	

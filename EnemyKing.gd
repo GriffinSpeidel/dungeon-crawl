@@ -14,5 +14,5 @@ func _initialize(level, id):
 	skills.append(Global.eis_ex_c)
 	skills.append(Global.blitz_ex_c)
 	skills.append(Global.sturm_ex_c)
-	self.texture = load("res://textures/gremlinking.png")
+	self.texture = preload("res://textures/gremlinking.png")
 	self.mat_drops = [4, 5]

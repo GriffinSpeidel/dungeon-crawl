@@ -23,7 +23,7 @@ func _ready():
 	$HUD/Heading.text = "Heading: " + str(int($Player.rotation_degrees[1]) + 180)
 	
 	for i in range(11):
-		materials.append(0)
+		materials.append(12)
 	
 	Global.rand.randomize()
 	
