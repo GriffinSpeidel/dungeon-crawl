@@ -7,7 +7,7 @@ var stat_names = ["Str", "Dex", "Vit", "Int", "Wis", "Luk"]
 var element_names = ["Physical", "Fire", "Ice", "Lightning", "Wind"]
 var encounter_rate_scale = 0.5
 
-var lunge = Skill.new("Lunge", 1.3, PHYS, Skill.NONE, .75, .5, Skill.SINGLE, 0, 0.25)
+var lunge = Skill.new("Lunge", 1.3, PHYS, Skill.NONE, .75, .5, Skill.SINGLE, 0, 0.15)
 var feuer = Skill.new("Feuer", 1.3, FIRE, Skill.NONE, .9, 0, Skill.SINGLE, 3, 0)
 var eis = Skill.new("Eis", 1.3, ICE, Skill.NONE, .9, 0, Skill.SINGLE, 3, 0)
 var blitz = Skill.new("Blitz", 1.3, LIT, Skill.NONE, .9, 0, Skill.SINGLE, 3, 0)
@@ -19,7 +19,7 @@ var eis_ex = Skill.new("Eis EX", 1.6, ICE, Skill.NONE, .9, 0, Skill.SINGLE, 8, 0
 var blitz_ex = Skill.new("Blitz EX", 1.6, LIT, Skill.NONE, .9, 0, Skill.SINGLE, 8, 0)
 var sturm_ex = Skill.new("Sturm EX", 1.6, WIND, Skill.NONE, .9, 0, Skill.SINGLE, 8, 0)
 
-var eviscerate_cheap = Skill.new("Eviscerate", 1.6, PHYS, Skill.NONE, .75, .6, Skill.SINGLE, 0, 0.15)
+var eviscerate_cheap = Skill.new("Eviscerate", 1.6, PHYS, Skill.NONE, .75, .6, Skill.SINGLE, 0, 0.1)
 var feuer_ex_c = Skill.new("Feuer EX", 1.6, FIRE, Skill.NONE, .9, 0, Skill.SINGLE, 1, 0)
 var eis_ex_c = Skill.new("Eis EX", 1.6, ICE, Skill.NONE, .9, 0, Skill.SINGLE, 1, 0)
 var blitz_ex_c = Skill.new("Blitz EX", 1.6, LIT, Skill.NONE, .9, 0, Skill.SINGLE, 1, 0)

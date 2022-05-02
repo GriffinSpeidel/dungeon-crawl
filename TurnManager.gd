@@ -176,8 +176,6 @@ func check_enemy_hp(message):
 			get_parent().ap_pool += e.level
 			get_parent().item_level += e.level
 			
-			print(e.killed_by_reap)
-			
 			var rand_material = Global.rand.randf()
 			var mat_id
 			if rand_material < 0.55 or (rand_material < 0.7 and e.killed_by_reap):

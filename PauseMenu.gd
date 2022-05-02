@@ -172,6 +172,52 @@ func _on_ItemButton_pressed(item, i, j):
 			CharButtonContainer.add_child(char_buttons[k])
 		char_buttons[k].connect("pressed", self, "_on_CharButton_pressed", [item, k])
 		char_buttons[k].connect("pressed", self, "enable_item_buttons")
+	
+	if item is Consumeable:
+		$Details/Label.text = item.description
+	else:
+		var stat_string = ""
+		var add_comma = false
+		for i in len(item.stats):
+			if item.stats[i] != 0:
+				stat_string += ", " if add_comma else ""
+				stat_string += Global.stat_names[i] + " "
+				stat_string += "+" if item.stats[i] > 0 else ""
+				stat_string += str(item.stats[i])
+				add_comma = true
+		if item is Weapon:
+			if len(item.skills) > 0:
+				stat_string += "; " + item.skills[0].s_name
+				$Details/Label.text = stat_string
+		elif item is Armor:
+			var aff_string = "; "
+			var weak = []
+			var nullify = []
+			var resist = []
+			for j in range(len(item.affinities)):
+				if item.affinities[j] == 0:
+					nullify.append(Global.element_names[j])
+				elif item.affinities[j] > 1:
+					weak.append(Global.element_names[j])
+				elif item.affinities[j] < 1:
+					resist.append(Global.element_names[j])
+			if len(nullify) > 0:
+				aff_string += "Null:"
+				for e in nullify:
+					aff_string += " " + e
+				aff_string += "; " if (len(resist) > 0 or len(weak) > 0) else ""
+			if len(resist) > 0:
+				aff_string += "Res:"
+				for e in resist:
+					aff_string += " " + e
+				aff_string += "; " if len(weak) > 0 else ""
+			if len(weak) > 0:
+				aff_string += "Weak:"
+				for e in weak:
+					aff_string += " " + e
+			stat_string += aff_string if aff_string != "; " else ""
+			$Details/Label.text = stat_string
+	
 
 func trash_item(item):
 	get_parent().inventory.erase(item)
@@ -195,6 +241,7 @@ func _on_CharButton_pressed(item, i):
 		CharButtonContainer.queue_free()
 
 func enable_item_buttons():
+	$Details/Label.text = ""
 	if typeof(Cancel) != TYPE_NIL:
 		Cancel.queue_free()
 	if typeof(Trash) != TYPE_NIL:

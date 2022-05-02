@@ -48,6 +48,8 @@ func attack(target, s_name, might, element, hit, crit, damage_pos):
 			message += " A critical hit!"
 		if target.affinities[element] > 1:
 			message += " It's super effective!"
+		elif target.affinities[element] == 0:
+			message += " The attack was nullified!"
 		elif target.affinities[element] < 1:
 			message += " It's not very effective..."
 		if target.guarding:
@@ -55,6 +57,7 @@ func attack(target, s_name, might, element, hit, crit, damage_pos):
 			damage /= 2
 		target.hp -= int(damage * Global.damage_scale)
 		message += " " + str(int(damage * Global.damage_scale)) + " damage!"
+		message += (" " + target.c_name + " is defeated. ") if target.hp <= 0 else ""
 		return [message, target.hp <= 0 and (target.affinities[element] > 1 or crit_success)]
 	else:
 		return [c_name + " attacks " + target.c_name + " with " + s_name + " and misses.", false]

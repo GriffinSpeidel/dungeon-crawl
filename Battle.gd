@@ -20,7 +20,7 @@ var max_encounter_len
 var mat_drops
 var is_boss
 
-var enemy_res = [preload("res://EnemyHead.tscn"), preload("res://EnemyOoze.tscn"), preload("res://EnemyPlant.tscn"), preload("res://EnemySuit.tscn"), preload("res://EnemyGremlin.tscn"), preload("res://EnemyKing.tscn")]
+var enemy_res = [preload("res://EnemyHead.tscn"), preload("res://EnemyOoze.tscn"), preload("res://EnemyPlant.tscn"), preload("res://EnemySuit.tscn"), preload("res://EnemyGremlin.tscn"), preload("res://EnemyBeta.tscn"), preload("res://EnemyKing.tscn")]
 var box_res = load("res://EnemyBox.tscn")
 
 func _initialize(party):
@@ -99,9 +99,6 @@ func take_turn():
 		elif is_instance_valid(order[order_i][0]):
 			add_message(order[order_i][0].act(live_party_members))
 			update_player_health()
-			for c in party:
-				if c.hp <= 0:
-					add_message(c.c_name + " falls.")
 			update_enemy_health_box()
 			MessageTimer = Timer.new()
 			MessageTimer.autostart = true
@@ -152,7 +149,12 @@ func fill_and_draw(res, levels, is_boss): # 0: Head 1: Ooze 2: Plant 3: Suit
 	self.is_boss = is_boss
 	encounter_res = res
 	for i in range(len(encounter_res)):
-		$EncounterNode.add_child(enemy_res[encounter_res[i]].instance())
+		var cur_res
+		if typeof(encounter_res[i]) == TYPE_INT:
+			cur_res = encounter_res[i]
+		else:
+			cur_res = encounter_res[i][Global.rand.randi() % len(encounter_res[i])]
+		$EncounterNode.add_child(enemy_res[cur_res].instance())
 		encounter.append($EncounterNode.get_child(i))
 		$EncounterNode.get_child(i)._initialize(levels[i], i + 1) # level, index
 		var box = box_res.instance()
@@ -186,7 +188,7 @@ func _on_TurnManager_win():
 	EndBattleMenu.rect_position = Vector2(100, 100)
 	EndBattleMenu.get_node("Next").disabled = true
 	
-	xp_pool *= ((max_encounter_len / 3 - 1) * 0.35) + 1
+	xp_pool *= int(((max_encounter_len / 3 - 1) * 0.35) + 1)
 	
 	var skill_messages = []
 	for c in party:
@@ -206,7 +208,13 @@ func _on_TurnManager_win():
 	for string in skill_messages:
 		EndBattleMenu.add_message(string)
 	
-	if len(mat_drops) > 0:
+	var show_materials = false
+	for mat in mat_drops:
+		if mat > 0:
+			show_materials = true
+			break
+	
+	if show_materials:
 		var mat_message = "Got materials:"
 		var add_comma = false
 		for id in range(len(mat_drops)):

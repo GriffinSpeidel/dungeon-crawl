@@ -9,7 +9,8 @@ signal level_next_character
 
 func _initialize(c_name, image):
 	self.c_name = c_name
-	self.stats = [3, 3, 3, 3, 3, 3]
+	#self.stats = [3, 3, 3, 3, 3, 3]
+	self.stats = [100, 100, 100, 100, 100, 100]
 	self.level = 1
 	self.texture = load(image)
 	self.guarding = false

@@ -20,7 +20,7 @@ func _ready():
 	prepare_location()
 	$Player.translation = location.respawn_point
 	$Player.rotation_degrees = location.respawn_rotation
-	$HUD/Heading.text = "Heading: " + str(int($Player.rotation_degrees[1]) + 180)
+	update_heading()
 	
 	for i in range(11):
 		materials.append(0)
@@ -46,14 +46,14 @@ func _ready():
 	$PartyNode.add_child(char2)
 	char2._initialize("Jin", "res://textures/Jin.png")
 	char2.learn_skill(Global.lunge)
-	char2.equip(Weapon.new([1,0,0,0,0,0], "Autographed Bat", [Global.eviscerate], [36]))
+	char2.equip(Weapon.new([1,0,0,0,0,0], "Cracked Bat", [Global.eviscerate], [36]))
 	
 	char3 = character_resource.instance()
 	party.append(char3)
 	$PartyNode.add_child(char3)
 	char3._initialize("Carlos", "res://textures/Carlos.png")
 	char3.learn_skill(Global.sturm)
-	char3.equip(Weapon.new([0,0,1,0,0,0], "Industrial Vacuum", [Global.sturm_ex], [36]))
+	char3.equip(Weapon.new([0,0,1,0,0,0], "Hand Vacuum", [Global.sturm_ex], [36]))
 	
 	for c in party:
 		c.hp = c.hp_max
@@ -61,10 +61,37 @@ func _ready():
 	
 	encounter_rate = 0
 
+func update_heading():
+	var rot = $Player.rotation_degrees[1] + 180
+	var dir = ""
+	if rot < 22.5 or rot > 337.5:
+		dir = "South"
+	elif rot < 67.5:
+		dir = "Southeast"
+	elif rot < 112.5:
+		dir = "East"
+	elif rot < 157.5:
+		dir = "Northeast"
+	elif rot < 202.5:
+		dir = "North"
+	elif rot < 247.5:
+		dir = "Northwest"
+	elif rot < 292.5:
+		dir = "West"
+	elif rot <= 337.5:
+		dir = "Southwest"
+	$HUD/Heading.text = dir
+
 func prepare_location():
 	location.connect("go_to_floor", self, "on_Pickup_go_to_floor")
 	location.connect("start_boss", self, "start_boss")
 	location.connect("heal_all", self, "heal_all")
+	for child in location.get_node("ItemPickups").get_children():
+		child.connect("body_entered", self, "add_item", [child, child.item])
+
+func add_item(pickup, item):
+	$HUD/Notifs.text = "Got item: " + item.g_name +"!"
+	pickup.queue_free()
 
 func heal_all():
 	for c in party:
@@ -102,7 +129,7 @@ func start_encounter(e_res, e_level, is_boss):
 	$HUD.hide()
 
 func start_boss():
-	start_encounter([5], [12], true)
+	start_encounter([4, 6, 5], [10, 13, 10], true)
 	$Battle.connect("end_battle", self, "_on_Battle_win_boss")
 
 func _on_Battle_win_boss():
@@ -172,9 +199,16 @@ func _on_Player_update_danger_level():
 			if item.freshness == 0:
 				inventory.remove(j)
 		j += 1
+	
+	var notif = ""
+	for item in inventory:
+		if item is Consumeable and item.freshness <= 5:
+			notif += item.g_name + " will expire in " + str(item.freshness) + " steps\n"
+	$HUD/Notifs.text = notif
+	
 	encounter_rate += 0.05 * Global.encounter_rate_scale
 	$HUD/Danger.text = "Danger Level: " + str(min(encounter_rate * 200 / Global.encounter_rate_scale, 100)) + "%"
-	if Global.rand.randf() < encounter_rate:
+	if Global.rand.randf() < (encounter_rate * encounter_rate / 0.5):
 		encounter_rate = 0
 		$HUD/Danger.text = "Danger Level: " + str(min(encounter_rate * 200 / Global.encounter_rate_scale, 100)) + "%"
 		var encounter = []

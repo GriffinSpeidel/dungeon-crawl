@@ -5,6 +5,7 @@ class_name Consumeable
 var potency
 var freshness
 var variety
+var description
 
 func _init(n, p, v, full):
 	g_name = n
@@ -12,10 +13,13 @@ func _init(n, p, v, full):
 	variety = v # 0 is hp, 1 is mp, 2 is revival
 	if variety == 0:
 		freshness = 40 if full else Global.rand.randi() % 21 + 20
+		description = "Heals around " + str(potency * Global.damage_scale) + "HP"
 	elif variety == 1:
 		freshness = 20 if full else Global.rand.randi() % 11 + 10
+		description = "Restores around " + str(potency) + "MP"
 	else:
-		freshness = 30 if full else Global.rand.randi() % 16 + 15
+		freshness = 80 if full else Global.rand.randi() % 36 + 45
+		description = "Revives and heals to around " + str(potency * Global.damage_scale) + "HP"
 	type = 2
 
 func use(target):

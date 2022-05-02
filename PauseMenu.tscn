@@ -491,6 +491,23 @@ mouse_default_cursor_shape = 2
 enabled_focus_mode = 0
 text = "To Synthesis"
 
+[node name="Details" type="ReferenceRect" parent="."]
+margin_left = 357.0
+margin_top = 532.0
+margin_right = 663.0
+margin_bottom = 572.0
+border_color = Color( 0.568627, 0.568627, 0.568627, 1 )
+editor_only = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="Details"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 51.0
+margin_bottom = 24.0
+
 [connection signal="pressed" from="Unpause" to="." method="_on_Unpause_pressed"]
 [connection signal="pressed" from="Sort" to="." method="_on_Sort_pressed"]
 [connection signal="pressed" from="Skill" to="." method="_on_Skill_pressed"]

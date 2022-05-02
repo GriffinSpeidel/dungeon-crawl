@@ -20,7 +20,7 @@ var weapon_recipes = [
 	[[1, 8], [10, 8]]], # 2 teeth, 2 raw materials
 	[[Weapon, [1,0,1,1,1,0], "Freezer", [Global.eis_ex], [60]],
 	[[3, 8], [10, 8]]], # 2 cool herb, 2 raw materials
-	[[Weapon, [-2,-1,0,3,2,0], "Tesla Coil", [Global.blitz_ex], [60]],
+	[[Weapon, [-2,0,-1,3,2,0], "Tesla Coil", [Global.blitz_ex], [60]],
 	[[2, 8], [10, 8]]], # 2 sludge, 2 raw materials
 	[[Weapon, [2,0,2,0,0,0], "Leaf Blower", [Global.sturm_ex], [60]],
 	[[0, 8], [10, 8]]] # 2 floating fabric, 2 raw materials
@@ -38,7 +38,15 @@ var armor_recipes = [
 	[[Armor, [0,0,1,0,0,0], "Rubber Suit", [1,1,1,0.5,2]],
 	[[8, 2], [10, 2]]], # 2 stretchy skin, 2 raw materials
 	[[Armor, [0,0,0,0,1,0], "Wind Jacket", [1,1,1,2,0.5]],
-	[[9, 2], [10, 2]]] # 2 fig leaves, 2 raw materials
+	[[9, 2], [10, 2]]], # 8 fig leaves, 8 raw materials
+	[[Armor, [0,0,1,0,2,0], "Fireproof Mantle", [1,0,2,1,1]],
+	[[6, 8], [10, 8]]], # 8 liquid asbestos, 8 raw materials
+	[[Armor, [0,0,2,0,1,0], "Polar Protector", [1,2,0,1,1]],
+	[[7, 8], [10, 8]]], # 8 itchy wool, 8 raw materials
+	[[Armor, [0,2,1,0,0,0], "Teflon Wrappings", [1,1,1,0,2]],
+	[[8, 8], [10, 8]]], # 8 stretchy skin, 8 raw materials
+	[[Armor, [0,1,0,0,2,0], "Breeze Breaker", [1,1,1,2,0]],
+	[[9, 8], [10, 8]]] # 8 fig leaves, 8 raw materials
 ]
 
 func _initialize(materials, inventory):
