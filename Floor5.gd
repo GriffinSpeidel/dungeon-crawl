@@ -12,7 +12,7 @@ signal start_boss
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	encounter_table = [4, 5]
-	encounter_levels = [9, 10]
+	encounter_levels = [10, 11, 12]
 	respawn_point = Vector3(1, 1.01, -1)
 	respawn_rotation = Vector3(0, 0, 0)
 	l_name = "Final Floor"

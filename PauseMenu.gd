@@ -296,12 +296,11 @@ func _on_Skill_pressed():
 			
 			var SkillScroll = ScrollContainer.new()
 			SkillScroll.rect_position = Vector2(25, 0)
-			SkillScroll.rect_size = Vector2(260, 112)
+			SkillScroll.rect_size = Vector2(260, 106)
 			SkillWindow.add_child(SkillScroll)
 			
 			var SkillControl = Control.new()
-			SkillControl.rect_size = Vector2(248, 112)
-			SkillControl.rect_min_size = Vector2(248, 112)
+			#SkillControl.rect_size = Vector2(248, 112)
 			SkillScroll.add_child(SkillControl)
 			
 			var j = 0
@@ -312,6 +311,9 @@ func _on_Skill_pressed():
 				SkillLabel.rect_position = Vector2(0, 17 * j)
 				j += 1
 				SkillControl.add_child(SkillLabel)
+			SkillControl.rect_min_size = Vector2(248, 17 * j)
+			
+			print_tree_pretty()
 		
 		showing_skills = true
 		$Skill.text = "Hide Skills"

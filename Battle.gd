@@ -188,13 +188,13 @@ func _on_TurnManager_win():
 	EndBattleMenu.rect_position = Vector2(100, 100)
 	EndBattleMenu.get_node("Next").disabled = true
 	
-	xp_pool *= int(((max_encounter_len / 3 - 1) * 0.35) + 1)
+	xp_pool *= ((max_encounter_len / 3 - 1) * 0.3) + 1
 	
 	var skill_messages = []
 	for c in party:
 		if c.hp > 0:
 			c.mp = min(c.mp_max, c.mp + max(1, c.mp_max / 16))
-			c.experience += xp_pool
+			c.experience += max(int(xp_pool), 1)
 			if c.weapon != null:
 				var skill_learned = c.weapon.add_ap(ap_pool, c)
 				if skill_learned != null:
@@ -238,7 +238,7 @@ func _on_TurnManager_win():
 				item_drop = Consumeable.new("Grapeseed", 6, 0, false)
 		elif item_type < 0.75:
 			if item_level > 24:
-				item_drop = Consumeable.new("Orange Grove", 10, 1, false)
+				item_drop = Consumeable.new("Orange Tree", 10, 1, false)
 			elif item_level > 12:
 				item_drop = Consumeable.new("Ripe Orange", 6, 1, false)
 			else:

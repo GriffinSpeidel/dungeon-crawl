@@ -5,7 +5,7 @@ func _initialize(level, id):
 	self.level = level
 	self.affinities = [2, 0.5, 0.5, 0.5, 0.5]
 	base_stats = [0.9, 1, 0.9, 1.1, 1.1, 1]
-	self.c_name = "Gremlin β"
+	self.c_name = "Gremlin Beta"
 	for i in range(len(base_stats)):
 		stats.append(base_stats[i] * (3 + (level - 1) / 6))
 	.set_hp_mp()

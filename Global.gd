@@ -5,9 +5,9 @@ var rand = RandomNumberGenerator.new()
 enum {PHYS, FIRE, ICE, LIT, WIND}
 var stat_names = ["Str", "Dex", "Vit", "Int", "Wis", "Luk"]
 var element_names = ["Physical", "Fire", "Ice", "Lightning", "Wind"]
-var encounter_rate_scale = 0.5
+var encounter_rate_scale = 1
 
-var lunge = Skill.new("Lunge", 1.3, PHYS, Skill.NONE, .75, .5, Skill.SINGLE, 0, 0.15)
+var lunge = Skill.new("Lunge", 1.3, PHYS, Skill.NONE, .75, .5, Skill.SINGLE, 0, 0.25)
 var feuer = Skill.new("Feuer", 1.3, FIRE, Skill.NONE, .9, 0, Skill.SINGLE, 3, 0)
 var eis = Skill.new("Eis", 1.3, ICE, Skill.NONE, .9, 0, Skill.SINGLE, 3, 0)
 var blitz = Skill.new("Blitz", 1.3, LIT, Skill.NONE, .9, 0, Skill.SINGLE, 3, 0)

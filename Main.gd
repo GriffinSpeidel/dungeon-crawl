@@ -86,14 +86,20 @@ func prepare_location():
 	location.connect("go_to_floor", self, "on_Pickup_go_to_floor")
 	location.connect("start_boss", self, "start_boss")
 	location.connect("heal_all", self, "heal_all")
-	for child in location.get_node("ItemPickups").get_children():
-		child.connect("body_entered", self, "add_item", [child, child.item])
+	if location.has_node("ItemPickups"):
+		for child in location.get_node("ItemPickups").get_children():
+			child.connect("body_entered", self, "add_item", [child])
 
-func add_item(pickup, item):
-	$HUD/Notifs.text = "Got item: " + item.g_name +"!"
-	pickup.queue_free()
+func add_item(body, pickup):
+	if len(inventory) < 24:
+		$HUD/Notifs.text = "Got item: " + pickup.item.g_name +"!"
+		pickup.queue_free()
+		inventory.append(pickup.item)
+	else:
+		$HUD/Notifs.text = "Your inventory is full."
 
 func heal_all():
+	$HUD/Notifs.text = "The party's health and magic are restored."
 	for c in party:
 		c.hp = c.hp_max
 		c.mp = c.mp_max
@@ -129,7 +135,7 @@ func start_encounter(e_res, e_level, is_boss):
 	$HUD.hide()
 
 func start_boss():
-	start_encounter([4, 6, 5], [10, 13, 10], true)
+	start_encounter([4, 6, 5], [10, 16, 10], true)
 	$Battle.connect("end_battle", self, "_on_Battle_win_boss")
 
 func _on_Battle_win_boss():
@@ -203,7 +209,7 @@ func _on_Player_update_danger_level():
 	var notif = ""
 	for item in inventory:
 		if item is Consumeable and item.freshness <= 5:
-			notif += item.g_name + " will expire in " + str(item.freshness) + " steps\n"
+			notif += item.g_name + " will expire in " + str(item.freshness) + " steps.\n"
 	$HUD/Notifs.text = notif
 	
 	encounter_rate += 0.05 * Global.encounter_rate_scale

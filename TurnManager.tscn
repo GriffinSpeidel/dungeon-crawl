@@ -77,8 +77,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Timer" type="Timer" parent="."]
-
 [connection signal="pressed" from="BattleMenu/Control/StrikeButton" to="." method="_on_StrikeButton_pressed"]
 [connection signal="pressed" from="BattleMenu/Control/SkillButton" to="." method="_on_SkillButton_pressed"]
 [connection signal="pressed" from="BattleMenu/Control/ItemButton" to="." method="_on_ItemButton_pressed"]
