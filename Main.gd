@@ -23,14 +23,14 @@ func _ready():
 	$HUD/Heading.text = "Heading: " + str(int($Player.rotation_degrees[1]) + 180)
 	
 	for i in range(11):
-		materials.append(12)
+		materials.append(0)
 	
 	Global.rand.randomize()
 	
-	inventory.append(Consumeable.new("Grapeseed", 4, 0, true))
-	inventory.append(Consumeable.new("Grapeseed", 4, 0, true))
+	inventory.append(Consumeable.new("Grapeseed", 6, 0, true))
+	inventory.append(Consumeable.new("Grapeseed", 6, 0, true))
 	inventory.append(Consumeable.new("Orange Slice", 3, 1, true))
-	inventory.append(Consumeable.new("Instant Coffee", 4, 2, true))
+	inventory.append(Consumeable.new("Sparky Cola", 4, 2, true))
 	
 	var character_resource = load("res://Character.tscn")
 	

@@ -186,6 +186,8 @@ func _on_TurnManager_win():
 	EndBattleMenu.rect_position = Vector2(100, 100)
 	EndBattleMenu.get_node("Next").disabled = true
 	
+	xp_pool *= ((max_encounter_len / 3 - 1) * 0.35) + 1
+	
 	var skill_messages = []
 	for c in party:
 		if c.hp > 0:
@@ -221,11 +223,11 @@ func _on_TurnManager_win():
 		var item_type = Global.rand.randf()
 		if item_type < 0.5:
 			if item_level > 24:
-				item_drop = Consumeable.new("Grape Bunch", 16, 0, false)
+				item_drop = Consumeable.new("Grape Bunch", 20, 0, false)
 			elif item_level > 12:
-				item_drop = Consumeable.new("Healing Grape", 8, 0, false)
+				item_drop = Consumeable.new("Healing Grape", 12, 0, false)
 			else:
-				item_drop = Consumeable.new("Grapeseed", 4, 0, false)
+				item_drop = Consumeable.new("Grapeseed", 6, 0, false)
 		elif item_type < 0.75:
 			if item_level > 24:
 				item_drop = Consumeable.new("Orange Grove", 10, 1, false)
@@ -235,11 +237,11 @@ func _on_TurnManager_win():
 				item_drop = Consumeable.new("Orange Slice", 3, 1, false)
 		else:
 			if item_level > 24:
-				item_drop = Consumeable.new("Beastly Energy", 10, 2, false)
+				item_drop = Consumeable.new("Beastly Energy", 12, 2, false)
 			elif item_level > 12:
-				item_drop = Consumeable.new("Instant Coffee", 6, 2, false)
+				item_drop = Consumeable.new("Instant Coffee", 8, 2, false)
 			else:
-				item_drop = Consumeable.new("Sparky Cola", 3, 2, false)
+				item_drop = Consumeable.new("Sparky Cola", 4, 2, false)
 		
 		if len(get_parent().inventory) < 24:
 			get_parent().inventory.append(item_drop)

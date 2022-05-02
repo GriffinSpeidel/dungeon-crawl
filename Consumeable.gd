@@ -11,23 +11,23 @@ func _init(n, p, v, full):
 	potency = p
 	variety = v # 0 is hp, 1 is mp, 2 is revival
 	if variety == 0:
-		freshness = 30 if full else Global.rand.randi() % 21 + 10
+		freshness = 40 if full else Global.rand.randi() % 21 + 20
 	elif variety == 1:
-		freshness = 15 if full else Global.rand.randi() % 11 + 5
+		freshness = 20 if full else Global.rand.randi() % 11 + 10
 	else:
-		freshness = 25 if full else Global.rand.randi() % 16 + 10
+		freshness = 30 if full else Global.rand.randi() % 16 + 15
 	type = 2
 
 func use(target):
 	if variety == 0:
-		var effect = int(potency * Global.rand.randf_range(0.7,1.1) * Global.damage_scale)
+		var effect = int(potency * Global.rand.randf_range(0.9,1.1) * Global.damage_scale)
 		target.hp = min(target.hp + effect, target.hp_max)
 		return target.c_name + " heals by " + str(effect) + "HP"
 	elif variety == 1:
-		var effect = int(potency * Global.rand.randf_range(0.7, 1.1))
+		var effect = int(potency * Global.rand.randf_range(0.9, 1.1))
 		target.mp = min(target.mp + effect, target.mp_max)
 		return target.c_name + " restores " + str(effect) + "MP"
 	else:
-		var effect = int(potency * Global.rand.randf_range(0.7,1.1) * Global.damage_scale)
+		var effect = int(potency * Global.rand.randf_range(0.9,1.1) * Global.damage_scale)
 		target.hp = effect
 		return target.c_name + " is revived to " + str(effect) + "HP"
