@@ -4,6 +4,10 @@ enum {HEAD, SUIT, PLANT}
 
 var base_stats
 var mat_drops
+var killed_by_reap
+
+func _ready():
+	killed_by_reap = false
 
 func is_equal(target):
 	return self.id == target.id

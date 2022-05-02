@@ -39,21 +39,21 @@ func _ready():
 	$PartyNode.add_child(char1)
 	char1._initialize("Maya", "res://textures/Maya.png")
 	char1.learn_skill(Global.blitz)
-	char1.equip(Weapon.new([0,0,0,1,0,0], "Extension Cord", [Global.blitz_ex], [50]))
+	char1.equip(Weapon.new([0,0,0,1,0,0], "Extension Cord", [Global.blitz_ex], [36]))
 	
 	char2 = character_resource.instance()
 	party.append(char2)
 	$PartyNode.add_child(char2)
 	char2._initialize("Jin", "res://textures/Jin.png")
 	char2.learn_skill(Global.lunge)
-	char2.equip(Weapon.new([1,0,0,0,0,0], "Autographed Bat", [Global.eviscerate], [50]))
+	char2.equip(Weapon.new([1,0,0,0,0,0], "Autographed Bat", [Global.eviscerate], [36]))
 	
 	char3 = character_resource.instance()
 	party.append(char3)
 	$PartyNode.add_child(char3)
 	char3._initialize("Carlos", "res://textures/Carlos.png")
 	char3.learn_skill(Global.sturm)
-	char3.equip(Weapon.new([0,0,1,0,0,0], "Industrial Vacuum", [Global.sturm_ex], [50]))
+	char3.equip(Weapon.new([0,0,1,0,0,0], "Industrial Vacuum", [Global.sturm_ex], [36]))
 	
 	for c in party:
 		c.hp = c.hp_max

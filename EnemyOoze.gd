@@ -13,5 +13,5 @@ func _initialize(level, id):
 		self.skills.append(Global.lunge)
 	if self.level >= 5:
 		self.skills.append(Global.eviscerate)
-	self.texture = load("res://textures/Ooze.png")
+	self.texture = preload("res://textures/ooze.png")
 	self.mat_drops = [2, 4, 6]

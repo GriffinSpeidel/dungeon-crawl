@@ -15,5 +15,5 @@ func _initialize(level, id):
 	if self.level >= 5:
 		self.skills.append(Global.eis_ex)
 		self.skills.append(Global.feuer_ex)
-	self.texture = load("res://textures/Suit.png")
+	self.texture = preload("res://textures/suit.png")
 	self.mat_drops = [0, 5, 7]

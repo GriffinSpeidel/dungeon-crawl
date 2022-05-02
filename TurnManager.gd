@@ -147,6 +147,7 @@ func _on_EButton_pressed(i, s_name, might, element, hit, crit, h_cost, m_cost):
 		get_parent().update_enemy_health_box()
 		get_parent().update_player_health()
 		if attack_result[1]:
+			encounter[i].killed_by_reap = true
 			var reap_res = load("res://Reap.tscn")
 			ReapMenu = reap_res.instance()
 			ReapMenu.rect_position = Vector2(287, 350)
@@ -175,11 +176,13 @@ func check_enemy_hp(message):
 			get_parent().ap_pool += e.level
 			get_parent().item_level += e.level
 			
+			print(e.killed_by_reap)
+			
 			var rand_material = Global.rand.randf()
 			var mat_id
-			if rand_material < 0.45:
+			if rand_material < 0.55 or (rand_material < 0.7 and e.killed_by_reap):
 				mat_id = e.mat_drops[Global.rand.randi() % len(e.mat_drops)]
-			elif rand_material < 0.85:
+			elif e.killed_by_reap or rand_material < 0.85:
 				mat_id = 10
 			if mat_id != null:
 				var n_dist = [1, 2, 2, 3]

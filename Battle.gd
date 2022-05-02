@@ -204,15 +204,16 @@ func _on_TurnManager_win():
 	for string in skill_messages:
 		EndBattleMenu.add_message(string)
 	
-	var mat_message = "Got materials:"
-	var add_comma = false
-	for id in range(len(mat_drops)):
-		if mat_drops[id] > 0:
-			mat_message += ", " if add_comma else " "
-			mat_message += Global.material_names[id] + " x" + str(mat_drops[id])
-			add_comma = true
-			get_parent().materials[id] += mat_drops[id]
-	EndBattleMenu.add_message(mat_message)
+	if len(mat_drops) > 0:
+		var mat_message = "Got materials:"
+		var add_comma = false
+		for id in range(len(mat_drops)):
+			if mat_drops[id] > 0:
+				mat_message += ", " if add_comma else " "
+				mat_message += Global.material_names[id] + " x" + str(mat_drops[id])
+				add_comma = true
+				get_parent().materials[id] += mat_drops[id]
+		EndBattleMenu.add_message(mat_message)
 	
 	if Global.rand.randf() < 1-(1/(pow(1.45,max_encounter_len))):
 		var item_drop

@@ -15,5 +15,5 @@ func _initialize(level, id):
 	if self.level >= 5:
 		self.skills.append(Global.eviscerate)
 		self.skills.append(Global.blitz_ex)
-	self.texture = load("res://textures/Head.png")
+	self.texture = preload("res://textures/head.png")
 	self.mat_drops = [1, 5, 8]

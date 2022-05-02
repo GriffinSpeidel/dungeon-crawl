@@ -4,15 +4,15 @@ var materials
 var inventory
 
 var weapon_recipes = [
-	[[Weapon, [2,0,0,0,0,0], "Baseball Bat", [Global.lunge], [16]],
+	[[Weapon, [2,0,0,0,0,0], "Baseball Bat", [Global.lunge], [8]],
 	[[4, 2], [5, 2], [10, 2]]], # 2 food scrap, 2 debris, 2 raw materials
-	[[Weapon, [1,1,0,0,0,0], "Pocket Knife", [Global.feuer], [16]],
+	[[Weapon, [1,1,0,0,0,0], "Pocket Knife", [Global.feuer], [8]],
 	[[1, 2], [10, 2]]], # 2 teeth, 2 raw materials
-	[[Weapon, [1,0,0,1,0,0], "Portable Icebox", [Global.eis], [16]],
+	[[Weapon, [1,0,0,1,0,0], "Portable Icebox", [Global.eis], [8]],
 	[[3, 2], [10, 2]]], # 2 cool herb, 2 raw materials
-	[[Weapon, [0,0,0,1,1,0], "Power Strip", [Global.blitz], [16]],
+	[[Weapon, [0,0,0,1,1,0], "Power Strip", [Global.blitz], [8]],
 	[[2, 2], [10, 2]]], # 2 sludge, 2 raw materials
-	[[Weapon, [1,0,1,0,0,0], "Vacuum Cleaner", [Global.sturm], [16]],
+	[[Weapon, [1,0,1,0,0,0], "Vacuum Cleaner", [Global.sturm], [8]],
 	[[0, 2], [10, 2]]], # 2 floating fabric, 2 raw materials
 	[[Weapon, [3,-1,1,-1,0,0], "Spiked Club", [Global.eviscerate], [60]],
 	[[4, 6], [5, 6], [10, 8]]], # 2 food scrap, 2 debris, 2 raw materials
