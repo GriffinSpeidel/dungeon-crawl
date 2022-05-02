@@ -16,7 +16,7 @@ var game_finished
 
 func _ready():
 	game_finished = false
-	location = get_node("Floor5")
+	location = get_node("Floor1")
 	prepare_location()
 	$Player.translation = location.respawn_point
 	$Player.rotation_degrees = location.respawn_rotation
@@ -64,6 +64,12 @@ func _ready():
 func prepare_location():
 	location.connect("go_to_floor", self, "on_Pickup_go_to_floor")
 	location.connect("start_boss", self, "start_boss")
+	location.connect("heal_all", self, "heal_all")
+
+func heal_all():
+	for c in party:
+		c.hp = c.hp_max
+		c.mp = c.mp_max
 
 func on_Pickup_go_to_floor(new_floor, translation, rotation):
 	location.queue_free()
@@ -134,7 +140,7 @@ func _on_Battle_end_battle():
 	for e in $Battle/EncounterNode.get_children():
 		e.queue_free()
 	for c in party:
-		c.hp = max(c.hp, 1)
+		c.hp = max(c.hp, int(c.hp_max / 4))
 	battle = false
 	if not $Battle.is_boss:
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)

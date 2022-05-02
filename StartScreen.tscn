@@ -1,0 +1,31 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://textures/DungeonTitle.png" type="Texture" id=1]
+[ext_resource path="res://StartScreen.gd" type="Script" id=2]
+
+[node name="StartScreen" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Sprite4" type="Sprite" parent="."]
+texture = ExtResource( 1 )
+centered = false
+
+[node name="Button" type="Button" parent="."]
+margin_left = 487.972
+margin_top = 82.0
+margin_right = 607.972
+margin_bottom = 122.0
+focus_mode = 0
+mouse_default_cursor_shape = 2
+enabled_focus_mode = 0
+text = "Start Game"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]

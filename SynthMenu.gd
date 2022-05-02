@@ -4,25 +4,25 @@ var materials
 var inventory
 
 var weapon_recipes = [
-	[[Weapon, [2,0,0,0,0,0], "Baseball Bat", [Global.lunge], [20]],
+	[[Weapon, [2,0,0,0,0,0], "Baseball Bat", [Global.lunge], [16]],
 	[[4, 2], [5, 2], [10, 2]]], # 2 food scrap, 2 debris, 2 raw materials
-	[[Weapon, [1,1,0,0,0,0], "Pocket Knife", [Global.feuer], [20]],
+	[[Weapon, [1,1,0,0,0,0], "Pocket Knife", [Global.feuer], [16]],
 	[[1, 2], [10, 2]]], # 2 teeth, 2 raw materials
-	[[Weapon, [1,0,0,1,0,0], "Portable Icebox", [Global.eis], [20]],
+	[[Weapon, [1,0,0,1,0,0], "Portable Icebox", [Global.eis], [16]],
 	[[3, 2], [10, 2]]], # 2 cool herb, 2 raw materials
-	[[Weapon, [0,0,0,1,1,0], "Power Strip", [Global.blitz], [20]],
+	[[Weapon, [0,0,0,1,1,0], "Power Strip", [Global.blitz], [16]],
 	[[2, 2], [10, 2]]], # 2 sludge, 2 raw materials
-	[[Weapon, [1,0,1,0,0,0], "Vacuum Cleaner", [Global.sturm], [20]],
+	[[Weapon, [1,0,1,0,0,0], "Vacuum Cleaner", [Global.sturm], [16]],
 	[[0, 2], [10, 2]]], # 2 floating fabric, 2 raw materials
-	[[Weapon, [3,-1,1,-1,0,0], "Spiked Club", [Global.eviscerate], [100]],
+	[[Weapon, [3,-1,1,-1,0,0], "Spiked Club", [Global.eviscerate], [60]],
 	[[4, 6], [5, 6], [10, 8]]], # 2 food scrap, 2 debris, 2 raw materials
-	[[Weapon, [2,2,0,0,0,0], "Ceramic Sword", [Global.feuer_ex], [100]],
+	[[Weapon, [2,2,0,0,0,0], "Ceramic Sword", [Global.feuer_ex], [60]],
 	[[1, 8], [10, 8]]], # 2 teeth, 2 raw materials
-	[[Weapon, [1,0,1,1,1,0], "Freezer", [Global.eis_ex], [100]],
+	[[Weapon, [1,0,1,1,1,0], "Freezer", [Global.eis_ex], [60]],
 	[[3, 8], [10, 8]]], # 2 cool herb, 2 raw materials
-	[[Weapon, [-2,-1,0,3,2,0], "Tesla Coil", [Global.blitz_ex], [100]],
+	[[Weapon, [-2,-1,0,3,2,0], "Tesla Coil", [Global.blitz_ex], [60]],
 	[[2, 8], [10, 8]]], # 2 sludge, 2 raw materials
-	[[Weapon, [2,0,2,0,0,0], "Leaf Blower", [Global.sturm_ex], [100]],
+	[[Weapon, [2,0,2,0,0,0], "Leaf Blower", [Global.sturm_ex], [60]],
 	[[0, 8], [10, 8]]] # 2 floating fabric, 2 raw materials
 ]
 
@@ -88,7 +88,7 @@ func check_weapons():
 		SynthBox.rect_position = Vector2(1, 62 * num_craftable + 1)
 		$SelectionWindow/Col1/Control.add_child(SynthBox)
 		
-		SynthBox.get_node("ReferenceRect/Select").connect("pressed", self, "show_detail", [recipe[0], recipe[1]])
+		SynthBox.get_node("ReferenceRect/Select").connect("pressed", self, "show_detail", [[Weapon, [2,2,2,2,2,10], "Excalibur", [Global.smite], [100]], [[0, 12], [1, 12], [2, 12], [3, 12], [4, 12], [5, 12]]])
 		
 		num_craftable += 1
 	

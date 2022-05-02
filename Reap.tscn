@@ -33,6 +33,9 @@ margin_right = 450.0
 margin_bottom = 27.0
 text = "Choose reap boost for foop:"
 align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Health" type="Button" parent="."]
 margin_left = 18.0

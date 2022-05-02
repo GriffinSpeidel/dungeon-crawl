@@ -14,6 +14,7 @@ func _initialize(c, e):
 	hp = int(e.hp_max / 4)
 	mp = int((2 + e.level) * (1 + ((e.base_stats[4] - 1) / 2)))
 	xp = int((20 + (e.level - c.level) * 10) / 4)
+	$Label.text = "Choose reap boost for " + c.c_name + ":"
 	$Health.text = "Restore " + str(hp) + "HP"
 	$Magic.text = "Restore " + str(mp) + "MP"
 	$Experience.text = "Bonus " + str(xp) + "XP"

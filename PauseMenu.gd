@@ -261,7 +261,7 @@ func _on_Skill_pressed():
 			for skill in party[i].skills:
 				var SkillLabel = Label.new()
 				SkillLabel.text = skill.s_name + " "
-				SkillLabel.text += (str(skill.m_cost) + "MP") if skill.m_cost > 0 else (str(int(skill.h_cost * party[i].hp_max)) + "HP")
+				SkillLabel.text += (str(skill.m_cost) + "MP") if skill.m_cost > 0 else (str(int((party[i].hp_max - (4 * Global.damage_scale * (party[i].stats[2] - 3))) * skill.h_cost)) + "HP")
 				SkillLabel.rect_position = Vector2(0, 17 * j)
 				j += 1
 				SkillControl.add_child(SkillLabel)

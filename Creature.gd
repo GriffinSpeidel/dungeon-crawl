@@ -14,15 +14,15 @@ var id
 var guarding
 
 func set_hp_mp():
-	self.hp_max = (4 * self.stats[2] + 2 * self.level) * Global.damage_scale # should be 4 *
-	self.mp_max = 1 + 2 * self.stats[4] + self.level
+	self.hp_max = int((4 * self.stats[2] + 2 * self.level) * Global.damage_scale)
+	self.mp_max = int(1 + 2 * self.stats[4] + self.level)
 	self.hp = self.hp_max
 	self.mp = self.mp_max
 
 func set_max_hp_mp():
-	self.hp_max = (4 * self.stats[2] + 2 * self.level) * Global.damage_scale # should be 4 *
+	self.hp_max = int((4 * self.stats[2] + 2 * self.level) * Global.damage_scale)
 	self.hp = self.hp_max if self.hp > self.hp_max else self.hp
-	self.mp_max = 1 + 2 * self.stats[4] + self.level
+	self.mp_max = int(1 + 2 * self.stats[4] + self.level)
 	self.mp = self.mp_max if self.mp > self.mp_max else self.mp
 	
 

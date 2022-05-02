@@ -20,10 +20,10 @@ var blitz_ex = Skill.new("Blitz EX", 1.6, LIT, Skill.NONE, .9, 0, Skill.SINGLE, 
 var sturm_ex = Skill.new("Sturm EX", 1.6, WIND, Skill.NONE, .9, 0, Skill.SINGLE, 8, 0)
 
 var eviscerate_cheap = Skill.new("Eviscerate", 1.6, PHYS, Skill.NONE, .75, .6, Skill.SINGLE, 0, 0.15)
-var feuer_ex_c = Skill.new("Feuer EX", 1.6, FIRE, Skill.NONE, .9, 0, Skill.SINGLE, 4, 0)
-var eis_ex_c = Skill.new("Eis EX", 1.6, ICE, Skill.NONE, .9, 0, Skill.SINGLE, 4, 0)
-var blitz_ex_c = Skill.new("Blitz EX", 1.6, LIT, Skill.NONE, .9, 0, Skill.SINGLE, 4, 0)
-var sturm_ex_c = Skill.new("Sturm EX", 1.6, WIND, Skill.NONE, .9, 0, Skill.SINGLE, 4, 0)
+var feuer_ex_c = Skill.new("Feuer EX", 1.6, FIRE, Skill.NONE, .9, 0, Skill.SINGLE, 1, 0)
+var eis_ex_c = Skill.new("Eis EX", 1.6, ICE, Skill.NONE, .9, 0, Skill.SINGLE, 1, 0)
+var blitz_ex_c = Skill.new("Blitz EX", 1.6, LIT, Skill.NONE, .9, 0, Skill.SINGLE, 1, 0)
+var sturm_ex_c = Skill.new("Sturm EX", 1.6, WIND, Skill.NONE, .9, 0, Skill.SINGLE, 1, 0)
 
 var smite = Skill.new("Divine Smite", 2.3, PHYS, Skill.NONE, 1, .5, Skill.SINGLE, 16, 0)
 

@@ -35,6 +35,9 @@ this office building will return to its ordinary state.
 Maybe things were better when it was ruled by monsters...
 For capitalism is the greediest monster of them all."
 align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Button" type="Button" parent="ReferenceRect"]
 margin_left = 346.0
@@ -45,3 +48,6 @@ focus_mode = 0
 mouse_default_cursor_shape = 2
 enabled_focus_mode = 0
 text = "Close Game"
+__meta__ = {
+"_edit_use_anchors_": false
+}

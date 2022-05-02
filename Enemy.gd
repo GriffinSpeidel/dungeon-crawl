@@ -17,7 +17,7 @@ func act(live_party_members):
 	else:
 		var skill = self.skills[choice]
 		if self.hp > self.hp_max * skill.h_cost and self.mp >= skill.m_cost:
-			self.hp -= self.hp_max * skill.h_cost
+			self.hp -= (self.hp_max - (4 * Global.damage_scale * (self.stats[1] - 3))) * skill.h_cost
 			self.mp -= skill.m_cost
 			return attack(target, skill.s_name, skill.might, skill.element, skill.hit, skill.crit, Vector2(100 + target_pos * 300, 550))[0]
 		else:

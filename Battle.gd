@@ -99,6 +99,9 @@ func take_turn():
 		elif is_instance_valid(order[order_i][0]):
 			add_message(order[order_i][0].act(live_party_members))
 			update_player_health()
+			for c in party:
+				if c.hp <= 0:
+					add_message(c.c_name + " falls.")
 			update_enemy_health_box()
 			MessageTimer = Timer.new()
 			MessageTimer.autostart = true
@@ -153,7 +156,10 @@ func fill_and_draw(res, levels, is_boss): # 0: Head 1: Ooze 2: Plant 3: Suit
 		encounter.append($EncounterNode.get_child(i))
 		$EncounterNode.get_child(i)._initialize(levels[i], i + 1) # level, index
 		var box = box_res.instance()
-		box.get_node("Sprite").texture = $EncounterNode.get_child(i).texture
+		var sprite = Sprite.new()
+		sprite.texture = $EncounterNode.get_child(i).texture
+		sprite.centered = false
+		box.add_child(sprite)
 		$EncounterNode.get_child(i).add_child(box)
 		update_enemy_health_box()
 		$EncounterNode.get_child(i).get_child(0).rect_position = Vector2(412 - 110 * (len(encounter_res) - 1) + i * 220, 100)
@@ -168,8 +174,8 @@ func _on_TurnManager_decrease_encounter():
 func update_enemy_health_box():
 	for i in range(len(encounter)):
 		var box_i = $EncounterNode.get_child(i).get_child(0)
-		box_i.get_child(1).text = $EncounterNode.get_child(i).c_name + ' ' + str($EncounterNode.get_child(i).id) + ' lvl.' + str($EncounterNode.get_child(i).level)
-		box_i.get_child(2).rect_size.x = float($EncounterNode.get_child(i).hp) / $EncounterNode.get_child(i).hp_max * 172
+		box_i.get_child(0).text = $EncounterNode.get_child(i).c_name + ' ' + str($EncounterNode.get_child(i).id) + ' lvl.' + str($EncounterNode.get_child(i).level)
+		box_i.get_child(1).rect_size.x = float($EncounterNode.get_child(i).hp) / $EncounterNode.get_child(i).hp_max * 172
 
 func _on_TurnManager_win():
 	if TurnManager != null:
@@ -183,6 +189,7 @@ func _on_TurnManager_win():
 	var skill_messages = []
 	for c in party:
 		if c.hp > 0:
+			c.mp = min(c.mp_max, c.mp + max(1, c.mp_max / 16))
 			c.experience += xp_pool
 			if c.weapon != null:
 				var skill_learned = c.weapon.add_ap(ap_pool, c)
@@ -193,6 +200,7 @@ func _on_TurnManager_win():
 	add_child(EndBattleMenu)
 	EndBattleMenu.add_message("Each party member gained " + str(xp_pool) + "XP.")
 	EndBattleMenu.add_message("Each party member gained " + str(ap_pool) + "AP for their weapon.")
+	EndBattleMenu.add_message("Each party member regained a bit of MP.")
 	for string in skill_messages:
 		EndBattleMenu.add_message(string)
 	
@@ -234,7 +242,7 @@ func _on_TurnManager_win():
 		
 		if len(get_parent().inventory) < 24:
 			get_parent().inventory.append(item_drop)
-			EndBattleMenu.add_message("You got a " + item_drop.g_name + "!")
+			EndBattleMenu.add_message("Got consumeable: " + item_drop.g_name)
 		else:
 			EndBattleMenu.add_message("The enemy dropped a " + item_drop.g_name + ", but your inventory is full.")
 	

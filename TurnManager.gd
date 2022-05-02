@@ -73,7 +73,7 @@ func _on_SkillButton_pressed():
 		if active.skills[i].m_cost > 0:
 			button_text += str(active.skills[i].m_cost) + "MP"
 		else:
-			button_text += str(int(active.skills[i].h_cost * active.hp_max)) + "HP"
+			button_text += str(int((active.hp_max - (4 * Global.damage_scale * (active.stats[2] - 3))) * active.skills[i].h_cost)) + "HP"
 		SkillControl.get_child(i).text = button_text
 		SkillControl.get_child(i).rect_size = Vector2(260, 25)
 		SkillControl.get_child(i).rect_position = Vector2(0, 25 * i)
@@ -139,10 +139,10 @@ func _on_EndBattleTimer_timeout():
 	emit_signal("end_battle")
 
 func _on_EButton_pressed(i, s_name, might, element, hit, crit, h_cost, m_cost):
-	if active.mp >= m_cost and active.hp >= int(active.hp_max * h_cost):
+	if active.mp >= m_cost and active.hp >= int((active.hp_max - (4 * Global.damage_scale * (active.stats[2] - 3))) * h_cost):
 		var attack_result = active.attack(encounter[i], s_name, might, element, hit, crit, Vector2(450 - 110 * (len(encounter) - 1) + i * 220, 150))
 		var message = attack_result[0]
-		active.hp -= int(active.hp_max * h_cost)
+		active.hp -= int((active.hp_max - (4 * Global.damage_scale * (active.stats[2] - 3))) * h_cost)
 		active.mp -= m_cost
 		get_parent().update_enemy_health_box()
 		get_parent().update_player_health()
@@ -177,13 +177,13 @@ func check_enemy_hp(message):
 			
 			var rand_material = Global.rand.randf()
 			var mat_id
-			if rand_material < 0.5:
+			if rand_material < 0.45:
 				mat_id = e.mat_drops[Global.rand.randi() % len(e.mat_drops)]
 			elif rand_material < 0.85:
 				mat_id = 10
 			if mat_id != null:
 				var n_dist = [1, 2, 2, 3]
-				get_parent().mat_drops[mat_id] += n_dist[Global.rand.randi() % len(n_dist)]
+				get_parent().mat_drops[mat_id] += n_dist[Global.rand.randi() % len(n_dist)] + (1 if mat_id == 10 else 0)
 			get_parent().remove_from_order(e)
 			encounter.remove(i)
 			e.queue_free()
