@@ -17,6 +17,7 @@ func _init(s, n, s_list, t_list):
 func add_ap(x, character):
 	if len(skills) > 0 and not character.skills.has(skills[0]):
 		ap += x
+		Global.ap_gained += x
 		if ap >= thresholds[0]:
 			thresholds.remove(0)
 			ap = 0 if len(thresholds) == 0 else ap

@@ -195,6 +195,7 @@ func _on_TurnManager_win():
 		if c.hp > 0:
 			c.mp = min(c.mp_max, c.mp + max(1, c.mp_max / 16))
 			c.experience += max(int(xp_pool), 1)
+			Global.xp_gained += max(int(xp_pool), 1)
 			if c.weapon != null:
 				var skill_learned = c.weapon.add_ap(ap_pool, c)
 				if skill_learned != null:

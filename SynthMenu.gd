@@ -212,6 +212,7 @@ func perform_synthesis(item, recipe):
 		for mat in recipe:
 			materials[mat[0]] -= mat[1]
 		$Message/Label.text = "* Successfully synthesized a " + item[2] + "!"
+		Global.items_synthed += 1
 	else:
 		$Message/Label.text = "* Inventory too full to perform synthesis."
 	clear_detail()

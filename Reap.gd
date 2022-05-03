@@ -18,6 +18,7 @@ func _initialize(c, e):
 	$Health.text = "Restore " + str(hp) + "HP"
 	$Magic.text = "Restore " + str(mp) + "MP"
 	$Experience.text = "Bonus " + str(xp) + "XP"
+	Global.num_reaps += 1
 
 func _on_Health_pressed():
 	emit_signal("reap_health", character, enemy, hp)

@@ -171,6 +171,7 @@ func check_enemy_hp(message):
 	var i = 0
 	for e in encounter:
 		if e.hp <= 0:
+			Global.enemies_defeated += 1
 			var avg_level = (party[0].level + party[1].level + party[2].level) / 3
 			get_parent().xp_pool += int(max(20 + (e.level - avg_level) * 10, 5))
 			get_parent().ap_pool += e.level
@@ -288,6 +289,7 @@ func _on_ReapMenu_reap_magic(character, enemy, mp):
 
 func _on_ReapMenu_reap_xp(character, enemy, xp):
 	character.experience += xp
+	Global.xp_gained += xp
 	clear_reap(character, enemy, str(xp) + "XP")
 
 func clear_reap(character, enemy, bonus):

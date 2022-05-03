@@ -1,8 +1,11 @@
-[gd_scene format=2]
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://EndGameScreen.gd" type="Script" id=1]
 
 [node name="EndGameScreen" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -21,6 +24,7 @@ margin_top = 75.0
 margin_right = 918.0
 margin_bottom = 525.0
 border_color = Color( 0.568627, 0.568627, 0.568627, 1 )
+editor_only = false
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -28,22 +32,37 @@ __meta__ = {
 [node name="Label" type="Label" parent="ReferenceRect"]
 margin_top = 100.0
 margin_right = 812.0
-margin_bottom = 182.0
+margin_bottom = 216.0
 text = "Congratulations!
-You have slain the viscous King of Gremlins, and now 
+You have slain the viscious Gremlin Sigma, and now 
 this office building will return to its ordinary state.
 Maybe things were better when it was ruled by monsters...
-For capitalism is the greediest monster of them all."
+For capitalism is the greediest monster of them all.
+
+"
 align = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Button" type="Button" parent="ReferenceRect"]
+[node name="ShowStats" type="Button" parent="ReferenceRect"]
 margin_left = 346.0
-margin_top = 250.0
+margin_top = 310.0
 margin_right = 466.0
-margin_bottom = 290.0
+margin_bottom = 350.0
+focus_mode = 0
+mouse_default_cursor_shape = 2
+enabled_focus_mode = 0
+text = "Show Stats"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CloseGame" type="Button" parent="ReferenceRect"]
+margin_left = 346.0
+margin_top = 364.0
+margin_right = 466.0
+margin_bottom = 404.0
 focus_mode = 0
 mouse_default_cursor_shape = 2
 enabled_focus_mode = 0
@@ -51,3 +70,25 @@ text = "Close Game"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="ColorRect" type="ColorRect" parent="ReferenceRect"]
+visible = false
+margin_left = 1.0
+margin_top = 100.0
+margin_right = 812.0
+margin_bottom = 306.0
+color = Color( 0.113725, 0.113725, 0.113725, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="ReferenceRect/ColorRect"]
+margin_right = 812.0
+margin_bottom = 179.0
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="pressed" from="ReferenceRect/ShowStats" to="." method="_on_ShowStats_pressed"]
+[connection signal="pressed" from="ReferenceRect/CloseGame" to="." method="_on_CloseGame_pressed"]

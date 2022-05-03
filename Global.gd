@@ -7,6 +7,18 @@ var stat_names = ["Str", "Dex", "Vit", "Int", "Wis", "Luk"]
 var element_names = ["Physical", "Fire", "Ice", "Lightning", "Wind"]
 var encounter_rate_scale = 1
 
+var xp_gained = 0
+var ap_gained = 0
+var steps_taken = 0
+var enemies_defeated = 0
+var items_synthed = 0
+var num_reaps = 0
+var num_wipes = 0
+
+var god_mode = false
+var hard_mode = false
+var true_ending = false
+
 var lunge = Skill.new("Lunge", 1.3, PHYS, Skill.NONE, .75, .5, Skill.SINGLE, 0, 0.25)
 var feuer = Skill.new("Feuer", 1.3, FIRE, Skill.NONE, .9, 0, Skill.SINGLE, 3, 0)
 var eis = Skill.new("Eis", 1.3, ICE, Skill.NONE, .9, 0, Skill.SINGLE, 3, 0)

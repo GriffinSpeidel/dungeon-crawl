@@ -15,6 +15,13 @@ var materials = []
 var game_finished
 
 func _ready():
+	if Input.is_action_pressed("funny_mode"):
+		Global.damage_scale = 999
+	if Input.is_action_pressed("god_mode"):
+		Global.god_mode = true
+	elif Input.is_action_pressed("hard_mode"):
+		Global.hard_mode = true
+	
 	game_finished = false
 	location = get_node("Floor1")
 	prepare_location()
@@ -46,7 +53,7 @@ func _ready():
 	$PartyNode.add_child(char2)
 	char2._initialize("Jin", "res://textures/Jin.png")
 	char2.learn_skill(Global.lunge)
-	char2.equip(Weapon.new([1,0,0,0,0,0], "Cracked Bat", [Global.eviscerate], [36]))
+	char2.equip(Weapon.new([1,0,0,0,0,0], "Sturdy Broom", [Global.eviscerate], [36]))
 	
 	char3 = character_resource.instance()
 	party.append(char3)
@@ -123,6 +130,8 @@ func _process(delta):
 			unpause()
 		else:
 			pause()
+	if Input.is_action_just_pressed("toggle_fulscreen"):
+		OS.window_fullscreen = not OS.window_fullscreen
 
 func start_encounter(e_res, e_level, is_boss):
 	$Battle.fill_and_draw(e_res, e_level, is_boss)
@@ -139,6 +148,10 @@ func start_boss():
 	$Battle.connect("end_battle", self, "_on_Battle_win_boss")
 
 func _on_Battle_win_boss():
+	for c in party:
+		if c.weapon.g_name == "Excalibur":
+			Global.true_ending = true
+			break
 	var end_screen_res = load("res://EndGameScreen.tscn")
 	var EndScreen = end_screen_res.instance()
 	add_child(EndScreen)
@@ -148,11 +161,6 @@ func _on_Battle_win_boss():
 	$Player.queue_free()
 	game_finished = true
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-	$EndGameScreen/ReferenceRect/Button.connect("pressed", self, "close_game")
-	
-
-func close_game():
-	get_tree().quit()
 
 func pause():
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
@@ -198,6 +206,7 @@ func _on_Battle_game_over():
 	$HUD.visible = true
 
 func _on_Player_update_danger_level(): 
+	Global.steps_taken += 1
 	var j = 0
 	for item in inventory:
 		if item is Consumeable:

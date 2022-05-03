@@ -11,7 +11,7 @@ signal go_to_floor
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	encounter_table = [1, 2]
-	encounter_levels = [2, 2, 3, 3, 3, 4]
+	encounter_levels = [2, 3, 3, 4, 4]
 	respawn_point = Vector3(11, 1.01, 11)
 	respawn_rotation = Vector3(0, 90, 0)
 	l_name = "Floor 2"
