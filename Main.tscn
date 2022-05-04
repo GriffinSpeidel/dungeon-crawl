@@ -6,7 +6,9 @@
 [ext_resource path="res://Main.gd" type="Script" id=4]
 [ext_resource path="res://PauseMenu.tscn" type="PackedScene" id=5]
 
-[node name="Main" type="Node"]
+[node name="Main" type="Node" groups=[
+"Persist",
+]]
 pause_mode = 2
 script = ExtResource( 4 )
 
@@ -74,5 +76,4 @@ data = {
 
 [connection signal="check_for_encounter" from="Player" to="." method="_on_Player_check_for_encounter"]
 [connection signal="update_danger_level" from="Player" to="." method="_on_Player_update_danger_level"]
-[connection signal="unpause" from="PauseMenu" to="." method="unpause"]
 [connection signal="end_battle" from="Battle" to="." method="_on_Battle_end_battle"]

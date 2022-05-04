@@ -231,23 +231,23 @@ func _on_TurnManager_win():
 		item_level += Global.rand.randi() % 7
 		var item_type = Global.rand.randf()
 		if item_type < 0.5:
-			if item_level > 24:
+			if item_level >= 24:
 				item_drop = Consumeable.new("Grape Bunch", 20, 0, false)
-			elif item_level > 12:
+			elif item_level >= 12:
 				item_drop = Consumeable.new("Healing Grape", 12, 0, false)
 			else:
 				item_drop = Consumeable.new("Grapeseed", 6, 0, false)
 		elif item_type < 0.75:
-			if item_level > 24:
+			if item_level >= 24:
 				item_drop = Consumeable.new("Orange Tree", 10, 1, false)
-			elif item_level > 12:
+			elif item_level >= 12:
 				item_drop = Consumeable.new("Ripe Orange", 6, 1, false)
 			else:
 				item_drop = Consumeable.new("Orange Slice", 3, 1, false)
 		else:
-			if item_level > 24:
+			if item_level >= 24:
 				item_drop = Consumeable.new("Beastly Energy", 12, 2, false)
-			elif item_level > 12:
+			elif item_level >= 12:
 				item_drop = Consumeable.new("Instant Coffee", 8, 2, false)
 			else:
 				item_drop = Consumeable.new("Sparky Cola", 4, 2, false)

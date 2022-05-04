@@ -78,3 +78,6 @@ func unequip_armor():
 		affinities = [1,1,1,1,1]
 		armor = null
 	self.set_max_hp_mp()
+
+func save():
+	pass

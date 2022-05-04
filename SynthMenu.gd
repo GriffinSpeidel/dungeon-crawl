@@ -199,6 +199,7 @@ func show_detail(item, recipe):
 	
 	if synth_valid:
 		SynthDetail.get_node("Synthesize").disabled = false
+		SynthDetail.get_node("Synthesize").mouse_default_cursor_shape = 2
 		SynthDetail.get_node("Synthesize").connect("pressed", self, "perform_synthesis", [item, recipe])
 	
 	$SynthWindow.add_child(SynthDetail)

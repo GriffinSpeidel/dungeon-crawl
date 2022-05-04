@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://textures/Carlos.png" type="Texture" id=1]
 [ext_resource path="res://PauseMenu.gd" type="Script" id=2]
 [ext_resource path="res://textures/Maya.png" type="Texture" id=3]
 [ext_resource path="res://textures/Jin.png" type="Texture" id=4]
+[ext_resource path="res://SystemMenu.tscn" type="PackedScene" id=5]
 
 [node name="PauseMenu" type="Popup"]
 anchor_right = 1.0
@@ -442,7 +443,7 @@ margin_top = 16.0
 margin_right = 666.0
 margin_bottom = 30.0
 
-[node name="Unpause" type="Button" parent="."]
+[node name="System" type="Button" parent="."]
 margin_left = 62.0
 margin_top = 532.0
 margin_right = 182.0
@@ -450,7 +451,7 @@ margin_bottom = 572.0
 focus_mode = 0
 mouse_default_cursor_shape = 2
 enabled_focus_mode = 0
-text = "Unpause"
+text = "System Menu"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -508,7 +509,13 @@ margin_top = 10.0
 margin_right = 51.0
 margin_bottom = 24.0
 
-[connection signal="pressed" from="Unpause" to="." method="_on_Unpause_pressed"]
+[node name="SystemMenu" parent="." instance=ExtResource( 5 )]
+visible = false
+
+[connection signal="pressed" from="System" to="." method="_on_System_pressed"]
 [connection signal="pressed" from="Sort" to="." method="_on_Sort_pressed"]
 [connection signal="pressed" from="Skill" to="." method="_on_Skill_pressed"]
 [connection signal="pressed" from="Synth" to="." method="_on_Synth_pressed"]
+[connection signal="close_sys" from="SystemMenu" to="." method="_on_SystemMenu_close_sys"]
+[connection signal="load_game" from="SystemMenu" to="." method="_on_SystemMenu_load_game"]
+[connection signal="save_game" from="SystemMenu" to="." method="_on_SystemMenu_save_game"]

@@ -6,19 +6,18 @@ var Cancel
 var Trash
 var CharButtonContainer
 var SynthMenu
+var SystemMenu
 var unequip_buttons
 var showing_skills
 var skill_windows
-signal unpause
 
 func _ready():
 	party = get_parent().party
 	showing_skills = false
 	skill_windows = []
-
-func _on_Unpause_pressed():
-	clear_skill_windows()
-	emit_signal("unpause")
+	CharButtonContainer = Control.new()
+	CharButtonContainer.rect_position = Vector2(56, 30)
+	add_child(CharButtonContainer)
 
 func clear_skill_windows():
 	for window in skill_windows:
@@ -105,12 +104,8 @@ func update_inventory():
 		for child in $Inventory/ReferenceRect.get_children()[i].get_children():
 			child.queue_free()
 	var inventory = get_parent().inventory
-	var useable = []
-	for item in inventory:
-		if not item is CraftMaterial:
-			useable.append(item)
 	var cols = [[],[],[]]
-	for item in useable:
+	for item in inventory:
 		for col in cols:
 			if len(col) < 8:
 				col.append(item)
@@ -127,20 +122,30 @@ func update_inventory():
 			$Inventory/ReferenceRect.get_children()[i].add_child(item_buttons[i][j])
 			item_buttons[i][j].connect("pressed", self, "_on_ItemButton_pressed", [cols[i][j], i, j])
 
-func _on_ItemButton_pressed(item, i, j):
+func disable_buttons():
 	for col in item_buttons:
 		for button in col:
 			button.disabled = true
+			button.mouse_default_cursor_shape = 0
 	for k in range(3):
 		for button in $Equipment.get_child(k).get_node("UnequipButtons").get_children():
 			button.disabled = true
+			button.mouse_default_cursor_shape = 0
 	clear_skill_windows()
-	$Unpause.disabled = true
+	$System.disabled = true
+	$System.mouse_default_cursor_shape = 0
 	$Sort.disabled = true
+	$Sort.mouse_default_cursor_shape = 0
 	$Skill.disabled = true
+	$Skill.mouse_default_cursor_shape = 0
 	$Synth.disabled = true
+	$Synth.mouse_default_cursor_shape = 0
+
+func _on_ItemButton_pressed(item, i, j):
+	disable_buttons()
 	
 	Cancel = Button.new()
+	Cancel.name = "Cancel"
 	Cancel.rect_position = Vector2(item_buttons[i][j].rect_size[0] + 16, 21 * j)
 	Cancel.rect_size = Vector2(26, 16)
 	Cancel.mouse_default_cursor_shape = 2
@@ -159,9 +164,6 @@ func _on_ItemButton_pressed(item, i, j):
 	Trash.connect("pressed", self, "trash_item", [item])
 	
 	var char_buttons = []
-	CharButtonContainer = Control.new()
-	CharButtonContainer.rect_position = Vector2(56, 30)
-	add_child(CharButtonContainer)
 	for k in range(3):
 		char_buttons.append(Button.new())
 		char_buttons[k].icon = party[k].texture
@@ -237,10 +239,14 @@ func _on_CharButton_pressed(item, i):
 			break
 	update_inventory()
 	update_portraits()
-	if typeof(CharButtonContainer) != TYPE_NIL:
-		CharButtonContainer.queue_free()
+	clear_char_buttons()
+
+func clear_char_buttons():
+	for child in CharButtonContainer.get_children():
+		child.queue_free()
 
 func enable_item_buttons():
+	clear_char_buttons()
 	$Details/Label.text = ""
 	if typeof(Cancel) != TYPE_NIL:
 		Cancel.queue_free()
@@ -249,15 +255,19 @@ func enable_item_buttons():
 	for col in item_buttons:
 		for button in col:
 			button.disabled = false
-	if typeof(CharButtonContainer) != TYPE_NIL:
-		CharButtonContainer.queue_free()
+			button.mouse_default_cursor_shape = 2
 	for k in range(3):
 		for button in $Equipment.get_child(k).get_node("UnequipButtons").get_children():
 			button.disabled = false
-	$Unpause.disabled = false
+			button.mouse_default_cursor_shape = 2
+	$System.disabled = false
+	$System.mouse_default_cursor_shape = 2
 	$Sort.disabled = false
+	$Sort.mouse_default_cursor_shape = 2
 	$Synth.disabled = false
+	$Synth.mouse_default_cursor_shape = 2
 	$Skill.disabled = false
+	$Skill.mouse_default_cursor_shape = 2
 
 func unequip(item, character):
 	if item is Weapon:
@@ -329,3 +339,17 @@ func clear_synthesis():
 	update_inventory()
 	if has_node("SynthMenu"):
 		SynthMenu.queue_free()
+
+func _on_System_pressed():
+	$SystemMenu.visible = true
+	disable_buttons()
+
+func _on_SystemMenu_close_sys():
+	$SystemMenu.visible = false
+	enable_item_buttons()
+
+func _on_SystemMenu_load_game():
+	get_parent().load_game()
+
+func _on_SystemMenu_save_game():
+	get_parent().save_game()
