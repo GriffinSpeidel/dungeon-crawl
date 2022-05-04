@@ -144,7 +144,15 @@ func start_encounter(e_res, e_level, is_boss):
 	$HUD.hide()
 
 func start_boss():
-	start_encounter([4, 6, 5], [10, 16, 10], true)
+	var buff_boss = false
+	for c in party:
+		if c.weapon.g_name == "Excalibur":
+			buff_boss = true
+			break
+	if buff_boss:
+		start_encounter([4, 6, 5], [18, 22, 18], true)
+	else:
+		start_encounter([4, 6, 5], [10, 16, 10], true)
 	$Battle.connect("end_battle", self, "_on_Battle_win_boss")
 
 func _on_Battle_win_boss():
