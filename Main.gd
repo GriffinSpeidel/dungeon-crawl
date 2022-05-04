@@ -128,7 +128,7 @@ func _process(delta):
 			$PauseMenu.clear_skill_windows()
 			$PauseMenu.clear_synthesis()
 			$PauseMenu.clear_char_buttons()
-			#$PauseMenu._on_SystemMenu_close_sys()
+			$PauseMenu.enable_bottom_buttons()
 			unpause()
 		else:
 			pause()
@@ -179,6 +179,7 @@ func pause():
 	$PauseMenu.update_portraits()
 	$PauseMenu.update_equipment()
 	$PauseMenu.update_inventory()
+	$PauseMenu/Details/Label.text = ""
 	$PauseMenu.show()
 
 func unpause():

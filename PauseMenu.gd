@@ -260,6 +260,9 @@ func enable_item_buttons():
 		for button in $Equipment.get_child(k).get_node("UnequipButtons").get_children():
 			button.disabled = false
 			button.mouse_default_cursor_shape = 2
+	enable_bottom_buttons()
+
+func enable_bottom_buttons():
 	$System.disabled = false
 	$System.mouse_default_cursor_shape = 2
 	$Sort.disabled = false
