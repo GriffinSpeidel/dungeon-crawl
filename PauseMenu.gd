@@ -343,6 +343,9 @@ func clear_synthesis():
 	if has_node("SynthMenu"):
 		SynthMenu.queue_free()
 
+func clear_system():
+	$SystemMenu.visible = false
+
 func _on_System_pressed():
 	$SystemMenu.visible = true
 	disable_buttons()

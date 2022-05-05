@@ -129,6 +129,7 @@ func _process(delta):
 			$PauseMenu.clear_synthesis()
 			$PauseMenu.clear_char_buttons()
 			$PauseMenu.enable_bottom_buttons()
+			$PauseMenu.clear_system()
 			unpause()
 		else:
 			pause()
