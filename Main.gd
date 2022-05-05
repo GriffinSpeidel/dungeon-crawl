@@ -253,22 +253,7 @@ func save():
 		"rot_x" : $Player.rotation_degrees[0],
 		"rot_y" : $Player.rotation_degrees[1],
 		"rot_z" : $Player.rotation_degrees[2],
-		"char1" : party[0],
-		"char2" : party[1],
-		"char3" : party[2],
-		"inventory" : inventory,
-		"materials" : materials,
-		"location" : location,
-		"damage_scale" : Global.damage_scale,
-		"xp_gained" : Global.xp_gained,
-		"ap_gained" : Global.ap_gained,
-		"steps_taken" : Global.steps_taken,
-		"enemies_defeated" : Global.enemies_defeated,
-		"items_synthed" : Global.items_synthed,
-		"num_reaps" : Global.num_reaps,
-		"num_wipes" : Global.num_wipes,
-		"god_mode" : Global.god_mode,
-		"hard_mode" : Global.hard_mode,
+		"location" : location.get_filename()
 	}
 	return save_dict
 
@@ -276,33 +261,56 @@ func save_game():
 	var save_game = File.new()
 	save_game.open("user://savegame.save", File.WRITE)
 	save_game.store_line(to_json(save()))
+	for character in party:
+		save_game.store_line(to_json(character.save()))
 	save_game.close()
 
 func load_game():
-	var save_game = File.new()
-	if not save_game.file_exists("user://savegame.save"):
-		return null
+	var save_game  = File.new()
 	save_game.open("user://savegame.save", File.READ)
-	while save_game.get_position() < save_game.get_len():
-		var node_data = parse_json(save_game.get_line())
-		$Player.translation = Vector3(node_data["pos_x"], 1.01, node_data["pos_z"])
-		$Player.rotation_degrees = Vector3(node_data["rot_x"], node_data["rot_y"], node_data["rot_z"])
-		char1 = node_data["char1"] 
-		char2 = node_data["char2"]
-		char3 = node_data["char3"]
-		inventory = node_data["inventory"]
-		materials = node_data["materials"]
-		location = node_data["location"]
-		Global.damage_scale = node_data["damage_scale"]
-		Global.xp_gained = node_data["xp_gained"]
-		Global.ap_gained = node_data["ap_gained"]
-		Global.steps_taken = node_data["steps_taken"]
-		Global.enemies_defeated = node_data["enemies_defeated"]
-		Global.items_synthed = node_data["items_synthed"]
-		Global.num_reaps = node_data["num_reaps"]
-		Global.num_wipes = node_data["num_wipes"]
-		Global.god_mode = node_data["god_mode"]
-		Global.hard_mode = node_data["hard_mode"]
+	var main_data = parse_json(save_game.get_line())
+	$Player.translation = Vector3(main_data["pos_x"], 1.01, main_data["pos_z"])
+	$Player.rotation_degrees = Vector3(main_data["rot_x"], main_data["rot_y"], main_data["rot_z"])
+	location.queue_free()
+	location = load(main_data["location"]).instance()
+	add_child(location)
+	$HUD/Floor.text = location.l_name
+	prepare_location()
+	
+	for character in party:
+		var char_data = parse_json(save_game.get_line())
+		var weapon_data = char_data["weapon"]
+		if weapon_data == null:
+			character.weapon = null
+		else:
+			character.weapon = Weapon.new(weapon_data[0], weapon_data[1], [], weapon_data[3])
+			var skill_list = []
+			for s_name in weapon_data[2]: 
+				for skill in Global.skills:
+					if skill.s_name == s_name:
+						skill_list.append(skill)
+						break
+			character.weapon.skills = skill_list
+		
+		var armor_data = char_data["armor"]
+		character.armor = null if armor_data == null else Armor.new(armor_data[0], armor_data[1], armor_data[2])
+		
+		character.texture = load(char_data["texture"])
+		
+		var char_skills = []
+		for s_name in char_data["skills"]:
+			for skill in Global.skills:
+				if skill.s_name == s_name:
+					char_skills.append(skill)
+					break
+		character.skills = char_skills
+		
+		for key in char_data.keys():
+			if key == "weapon" or key == "armor" or key == "texture" or key == "skills":
+				continue
+			else:
+				character.set(key, char_data[key])
+	
 	
 	$PauseMenu.clear_skill_windows()
 	$PauseMenu._on_SystemMenu_close_sys()

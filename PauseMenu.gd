@@ -317,6 +317,7 @@ func _on_Skill_pressed():
 			SkillScroll.add_child(SkillControl)
 			
 			var j = 0
+			var asdf = party[i].skills
 			for skill in party[i].skills:
 				var SkillLabel = Label.new()
 				SkillLabel.text = skill.s_name + " "
@@ -325,9 +326,7 @@ func _on_Skill_pressed():
 				j += 1
 				SkillControl.add_child(SkillLabel)
 			SkillControl.rect_min_size = Vector2(248, 17 * j)
-			
-			print_tree_pretty()
-		
+
 		showing_skills = true
 		$Skill.text = "Hide Skills"
 

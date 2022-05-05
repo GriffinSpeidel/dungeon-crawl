@@ -80,4 +80,26 @@ func unequip_armor():
 	self.set_max_hp_mp()
 
 func save():
-	pass
+	var weapon_skills = []
+	if weapon != null:
+		for skill in weapon.skills:
+			weapon_skills.append(skill.s_name)
+	var char_skills = []
+	for skill in skills:
+		char_skills.append(skill.s_name)
+	var save_dict = {
+		"experience" : experience,
+		"weapon" : null if weapon == null else [weapon.stats, weapon.g_name, weapon_skills, weapon.thresholds, weapon.ap],
+		"armor" : null if armor == null else [armor.stats, armor.g_name, armor.affinities],
+		"hp" : hp,
+		"hp_max" : hp_max,
+		"mp" : mp,
+		"mp_max" : mp_max,
+		"level" : level,
+		"stats" : stats,
+		"affinities" : affinities,
+		"skills" : char_skills,
+		"texture" : texture.get_path(),
+		"c_name" : c_name,
+	}
+	return save_dict

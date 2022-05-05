@@ -40,6 +40,7 @@ var sturm_ex_c = Skill.new("Sturm EX", 1.6, WIND, Skill.NONE, .9, 0, Skill.SINGL
 var smite = Skill.new("Divine Smite", 2.3, PHYS, Skill.NONE, 1, .5, Skill.SINGLE, 16, 0)
 
 var material_names = ["Floating Fabric", "Sharp Tooth", "Rancid Sludge", "Cool Herb", "Food Scraps", "Rough Debris", "Liquid Asbestos", "Scratchy Wool", "Stretchy Skin", "Fig Leaf", "Raw Materials"]
+var skills = [lunge, feuer, eis, blitz, sturm, eviscerate, feuer_ex, eis_ex, blitz_ex, sturm_ex, smite]
 
 #var bat = Weapon.new([2,0,0,0,0,0], "Baseball Bat", [lunge], [20])
 #var knife = Weapon.new([1,1,0,0,0,0], "Pocket Knife", [feuer], [20])
