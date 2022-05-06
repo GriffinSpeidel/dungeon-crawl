@@ -30,7 +30,7 @@ func _ready():
 	update_heading()
 	
 	for i in range(11):
-		materials.append(0)
+		materials.append(12)
 	
 	Global.rand.randomize()
 	

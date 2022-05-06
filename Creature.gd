@@ -41,7 +41,7 @@ func attack(target, s_name, might, element, hit, crit, damage_pos):
 		message += " with " + s_name + "."
 		var damage = max(((self.stats[attack_stat] * might) - (target.stats[defense_stat] / 2)), 0) * Global.rand.randf_range(0.85, 1.15) + Global.rand.randi_range(0, 1)
 		damage *= target.affinities[element]
-		if Global.rand.randf() < crit * self.stats[5] / target.stats[5]:
+		if Global.rand.randf() < crit * (((self.stats[5] / target.stats[5] - 1) / 2) + 1):
 			damage *= 2
 			# damage += self.stats[0] * might / 2
 			crit_success = true

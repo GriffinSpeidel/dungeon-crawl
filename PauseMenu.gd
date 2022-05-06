@@ -188,10 +188,41 @@ func _on_ItemButton_pressed(item, i, j):
 				stat_string += str(item.stats[i])
 				add_comma = true
 		if item is Weapon:
+			for k in range(3):
+				$Equipment.get_children()[k].get_node("Col1").text = ""
+				var new_str = party[k].stats[0] + item.stats[0] - (0 if party[k].weapon == null else party[k].weapon.stats[0])
+				$Equipment.get_children()[k].get_node("Col1").text += "Str: " + str(new_str) + " (" + ("+" if (new_str - party[k].stats[0]) >= 0 else "") + str(new_str - party[k].stats[0]) + ")" + "\n"
+				var new_dex = party[k].stats[1] + item.stats[1] - (0 if party[k].weapon == null else party[k].weapon.stats[1])
+				$Equipment.get_children()[k].get_node("Col1").text += "Dex: " + str(new_dex) + " (" + ("+" if (new_dex - party[k].stats[1]) >= 0 else "") + str(new_dex - party[k].stats[1]) + ")" + "\n"
+				var new_vit = party[k].stats[2] + item.stats[2] - (0 if party[k].weapon == null else party[k].weapon.stats[2])
+				$Equipment.get_children()[k].get_node("Col1").text += "Vit: " + str(new_vit) + " (" + ("+" if (new_vit - party[k].stats[2]) >= 0 else "") + str(new_vit - party[k].stats[2]) + ")" +"\n"
+				$Equipment.get_children()[k].get_node("Col2").text = ""
+				var new_int = party[k].stats[3] + item.stats[3] - (0 if party[k].weapon == null else party[k].weapon.stats[3])
+				$Equipment.get_children()[k].get_node("Col2").text += "Int: " + str(new_int) + " (" + ("+" if (new_int - party[k].stats[3]) >= 0 else "") + str(new_int - party[k].stats[3]) + ")" +"\n"
+				var new_wis = party[k].stats[4] + item.stats[4] - (0 if party[k].weapon == null else party[k].weapon.stats[4])
+				$Equipment.get_children()[k].get_node("Col2").text += "Wis: " + str(new_wis) + " (" + ("+" if (new_wis - party[k].stats[4]) >= 0 else "") + str(new_wis - party[k].stats[4]) + ")" +"\n"
+				var new_luk = party[k].stats[5] + item.stats[5] - (0 if party[k].weapon == null else party[k].weapon.stats[5])
+				$Equipment.get_children()[k].get_node("Col2").text += "Luk: " + str(new_luk) + " (" + ("+" if (new_luk - party[k].stats[5]) >= 0 else "") + str(new_luk - party[k].stats[5]) + ")" +"\n"
+			
 			if len(item.skills) > 0:
 				stat_string += "; " + item.skills[0].s_name
-				$Details/Label.text = stat_string
 		elif item is Armor:
+			for k in range(3):
+				$Equipment.get_children()[k].get_node("Col1").text = ""
+				var new_str = party[k].stats[0] + item.stats[0] - (0 if party[k].armor == null else party[k].armor.stats[0])
+				$Equipment.get_children()[k].get_node("Col1").text += "Str: " + str(new_str) + " (" + ("+" if (new_str - party[k].stats[0]) >= 0 else "") + str(new_str - party[k].stats[0]) + ")" + "\n"
+				var new_dex = party[k].stats[1] + item.stats[1] - (0 if party[k].armor == null else party[k].armor.stats[1])
+				$Equipment.get_children()[k].get_node("Col1").text += "Dex: " + str(new_dex) + " (" + ("+" if (new_dex - party[k].stats[1]) >= 0 else "") + str(new_dex - party[k].stats[1]) + ")" + "\n"
+				var new_vit = party[k].stats[2] + item.stats[2] - (0 if party[k].armor == null else party[k].armor.stats[2])
+				$Equipment.get_children()[k].get_node("Col1").text += "Vit: " + str(new_vit) + " (" + ("+" if (new_vit - party[k].stats[2]) >= 0 else "") + str(new_vit - party[k].stats[2]) + ")" +"\n"
+				$Equipment.get_children()[k].get_node("Col2").text = ""
+				var new_int = party[k].stats[3] + item.stats[3] - (0 if party[k].armor == null else party[k].armor.stats[3])
+				$Equipment.get_children()[k].get_node("Col2").text += "Int: " + str(new_int) + " (" + ("+" if (new_int - party[k].stats[3]) >= 0 else "") + str(new_int - party[k].stats[3]) + ")" +"\n"
+				var new_wis = party[k].stats[4] + item.stats[4] - (0 if party[k].armor == null else party[k].armor.stats[4])
+				$Equipment.get_children()[k].get_node("Col2").text += "Wis: " + str(new_wis) + " (" + ("+" if (new_wis - party[k].stats[4]) >= 0 else "") + str(new_wis - party[k].stats[4]) + ")" +"\n"
+				var new_luk = party[k].stats[5] + item.stats[5] - (0 if party[k].armor == null else party[k].armor.stats[5])
+				$Equipment.get_children()[k].get_node("Col2").text += "Luk: " + str(new_luk) + " (" + ("+" if (new_luk - party[k].stats[5]) >= 0 else "") + str(new_luk - party[k].stats[5]) + ")" +"\n"
+			
 			var aff_string = "; "
 			var weak = []
 			var nullify = []
@@ -218,7 +249,7 @@ func _on_ItemButton_pressed(item, i, j):
 				for e in weak:
 					aff_string += " " + e
 			stat_string += aff_string if aff_string != "; " else ""
-			$Details/Label.text = stat_string
+		$Details/Label.text = stat_string
 	
 
 func trash_item(item):
@@ -247,6 +278,7 @@ func clear_char_buttons():
 
 func enable_item_buttons():
 	update_inventory()
+	update_equipment()
 	clear_char_buttons()
 	$Details/Label.text = ""
 	for col in item_buttons:

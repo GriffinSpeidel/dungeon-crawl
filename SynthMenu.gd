@@ -29,7 +29,7 @@ var weapon_recipes = [
 var armor_recipes = [
 	[[Armor, [0,0,1,0,0,0], "Fancy Suit", [1,1,1,1,1]],
 	[[0, 2], [10, 1]]], # 2 floating fabric, 1 raw material
-	[[Armor, [0,0,2,0,0,0], "Bulletproof Vest", [0.5,1,1,1,1]],
+	[[Armor, [0,-1,1,0,-1,0], "Bulletproof Vest", [0.5,1,1,1,1]],
 	[[4, 4], [5, 4], [10, 6]]], # 4 food scraps, 4 debris, 6 raw materials
 	[[Armor, [0,0,0,0,1,0], "Asbestos Cloak", [1,0.5,2,1,1]],
 	[[6, 2], [10, 2]]], # 2 liquid asbestos, 2 raw materials
@@ -70,7 +70,7 @@ func check_weapons():
 			SynthBox.get_node("ReferenceRect/Name").text = recipe[0][2]
 			var mat_list_string = ""
 			for mat in recipe[1]:
-				mat_list_string += Global.material_names[mat[0]] + " x" + str(mat[1]) + "\n"
+				mat_list_string += Global.material_names[mat[0]] + " x" + str(mat[1]) + (" Yes" if materials[mat[0]] >= mat[1] else " No") + "\n"
 			SynthBox.get_node("ReferenceRect/Materials").text = mat_list_string
 			
 			SynthBox.rect_position = Vector2(1, 62 * num_craftable + 1)
@@ -118,7 +118,7 @@ func check_armor():
 			SynthBox.get_node("ReferenceRect/Name").text = recipe[0][2]
 			var mat_list_string = ""
 			for mat in recipe[1]:
-				mat_list_string += Global.material_names[mat[0]] + " x" + str(mat[1]) + "\n"
+				mat_list_string += Global.material_names[mat[0]] + " x" + str(mat[1]) + (" Yes" if materials[mat[0]] >= mat[1] else " No") + "\n"
 			SynthBox.get_node("ReferenceRect/Materials").text = mat_list_string
 			
 			SynthBox.rect_position = Vector2(1, 62 * num_craftable + 1)
@@ -213,6 +213,8 @@ func perform_synthesis(item, recipe):
 		for mat in recipe:
 			materials[mat[0]] -= mat[1]
 		$Message/Label.text = "* Successfully synthesized a " + item[2] + "!"
+		check_weapons()
+		check_armor()
 		Global.items_synthed += 1
 	else:
 		$Message/Label.text = "* Inventory too full to perform synthesis."

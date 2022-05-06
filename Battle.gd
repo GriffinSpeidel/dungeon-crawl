@@ -40,6 +40,7 @@ func _initialize(party):
 	for c in party:
 		if c.hp > 0:
 			live_party_members.append(c)
+			c.guarding = false
 
 func choose_order():
 	order = []
@@ -178,6 +179,12 @@ func update_enemy_health_box():
 		var box_i = $EncounterNode.get_child(i).get_child(0)
 		box_i.get_child(0).text = $EncounterNode.get_child(i).c_name + ' ' + str($EncounterNode.get_child(i).id) + ' lvl.' + str($EncounterNode.get_child(i).level)
 		box_i.get_child(1).rect_size.x = float($EncounterNode.get_child(i).hp) / $EncounterNode.get_child(i).hp_max * 172
+		if $EncounterNode.get_child(i).hp < $EncounterNode.get_child(i).hp_max / 4:
+			box_i.get_child(1).color = Color(0.75, 0.08, 0)
+		elif $EncounterNode.get_child(i).hp < $EncounterNode.get_child(i).hp_max / 2:
+			box_i.get_child(1).color = Color(1, 0.85, 0)
+		else:
+			box_i.get_child(1).color = Color(10.0/255, 131.0/255, 0)
 
 func _on_TurnManager_win():
 	if TurnManager != null:
@@ -203,7 +210,7 @@ func _on_TurnManager_win():
 					c.learn_skill(skill_learned)
 	
 	add_child(EndBattleMenu)
-	EndBattleMenu.add_message("Each party member gained " + str(xp_pool) + "XP.")
+	EndBattleMenu.add_message("Each party member gained " + str(int(xp_pool)) + "XP.")
 	EndBattleMenu.add_message("Each party member gained " + str(ap_pool) + "AP for their weapon.")
 	EndBattleMenu.add_message("Each party member regained a bit of MP.")
 	for string in skill_messages:
@@ -254,7 +261,7 @@ func _on_TurnManager_win():
 		
 		if len(get_parent().inventory) < 24:
 			get_parent().inventory.append(item_drop)
-			EndBattleMenu.add_message("Got consumeable: " + item_drop.g_name)
+			EndBattleMenu.add_message("Got consumable: " + item_drop.g_name)
 		else:
 			EndBattleMenu.add_message("The enemy dropped a " + item_drop.g_name + ", but your inventory is full.")
 	
