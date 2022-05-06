@@ -22,3 +22,17 @@ func add_ap(x, character):
 			thresholds.remove(0)
 			ap = 0 if len(thresholds) == 0 else ap
 			return skills.pop_front()
+
+func save():
+	var s_names = []
+	for skill in skills:
+		s_names.append(skill.s_name)
+	var save_dict = {
+		"save_type" : 2,
+		"stats" : stats,
+		"g_name" : g_name,
+		"skills" : s_names,
+		"thresholds" : thresholds,
+		"ap" : ap
+	}
+	return save_dict

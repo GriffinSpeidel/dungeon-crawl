@@ -122,7 +122,7 @@ func on_Pickup_go_to_floor(new_floor, translation, rotation):
 	$HUD/Floor.text = location.l_name
 	prepare_location()
 
-func _process(delta):
+func _process(_delta):
 	if Input.is_action_just_pressed("ui_cancel") and not battle and not game_finished:
 		if paused:
 			$PauseMenu.clear_skill_windows()
@@ -237,7 +237,7 @@ func _on_Player_update_danger_level():
 	$HUD/Danger.text = "Danger Level: " + str(min(encounter_rate * 200 / Global.encounter_rate_scale, 100)) + "%"
 	if Global.rand.randf() < (encounter_rate * encounter_rate / 0.5):
 		encounter_rate = 0
-		$HUD/Danger.text = "Danger Level: " + str(min(encounter_rate * 200 / Global.encounter_rate_scale, 100)) + "%"
+		$HUD/Danger.text = "Danger Level: 0%"
 		var encounter = []
 		var encounter_levels = []
 		var encounter_size = encounter_size_distribution[Global.rand.randi() % len(encounter_size_distribution)]
@@ -253,29 +253,54 @@ func save():
 		"rot_x" : $Player.rotation_degrees[0],
 		"rot_y" : $Player.rotation_degrees[1],
 		"rot_z" : $Player.rotation_degrees[2],
-		"location" : location.get_filename()
+		"location" : location.save(),
+		"encounter_rate" : encounter_rate,
+		"materials" : materials
 	}
 	return save_dict
 
 func save_game():
 	var save_game = File.new()
 	save_game.open("user://savegame.save", File.WRITE)
+	#save_game.store_line(to_json(Global.save()))
 	save_game.store_line(to_json(save()))
 	for character in party:
 		save_game.store_line(to_json(character.save()))
+	var inventory_save = []
+	for item in inventory:
+		inventory_save.append(item.save())
+	save_game.store_line(to_json(inventory_save))
 	save_game.close()
 
 func load_game():
 	var save_game  = File.new()
 	save_game.open("user://savegame.save", File.READ)
+	if not save_game.file_exists("user://savegame.save"):
+		return null
+	
+	#var global_data = parse_json(save_game.get_line())
+	#for key in global_data.keys():
+#		Global.set(key, global_data[key])
+	
 	var main_data = parse_json(save_game.get_line())
 	$Player.translation = Vector3(main_data["pos_x"], 1.01, main_data["pos_z"])
 	$Player.rotation_degrees = Vector3(main_data["rot_x"], main_data["rot_y"], main_data["rot_z"])
+	
 	location.queue_free()
-	location = load(main_data["location"]).instance()
+	var location_data = main_data["location"]
+	location = load(location_data["filename"]).instance()
+	location.load_pickups(location_data["pickup_array"])
+		
 	add_child(location)
 	$HUD/Floor.text = location.l_name
+	$HUD/Notifs.text = ""
+	update_heading()
 	prepare_location()
+	
+	encounter_rate = main_data["encounter_rate"]
+	$HUD/Danger.text = "Danger Level: " + str(min(encounter_rate * 200 / Global.encounter_rate_scale, 100)) + "%"
+	
+	materials = main_data["materials"]
 	
 	for character in party:
 		var char_data = parse_json(save_game.get_line())
@@ -283,17 +308,18 @@ func load_game():
 		if weapon_data == null:
 			character.weapon = null
 		else:
-			character.weapon = Weapon.new(weapon_data[0], weapon_data[1], [], weapon_data[3])
+			character.weapon = Weapon.new(weapon_data["stats"], weapon_data["g_name"], [], weapon_data["thresholds"])
 			var skill_list = []
-			for s_name in weapon_data[2]: 
+			for s_name in weapon_data["skills"]:
 				for skill in Global.skills:
 					if skill.s_name == s_name:
 						skill_list.append(skill)
 						break
 			character.weapon.skills = skill_list
+			character.weapon.ap = weapon_data["ap"]
 		
 		var armor_data = char_data["armor"]
-		character.armor = null if armor_data == null else Armor.new(armor_data[0], armor_data[1], armor_data[2])
+		character.armor = null if armor_data == null else Armor.new(armor_data["stats"], armor_data["g_name"], armor_data["affinities"])
 		
 		character.texture = load(char_data["texture"])
 		
@@ -311,6 +337,26 @@ func load_game():
 			else:
 				character.set(key, char_data[key])
 	
+	var inventory_data = parse_json(save_game.get_line())
+	inventory = []
+	for item_dict in inventory_data:
+		if item_dict["save_type"] == 0:
+			var NewConsumeable = Consumeable.new(item_dict["g_name"], item_dict["potency"], item_dict["variety"], true)
+			NewConsumeable.freshness = item_dict["freshness"]
+			inventory.append(NewConsumeable)
+		elif item_dict["save_type"] == 1:
+			inventory.append(Armor.new(item_dict["stats"], item_dict["g_name"], item_dict["affinities"]))
+		elif item_dict["save_type"] == 2:
+			var NewWeapon = Weapon.new(item_dict["stats"], item_dict["g_name"], [], item_dict["thresholds"])
+			var skill_list = []
+			for s_name in item_dict["skills"]:
+				for skill in Global.skills:
+					if skill.s_name == s_name:
+						skill_list.append(skill)
+						break
+			NewWeapon.skills = skill_list
+			NewWeapon.ap = item_dict["ap"]
+			inventory.append(NewWeapon)
 	
 	$PauseMenu.clear_skill_windows()
 	$PauseMenu._on_SystemMenu_close_sys()

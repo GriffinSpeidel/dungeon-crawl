@@ -246,12 +246,9 @@ func clear_char_buttons():
 		child.queue_free()
 
 func enable_item_buttons():
+	update_inventory()
 	clear_char_buttons()
 	$Details/Label.text = ""
-	if typeof(Cancel) != TYPE_NIL:
-		Cancel.queue_free()
-	if typeof(Trash) != TYPE_NIL:
-		Trash.queue_free()
 	for col in item_buttons:
 		for button in col:
 			button.disabled = false

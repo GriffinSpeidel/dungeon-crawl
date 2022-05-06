@@ -35,3 +35,13 @@ func use(target):
 		var effect = int(potency * Global.rand.randf_range(0.9,1.1) * Global.damage_scale)
 		target.hp = effect
 		return target.c_name + " is revived to " + str(effect) + "HP"
+
+func save():
+	var save_dict = {
+		"save_type" : 0,
+		"g_name" : g_name,
+		"potency" : potency,
+		"variety" : variety,
+		"freshness" : freshness
+	}
+	return save_dict

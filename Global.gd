@@ -42,6 +42,22 @@ var smite = Skill.new("Divine Smite", 2.3, PHYS, Skill.NONE, 1, .5, Skill.SINGLE
 var material_names = ["Floating Fabric", "Sharp Tooth", "Rancid Sludge", "Cool Herb", "Food Scraps", "Rough Debris", "Liquid Asbestos", "Scratchy Wool", "Stretchy Skin", "Fig Leaf", "Raw Materials"]
 var skills = [lunge, feuer, eis, blitz, sturm, eviscerate, feuer_ex, eis_ex, blitz_ex, sturm_ex, smite]
 
+func save():
+	var save_dict = {
+		"damage_scale" : damage_scale,
+		"xp_gained" : xp_gained,
+		"ap_gained" : ap_gained,
+		"steps_taken" : steps_taken,
+		"enemies_defeated" : enemies_defeated,
+		"items_synthed" : items_synthed,
+		"num_reaps" : num_reaps,
+		"num_wipes" : num_wipes,
+		"god_mode" : god_mode,
+		"hard_mode" : hard_mode,
+		"true_ending" : true_ending
+	}
+	return save_dict
+
 #var bat = Weapon.new([2,0,0,0,0,0], "Baseball Bat", [lunge], [20])
 #var knife = Weapon.new([1,1,0,0,0,0], "Pocket Knife", [feuer], [20])
 #var icebox = Weapon.new([1,0,0,1,0,0], "Mini Icebox", [eis], [20])

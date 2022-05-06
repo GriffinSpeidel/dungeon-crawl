@@ -24,3 +24,26 @@ func _on_ToFloor4_body_entered(body):
 
 func _on_StartBoss_body_entered(body):
 	emit_signal("start_boss")
+
+func save():
+	var pickup_array = []
+	for node in $ItemPickups.get_children():
+		pickup_array.append([node.translation.x, node.translation.z, node.g_name, node.potency, node.variety, node.full])
+	var node_dict = {
+		"filename" : get_filename(),
+		"pickup_array" : pickup_array
+	}
+	return node_dict
+
+func load_pickups(pickup_array):
+	for node in $ItemPickups.get_children():
+		node.free()
+	var pickup_res = load("res://ItemPickup.tscn")
+	for pickup_data in pickup_array:
+		var NewPickup = pickup_res.instance()
+		NewPickup.translation = Vector3(pickup_data[0], 1, pickup_data[1])
+		NewPickup.g_name = pickup_data[2]
+		NewPickup.potency = pickup_data[3]
+		NewPickup.variety = pickup_data[4]
+		NewPickup.full = pickup_data[5]
+		$ItemPickups.add_child(NewPickup)

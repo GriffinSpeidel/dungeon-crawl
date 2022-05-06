@@ -89,8 +89,8 @@ func save():
 		char_skills.append(skill.s_name)
 	var save_dict = {
 		"experience" : experience,
-		"weapon" : null if weapon == null else [weapon.stats, weapon.g_name, weapon_skills, weapon.thresholds, weapon.ap],
-		"armor" : null if armor == null else [armor.stats, armor.g_name, armor.affinities],
+		"weapon" : null if weapon == null else weapon.save(),
+		"armor" : null if armor == null else armor.save(),
 		"hp" : hp,
 		"hp_max" : hp_max,
 		"mp" : mp,
@@ -102,4 +102,5 @@ func save():
 		"texture" : texture.get_path(),
 		"c_name" : c_name,
 	}
+	var asdf = 1
 	return save_dict
