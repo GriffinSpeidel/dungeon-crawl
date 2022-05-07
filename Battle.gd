@@ -144,6 +144,7 @@ func update_player_health():
 			remove_from_order(i)
 		party_boxes[i].get_child(1).get_child(1).text = "HP: " + str(party[i].hp) + "/" + str(party[i].hp_max)
 		party_boxes[i].get_child(1).get_child(2).text = "MP: " + str(party[i].mp) + "/" + str(party[i].mp_max)
+		party_boxes[i].get_child(1).get_child(0).text = party[i].c_name + " lvl." + str(party[i].level)
 
 func fill_and_draw(res, levels, is_boss): # 0: Head 1: Ooze 2: Plant 3: Suit
 	encounter = []
@@ -182,7 +183,7 @@ func update_enemy_health_box():
 		if $EncounterNode.get_child(i).hp < $EncounterNode.get_child(i).hp_max / 4:
 			box_i.get_child(1).color = Color(0.75, 0.08, 0)
 		elif $EncounterNode.get_child(i).hp < $EncounterNode.get_child(i).hp_max / 2:
-			box_i.get_child(1).color = Color(1, 0.85, 0)
+			box_i.get_child(1).color = Color(179.0/255, 143.0/255, 0)
 		else:
 			box_i.get_child(1).color = Color(10.0/255, 131.0/255, 0)
 
@@ -200,7 +201,7 @@ func _on_TurnManager_win():
 	var skill_messages = []
 	for c in party:
 		if c.hp > 0:
-			c.mp = min(c.mp_max, c.mp + max(1, c.mp_max / 16))
+			c.mp = min(c.mp_max, c.mp + max(1, int(c.mp_max / 16)))
 			c.experience += max(int(xp_pool), 1)
 			Global.xp_gained += max(int(xp_pool), 1)
 			if c.weapon != null:

@@ -62,4 +62,4 @@ __meta__ = {
 }
 
 [connection signal="body_entered" from="ToFloor2" to="." method="_on_ToFloor2_body_entered"]
-[connection signal="body_exited" from="Heal" to="." method="_on_Heal_body_exited"]
+[connection signal="body_entered" from="Heal" to="." method="_on_Heal_body_entered"]

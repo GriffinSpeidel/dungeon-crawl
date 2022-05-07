@@ -30,7 +30,7 @@ func _ready():
 	update_heading()
 	
 	for i in range(11):
-		materials.append(12)
+		materials.append(0)
 	
 	Global.rand.randomize()
 	
@@ -263,13 +263,14 @@ func save_game():
 	var save_game = File.new()
 	save_game.open("user://savegame.save", File.WRITE)
 	#save_game.store_line(to_json(Global.save()))
-	save_game.store_line(to_json(save()))
-	for character in party:
+	save_game.store_line(to_json(save())) # main save
+	for character in party: # 3 lines of character save
 		save_game.store_line(to_json(character.save()))
 	var inventory_save = []
 	for item in inventory:
 		inventory_save.append(item.save())
-	save_game.store_line(to_json(inventory_save))
+	save_game.store_line(to_json(inventory_save)) # 1 line of inventory save
+	save_game.store_line(to_json(Global.save())) # 1 line of Global save
 	save_game.close()
 
 func load_game():
@@ -357,6 +358,10 @@ func load_game():
 			NewWeapon.skills = skill_list
 			NewWeapon.ap = item_dict["ap"]
 			inventory.append(NewWeapon)
+	
+	var global_data = parse_json(save_game.get_line())
+	for key in global_data.keys():
+		Global.set(key, global_data[key])
 	
 	$PauseMenu.clear_skill_windows()
 	$PauseMenu._on_SystemMenu_close_sys()

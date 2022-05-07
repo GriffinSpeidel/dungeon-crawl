@@ -35,7 +35,7 @@ func level_up():
 	add_child(LevelMenu)
 	self.level += 1
 	self.experience -= 100
-	$LevelMenu/Label.text = self.c_name + " leveled up to " + str(self.level) + "! Choose a stat to increase:"
+	LevelMenu.get_node("Label").text = self.c_name + " leveled up to " + str(self.level) + "! Choose a stat to increase:"
 	var i = 0
 	for b in LevelMenu.get_node("Buttons").get_children():
 		b.connect("pressed", self, "increase_stat", [i])

@@ -203,7 +203,12 @@ func _on_ItemButton_pressed(item, i, j):
 				$Equipment.get_children()[k].get_node("Col2").text += "Wis: " + str(new_wis) + " (" + ("+" if (new_wis - party[k].stats[4]) >= 0 else "") + str(new_wis - party[k].stats[4]) + ")" +"\n"
 				var new_luk = party[k].stats[5] + item.stats[5] - (0 if party[k].weapon == null else party[k].weapon.stats[5])
 				$Equipment.get_children()[k].get_node("Col2").text += "Luk: " + str(new_luk) + " (" + ("+" if (new_luk - party[k].stats[5]) >= 0 else "") + str(new_luk - party[k].stats[5]) + ")" +"\n"
-			
+				
+				var new_hp = (4 * (party[k].stats[2] - (0 if party[k].weapon == null else party[k].weapon.stats[2]) + item.stats[2]) + 2 * party[k].level) * Global.damage_scale
+				$Portraits.get_children()[k].get_node("HealthLabel").text = "HP: " + str(min(new_hp, party[k].hp)) + "/" + str(new_hp)
+				var new_mp = 1 + 2 * (party[k].stats[4] - (0 if party[k].weapon == null else party[k].weapon.stats[4]) + item.stats[4]) + party[k].level
+				$Portraits.get_children()[k].get_node("MagicLabel").text = "MP: " + str(min(new_mp, party[k].mp)) + "/" + str(new_mp)
+				
 			if len(item.skills) > 0:
 				stat_string += "; " + item.skills[0].s_name
 		elif item is Armor:
@@ -222,6 +227,11 @@ func _on_ItemButton_pressed(item, i, j):
 				$Equipment.get_children()[k].get_node("Col2").text += "Wis: " + str(new_wis) + " (" + ("+" if (new_wis - party[k].stats[4]) >= 0 else "") + str(new_wis - party[k].stats[4]) + ")" +"\n"
 				var new_luk = party[k].stats[5] + item.stats[5] - (0 if party[k].armor == null else party[k].armor.stats[5])
 				$Equipment.get_children()[k].get_node("Col2").text += "Luk: " + str(new_luk) + " (" + ("+" if (new_luk - party[k].stats[5]) >= 0 else "") + str(new_luk - party[k].stats[5]) + ")" +"\n"
+				
+				var new_hp = (4 * (party[k].stats[2] - (0 if party[k].armor == null else party[k].armor.stats[2]) + item.stats[2]) + 2 * party[k].level) * Global.damage_scale
+				$Portraits.get_children()[k].get_node("HealthLabel").text = "HP: " + str(min(new_hp, party[k].hp)) + "/" + str(new_hp)
+				var new_mp = 1 + 2 * (party[k].stats[4] - (0 if party[k].armor == null else party[k].armor.stats[4]) + item.stats[4]) + party[k].level
+				$Portraits.get_children()[k].get_node("MagicLabel").text = "MP: " + str(min(new_mp, party[k].mp)) + "/" + str(new_mp)
 			
 			var aff_string = "; "
 			var weak = []
@@ -279,6 +289,7 @@ func clear_char_buttons():
 func enable_item_buttons():
 	update_inventory()
 	update_equipment()
+	update_portraits()
 	clear_char_buttons()
 	$Details/Label.text = ""
 	for col in item_buttons:
@@ -321,6 +332,8 @@ class CustomSorter:
 		if a.type == 2:
 			if a.variety != b.variety:
 				return a.variety < b.variety
+			if a.potency != b.potency:
+				return a.potency < b.potency
 			return a.freshness < b.freshness
 		return a.g_name < b.g_name
 

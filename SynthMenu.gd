@@ -28,7 +28,7 @@ var weapon_recipes = [
 
 var armor_recipes = [
 	[[Armor, [0,0,1,0,0,0], "Fancy Suit", [1,1,1,1,1]],
-	[[0, 2], [10, 1]]], # 2 floating fabric, 1 raw material
+	[[5, 1], [5, 1], [10, 1]]], # 2 scraps, 2 debris, 1 raw material
 	[[Armor, [0,-1,1,0,-1,0], "Bulletproof Vest", [0.5,1,1,1,1]],
 	[[4, 4], [5, 4], [10, 6]]], # 4 food scraps, 4 debris, 6 raw materials
 	[[Armor, [0,0,0,0,1,0], "Asbestos Cloak", [1,0.5,2,1,1]],

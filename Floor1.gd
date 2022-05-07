@@ -25,7 +25,7 @@ func _on_ToFloor2_body_entered(body):
 func get_item():
 	pass
 
-func _on_Heal_body_exited(body):
+func _on_Heal_body_entered(body):
 	emit_signal("heal_all")
 
 func save():
