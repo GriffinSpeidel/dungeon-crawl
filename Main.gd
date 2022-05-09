@@ -153,7 +153,7 @@ func start_boss():
 			buff_boss = true
 			break
 	if buff_boss:
-		start_encounter([4, 6, 5], [18, 22, 18], true)
+		start_encounter([4, 6, 5], [26, 30, 26], true)
 	else:
 		start_encounter([4, 6, 5], [10, 16, 10], true)
 	$Battle.connect("end_battle", self, "_on_Battle_win_boss")

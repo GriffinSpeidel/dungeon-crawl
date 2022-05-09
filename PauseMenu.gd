@@ -205,9 +205,9 @@ func _on_ItemButton_pressed(item, i, j):
 				$Equipment.get_children()[k].get_node("Col2").text += "Luk: " + str(new_luk) + " (" + ("+" if (new_luk - party[k].stats[5]) >= 0 else "") + str(new_luk - party[k].stats[5]) + ")" +"\n"
 				
 				var new_hp = (4 * (party[k].stats[2] - (0 if party[k].weapon == null else party[k].weapon.stats[2]) + item.stats[2]) + 2 * party[k].level) * Global.damage_scale
-				$Portraits.get_children()[k].get_node("HealthLabel").text = "HP: " + str(min(new_hp, party[k].hp)) + "/" + str(new_hp)
+				$Portraits.get_children()[k].get_node("HealthLabel").text = "HP: " + str(min(new_hp, party[k].hp)) + "/" + str(new_hp) + " (" + ("+" if (new_hp - party[k].hp_max) >= 0 else "") + str(new_hp - party[k].hp_max) + ")"
 				var new_mp = 1 + 2 * (party[k].stats[4] - (0 if party[k].weapon == null else party[k].weapon.stats[4]) + item.stats[4]) + party[k].level
-				$Portraits.get_children()[k].get_node("MagicLabel").text = "MP: " + str(min(new_mp, party[k].mp)) + "/" + str(new_mp)
+				$Portraits.get_children()[k].get_node("MagicLabel").text = "MP: " + str(min(new_mp, party[k].mp)) + "/" + str(new_mp)  + " (" + ("+" if (new_hp - party[k].mp_max) >= 0 else "") + str(new_mp - party[k].mp_max) + ")"
 				
 			if len(item.skills) > 0:
 				stat_string += "; " + item.skills[0].s_name
@@ -229,9 +229,9 @@ func _on_ItemButton_pressed(item, i, j):
 				$Equipment.get_children()[k].get_node("Col2").text += "Luk: " + str(new_luk) + " (" + ("+" if (new_luk - party[k].stats[5]) >= 0 else "") + str(new_luk - party[k].stats[5]) + ")" +"\n"
 				
 				var new_hp = (4 * (party[k].stats[2] - (0 if party[k].armor == null else party[k].armor.stats[2]) + item.stats[2]) + 2 * party[k].level) * Global.damage_scale
-				$Portraits.get_children()[k].get_node("HealthLabel").text = "HP: " + str(min(new_hp, party[k].hp)) + "/" + str(new_hp)
+				$Portraits.get_children()[k].get_node("HealthLabel").text = "HP: " + str(min(new_hp, party[k].hp)) + "/" + str(new_hp)  + " (" + ("+" if (new_hp - party[k].hp_max) >= 0 else "") + str(new_hp - party[k].hp_max) + ")"
 				var new_mp = 1 + 2 * (party[k].stats[4] - (0 if party[k].armor == null else party[k].armor.stats[4]) + item.stats[4]) + party[k].level
-				$Portraits.get_children()[k].get_node("MagicLabel").text = "MP: " + str(min(new_mp, party[k].mp)) + "/" + str(new_mp)
+				$Portraits.get_children()[k].get_node("MagicLabel").text = "MP: " + str(min(new_mp, party[k].mp)) + "/" + str(new_mp)  + " (" + ("+" if (new_mp - party[k].mp_max) >= 0 else "") + str(new_mp - party[k].mp_max) + ")"
 			
 			var aff_string = "; "
 			var weak = []
