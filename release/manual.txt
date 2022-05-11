@@ -1,0 +1,76 @@
+DUNGEONS AWAIT
+
+Welcome to _dungeon_crawl_test, the senior project of accomplished genius Griffin Speidel! In this thrilling adventure, you will scale the twisted corridors of an abandoned office building that has become corrupted by the bizarre magic of the King of Gremlins. Use your abilities to draw strength from the foes you fell, and scavenge together new and powerful equipment. Let Maya, Jin, and Carlos take your hand, as they draw you into the inescapable labyrinth of corporate hell. Fight with all you have, and may luck be with you!
+
+Meet Your Intrepid Heroes
+The party that you will follow through the dungeon consists of Maya, Jin, and Carlos, three employees of the accursed office space. Each of them holds a special weapon that increases one of their stats, and they will begin the game knowing a single skill. By default, Maya will have the strongest magical attack, Jin will have the strongest physical attack, and Carlos will have the strongest physical defense. Feel free to shift around their equipment to change each party member’s role. You will also be able to freely choose a stat to increase when each character levels up, so the direction your party goes in is entirely up to you.
+
+Character Stats
+HP: Represents your life force - when it goes to zero, you collapse and can’t move until the end of the battle or you are revived
+MP: Represents your magical energies - spent by casting magic spells
+XP: Increases with each fight. When it reaches 100, you level up.
+
+Strength: Increases the damage done with physical skills and the generic strike
+Dexterity: Increases accuracy and evasion for all skills and attacks
+Vitality: Increases max health and reduces damage taken from physical attacks
+Intelligence: Increases damage done with magical skills
+Wisdom: Increases max magic points and reduces damage taken from magical attacks
+Luck: Increases the chance of scoring a critical hit, and decreases the chance that an enemy scores a crit against you
+
+Affinities
+Each skill has an element associated with it. When a character or enemy resists an element, they will take less damage from it. When they are weak to it, they will take more. Enemies have inherent affinities, while those of your characters are dependent on the armor they have equipped. Try different pieces of armor to deal with the specific attacks that your foes are using. Also be sure to consider the specific stats of each enemy you face, which you will have to get a feel for while you play. Some take extra or reduced damage from physical or magical attacks, while others will dodge your attacks more or less often. Keeping their strengths and weaknesses in mind is necessary to survive the more difficult fights.
+
+Traversing the Environment
+You will explore the maze-like office complex from the eyes of the heroes. Use W-A-S-D to move yourself around, and drag the mouse to change your view. In the top left corner of your screen is the current danger level, which increases as you move. The higher it is, the more likely you are to be assailed by foes. The heading in the center of the screen represents the direction you are currently facing. Use this to help navigate - it can also be useful to draw a map as you travel. Access to new floors of the dungeon can be gained by entering the blue boxes that lie at the end of each maze. This change will be reflected in the label in the top right corner of the screen. If you run low on HP and MP, you can retreat to the green cube at the start of the game to get a full heal. When you fall in battle, you will return to the entrance of the current floor. The brown boxes scattered throughout the dungeon hold consumable items that can help you if you are lost and low on resources.
+
+Menu Functionality
+While in the dungeon, press escape to bring up the menu. From here, you can view the current statistics of each party member, which includes their battle stats, affinities, and the skill they are currently learning. Click the “Show Skills” button to swap to a list of skills that the characters currently know. The window on the bottom of the screen holds all of your equipment and consumable items. Click on one to use/equip it, or throw it out. Be careful - you can only hold 24 of these items, and any excess gained from battle will be wasted, so throw out anything you don’t need. Also pay attention to the number next to the name of any consumable - this decreases as you walk around, and the item will disappear when it hits zero. Be sure to use items before they go to waste.
+
+Item Types
+HP Restoratives: Grapeseed, Healing Grape, Grape Bunch
+MP Restoratives: Orange Slice, Ripe Orange, Orange Grove
+Revival Items: Sparky Cola, Instant Coffee, Beastly Energy
+
+Saving the Game
+To manage your save, open the System Menu from the pause screen. Here, you can overwrite the current save data or load the currently saved file. Saving often is harmless, but losing all of your party members only sets you back by a little XP, so don’t stress too much about it.
+
+Learning Skills
+Each weapon has an AP score associated with it, as well as latent skills. At the end of each battle, each weapon in a character’s hand gains AP equal to the total level of enemies defeated. When it reaches the threshold indicated next to its name in the equipment list, the character that is holding it will learn the associated skill, and the weapon will lose the ability to confer that skill. Think carefully about who you want to learn each skill when you are allocating your equipment. Also, take note that a weapon held by a character that already knows the skill it holds will not gain any AP.
+
+Skill Types
+There are two categories of skills: physical and magical. Of the magical skills, there are four elements: fire, ice, lightning, and wind. The skills and their attributes are as follows:
+
+Lunge: Moderate physical damage, low hit rate, high chance to crit, costs about 30% max HP
+Feuer: Moderate fire damage, costs 3MP
+Eis: Moderate ice damage, costs 3MP
+Blitz: Moderate lightning damage, costs 3MP
+Sturm: Moderate wind damage, costs 3MP
+Eviscerate: High physical damage, low hit rate, high chance to crit, costs about 50% max HP
+Feuer EX: High fire damage, costs 8MP
+Eis EX: High ice damage, costs 8MP
+Blitz EX: High lightning damage, costs 8MP
+Sturm EX: High wind damage, costs 8MP
+
+Note that the percent HP cost of physical skills can be decreased by investing in Vitality. There is also one hidden skill in the game, which is a powerful physical attack that uses MP.
+
+Equipment Synthesis
+Select “Synthesis” on the pause screen to enter the synthesis menu. Here, you will see lists of all of the weapons and armor that can be made with the materials you have collected. If no equipment appears, you need to collect more materials (raw materials don’t count for displaying recipes). Select an item from this list to view its details more closely, and click “Synthesize” when you are ready. This will expend the necessary resources and add the item to your inventory. A special weapon is available for synthesis if you have a great deal of materials, but it won’t show up until you have them all. If you hold this weapon when you enter the final confrontation, the fight will be substantially harder, and you will have access to the true ending if you win.
+You should know that the weapons that the characters hold at the start of the game cannot be created via synthesis. They are unique in that they have low stats, but hold high-rank skills, which they can confer quicker than other weapons that hold those skills. The AP required for them to do so is still substantially higher than what is required to obtain ordinary skills from synthesized weapons, which will also have better stats. Think about whether earlier access to high-rank skills is worth sacrificing variety and higher stats.
+
+Battles!
+While you are exploring, you are bound to stumble upon groups of enemies who will attack you without a moment’s notice. Battles play out in turns, in an order which can be viewed at the top of the screen. On your turn, you have five options to choose from. The generic strike requires no resources and deals a small amount of physical damage. Each character has their own library of skills which can be used at some cost to your HP or MP, and which do more base damage than a strike. Don’t be afraid to spend HP on physical skills - these attacks are unaffected by elemental resistances and have a higher chance to score critical hits. You can also pull consumable items out of your bag to use on an ally. Their freshness won’t decrease during battle, but an expired item is no good, so use them before they go bad as you explore. Guarding will halve the damage you take until your next turn, and fleeing has a chance of ending the battle immediately. The odds of this working increase against smaller or slower parties of enemies, and decrease against large, fast, groups. Don’t worry too much about falling in battle; dead party members will be revived if you are victorious, and losing everyone only takes away XP.
+
+The Spoils of War
+You will receive several rewards upon the completion of each battle. Each character’s XP value will go up by an amount based on the number and level of foes defeated, and AP for their weapons will fill up. There is also a chance that you will obtain a consumable item and a collection of synthesis materials. Finally, each character’s MP will refill slightly. If a character’s XP reaches 100, they will level up, and you will be able to increase one of their stats by 1.
+
+Strike Weaknesses to Reap Your Foes
+Whenever an enemy is defeated by a critical hit or a spell they are weak to, the character that defeated it will gain a Reap Boost. This can be used to restore HP or MP, or slightly increase that character’s XP. The magnitude of the effect depends upon the stats of the enemy reaped, where bulky enemies give more HP and magically defensive enemies give more MP. Reaping an enemy also guarantees that it will drop a synthesis material. Time your skill attacks well to sustain your resources and deal maximum damage.
+Ordinarily, XP is gained in a sum at the end of battle, but if you get it from a reap boost, it’s added to your total immediately. However, if you run from a fight instead of finishing it, you won’t ever get a level from it. This means that you can exceed 100XP with a reap boost, then flee to avoid getting a level. Because XP gained decreases at higher levels, you can use this strategy to get slightly more XP from the next fight, and level up then.
+
+A Secret to Everyone
+There are certain keys that, when pressed while starting the game, will change the game's settings in fun and surprising ways. Try to discover these secrets for yourself, or wait for them to be revealed when you defeat the final boss.
+
+Some Words of Advice
+When you reach the second floor of the dungeon, you will encounter new varieties of enemies with weaknesses that you won’t be able to hit with the default skills. The plants are weak to a skill that can be obtained by synthesizing the materials dropped by floating heads, while the garbage oozes are weak to a skill you can get by synthesizing plant materials.
+The amount of difference that a single point in a stat makes is fairly significant, especially at the start of the game. This means that investing in one stat can be quite powerful, but neglecting any one of them, even if it doesn’t seem important, can hold you back.
+If you find yourself losing many fights in the beginning of the game, don’t be discouraged. The first few encounters can be difficult, especially before you start to grow your stats and equipment. Feel free to hover around the healing area until you’re comfortable to explore, but remember that you eventually need to move forward to make real progress.

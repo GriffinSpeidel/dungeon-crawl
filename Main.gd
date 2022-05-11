@@ -245,6 +245,7 @@ func _on_Player_update_danger_level():
 			encounter.append(location.encounter_table[Global.rand.randi() % len(location.encounter_table)])
 			encounter_levels.append(location.encounter_levels[Global.rand.randi() % len(location.encounter_levels)])
 		start_encounter(encounter, encounter_levels, false)
+		#start_encounter([0, 3], [1, 1], false)
 
 func save():
 	var save_dict = {
