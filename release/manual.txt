@@ -1,3 +1,6 @@
+For a properly formatted manual, use the Google Doc:
+https://docs.google.com/document/d/1flAmzAOEFHBggTYFD69cBQoV7K-F6HZdoqqyeF2OK8o/edit?usp=sharing
+
 DUNGEONS AWAIT
 
 Welcome to _dungeon_crawl_test, the senior project of accomplished genius Griffin Speidel! In this thrilling adventure, you will scale the twisted corridors of an abandoned office building that has become corrupted by the bizarre magic of the King of Gremlins. Use your abilities to draw strength from the foes you fell, and scavenge together new and powerful equipment. Let Maya, Jin, and Carlos take your hand, as they draw you into the inescapable labyrinth of corporate hell. Fight with all you have, and may luck be with you!
